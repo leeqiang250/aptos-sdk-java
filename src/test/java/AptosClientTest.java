@@ -1,4 +1,3 @@
-import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.*;
 import com.aptos.utils.AptosClient;
 import org.junit.Before;
@@ -6,7 +5,6 @@ import org.junit.Test;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 public class AptosClientTest {
 
@@ -46,7 +44,7 @@ public class AptosClientTest {
 
         RequestAccountResources requestAccountResources = RequestAccountResources.builder()
                 .account(this.account)
-                //.query(requestLedgerVersionQuery)
+                .query(requestLedgerVersionQuery)
                 .build();
 
         List<ResponseAccountResource> responseAccountResources = aptosClient.callList(requestAccountResources, ResponseAccountResource.class);
@@ -62,13 +60,18 @@ public class AptosClientTest {
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
                 .account(this.account)
                 .resourceType("0x1::account::Account")
-                //.query(requestLedgerVersionQuery)
+                .query(requestLedgerVersionQuery)
                 .build();
 
         ResponseAccountResource responseAccountResource = aptosClient.call(requestAccountResources, ResponseAccountResource.class);
         println(responseAccountResource);
     }
 
+    @Test
+    public void testEstimateGasPrice() {
+        long estimateGasPrice = aptosClient.estimateGasPrice();
+        println(estimateGasPrice);
+    }
 
     void println(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());
@@ -76,6 +79,7 @@ public class AptosClientTest {
         System.out.println("----------------------------------------");
     }
 
+    @SuppressWarnings(value = {"rawtypes"})
     void printlnList(List serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());
         System.out.println(serializable);

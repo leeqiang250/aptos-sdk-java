@@ -25,6 +25,21 @@ public class AptosClient {
         this.host = host;
     }
 
+    public long estimateGasPrice() {
+        return 0;
+        //TODO
+    }
+
+    public String lastLedgerVersion() {
+        //TODO
+        throw new RuntimeException("");
+    }
+
+    public String lastBlockHeight() {
+        //TODO
+        throw new RuntimeException("");
+    }
+
     @SneakyThrows
     public <T> T call(IAptosRequest aptosRequest, Class<T> aptosResponseClass) {
         Request request = getRequest(aptosRequest);
