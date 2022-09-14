@@ -14,18 +14,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestBlocksByVersion implements IAptosRequest {
+public class RequestAccountResources implements IAptosRequest {
 
     @Override
     public String path() {
-        return "/v1/blocks/by_version/" + this.ledgerVersion;
+        return "/v1/accounts/" + this.account + "/resources";
     }
 
-    long ledgerVersion;
+    String account;
 
-    RequestBlocksByVersionQuery query = RequestBlocksByVersionQuery.builder()
-            .withTransactions(false)
-            .build();
+    RequestLedgerVersionQuery query;
 
     @Override
     public IAptosRequestQuery query() {
