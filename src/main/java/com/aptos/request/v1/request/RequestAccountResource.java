@@ -29,7 +29,7 @@ public class RequestAccountResource implements IAptosRequest {
 
     @Override
     public IAptosRequestQuery query() {
-        return query;
+        return this.query;
     }
 
 }
