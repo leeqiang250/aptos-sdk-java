@@ -1,7 +1,6 @@
 import com.aptos.request.v1.model.CoinStore;
-import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.model.Struct;
-import com.aptos.utils.AptosClient2;
+import com.aptos.utils.AptosClient;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,27 +15,12 @@ public class AptosClientTest {
 
     final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
 
-    AptosClient2 aptosClient;
+    AptosClient aptosClient;
 
     @Before
     public void init() {
-        aptosClient = new AptosClient2(this.host);
+        aptosClient = new AptosClient(this.host);
     }
-
-//    @Test
-//    public void testResponseBlocksByVersion() {
-//        RequestBlocksByVersionQuery requestBlocksByVersionQuery = RequestBlocksByVersionQuery.builder()
-//                .withTransactions(true)
-//                .build();
-//
-//        RequestBlocksByVersion requestBlocksByVersion = RequestBlocksByVersion.builder()
-//                .ledgerVersion(this.ledgerVersion)
-//                .query(requestBlocksByVersionQuery)
-//                .build();
-//
-//        ResponseBlocksByVersion responseBlocksByVersion = aptosClient.call(requestBlocksByVersion, ResponseBlocksByVersion.class);
-//        println(responseBlocksByVersion);
-//    }
 
     @Test
     public void requestNode() {
@@ -61,24 +45,24 @@ public class AptosClientTest {
 
     @Test
     public void requestBlockByHeight() {
-        println(aptosClient.requestBlockByHeight("5171839",true));
+        println(aptosClient.requestBlockByHeight("5171839", true));
     }
 
     @Test
     public void requestBlockByVersion() {
-        println(aptosClient.requestBlockByVersion("29473448",true));
+        println(aptosClient.requestBlockByVersion("29473448", true));
     }
 
     @Test
-    public void testRequestTransactionByHash() {
+    public void requestTransactionByHash() {
         println(aptosClient.requestTransactionByHash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be"));
     }
 
-//    @Test
-//    public void testResponseToken() {
-////        println(aptosClient.requestToken(this.account1, Token.APT()));
-//    }
-    
+    @Test
+    public void requestCoinStore() {
+        println(aptosClient.requestCoinStore(this.account1, Struct.APT()));
+    }
+
     void println(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());
         System.out.println(serializable);

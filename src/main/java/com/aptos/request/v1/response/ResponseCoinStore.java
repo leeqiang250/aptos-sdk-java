@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseToken implements Serializable {
+public class ResponseCoinStore implements Serializable {
 
     @JSONField(name = "type")
     String type;

@@ -1,103 +1,115 @@
 package com.aptos.utils;
 
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
-import com.aptos.request.IAptosRequest;
-import lombok.SneakyThrows;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.aptos.request.v1.model.CoinStore;
+import com.aptos.request.v1.model.Resource;
+import com.aptos.request.v1.request.*;
+import com.aptos.request.v1.response.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author liqiang
- */
-public class AptosClient {
-
-    private final String host;
-
-    private final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+public class AptosClient extends Client {
 
     public AptosClient(String host) {
-        this.host = host;
+        super(host);
     }
 
-    public String lastLedgerVersion() {
-        //TODO
-        throw new RuntimeException("");
+    public ResponseNode requestNode() {
+        RequestNode requestNode = RequestNode.builder().build();
+
+        return this.call(requestNode, ResponseNode.class);
     }
 
-    public String lastBlockHeight() {
-        //TODO
-        throw new RuntimeException("");
+    public ResponseGasEstimate requestGasEstimate() {
+        RequestGasEstimate requestGasEstimate = RequestGasEstimate.builder().build();
+
+        return this.call(requestGasEstimate, ResponseGasEstimate.class);
     }
 
-    @SneakyThrows
-    public <T> T call(IAptosRequest aptosRequest, Class<T> aptosResponseClass) {
-        String content = request(aptosRequest);
-        return JSONObject.parseObject(content, aptosResponseClass);
+    public List<ResponseAccountResource> requestAccountResources(String account) {
+        return this.requestAccountResources(account, null);
     }
 
-    @SneakyThrows
-    public <T> List<T> callList(IAptosRequest aptosRequest, Class<T> aptosResponseClass) {
-        String content = request(aptosRequest);
-        JSONArray jsonArray = JSONArray.parseArray(content);
-        List<T> list = new ArrayList<>(jsonArray.size());
-        jsonArray.forEach(o -> list.add(JSONObject.parseObject(o.toString(), aptosResponseClass)));
-        return list;
-    }
-
-    Request getRequest(IAptosRequest aptosRequest) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.host);
-        stringBuilder.append(aptosRequest.path());
-        if (Objects.nonNull(aptosRequest.query())) {
-            stringBuilder.append("?");
-            JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(aptosRequest.query()));
-            jsonObject.forEach((s, o) -> {
-                stringBuilder.append(s);
-                stringBuilder.append("=");
-                stringBuilder.append(o);
-                stringBuilder.append("&");
-            });
-        }
-
-        return new Request.Builder().get().url(stringBuilder.toString()).build();
-    }
-
-    @SneakyThrows
-    public String request(IAptosRequest aptosRequest) {
-        Request request = getRequest(aptosRequest);
-        Response response = okHttpClient.newCall(request).execute();
-        if (Objects.isNull(response)) {
-            throw AptosRPCException.builder()
-                    .message("request execute error")
-                    .errorCode("request execute error")
-                    .vmErrorCode(null)
-                    .build();
-        }
-        String content = response.body().string();
-        if (Objects.isNull(content) || "".equals(content)) {
-            throw AptosRPCException.builder()
-                    .message("response is null")
-                    .errorCode("response is null")
-                    .vmErrorCode(null)
+    public List<ResponseAccountResource> requestAccountResources(String account, String ledgerVersion) {
+        RequestLedgerVersionQuery requestLedgerVersionQuery = null;
+        if (Objects.nonNull(ledgerVersion)) {
+            requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
+                    .ledgerVersion(ledgerVersion)
                     .build();
         }
 
-        AptosRPCException aptosRPCException = null;
-        try {
-            aptosRPCException = JSONObject.parseObject(content, AptosRPCException.class);
-        } catch (Exception exception) {
-        }
-        if (Objects.nonNull(aptosRPCException) && Objects.nonNull(aptosRPCException.errorCode) && !"".equals(aptosRPCException.errorCode)) {
-            throw aptosRPCException;
+        RequestAccountResources requestAccountResources = RequestAccountResources.builder()
+                .account(account)
+                .query(requestLedgerVersionQuery)
+                .build();
+
+        return this.callList(requestAccountResources, ResponseAccountResource.class);
+    }
+
+    public ResponseAccountResource requestAccountResource(String account, Resource resource) {
+        return this.requestAccountResource(account, resource, null);
+    }
+
+    public ResponseAccountResource requestAccountResource(String account, Resource resource, String ledgerVersion) {
+        RequestLedgerVersionQuery requestLedgerVersionQuery = null;
+        if (Objects.nonNull(ledgerVersion)) {
+            requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
+                    .ledgerVersion(ledgerVersion)
+                    .build();
         }
 
-        return content;
+        RequestAccountResource requestAccountResource = RequestAccountResource.builder()
+                .account(account)
+                .resource(resource)
+                .query(requestLedgerVersionQuery)
+                .build();
+
+        return this.call(requestAccountResource, ResponseAccountResource.class);
+    }
+
+    public ResponseBlock requestBlockByHeight(String height, boolean withTransactions) {
+        RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
+                .withTransactions(withTransactions)
+                .build();
+
+        RequestBlockByHeight requestBlockByHeight = RequestBlockByHeight.builder()
+                .height(height)
+                .query(requestBlockQuery)
+                .build();
+
+        return this.call(requestBlockByHeight, ResponseBlock.class);
+    }
+
+    public ResponseBlock requestBlockByVersion(String ledgerVersion, boolean withTransactions) {
+        RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
+                .withTransactions(withTransactions)
+                .build();
+
+        RequestBlockByVersion requestBlockByVersion = RequestBlockByVersion.builder()
+                .ledgerVersion(ledgerVersion)
+                .query(requestBlockQuery)
+                .build();
+
+        return this.call(requestBlockByVersion, ResponseBlock.class);
+    }
+
+    public ResponseTransaction requestTransactionByHash(String hash) {
+        RequestTransactionByHash requestTransactionByHash = RequestTransactionByHash.builder()
+                .hash(hash)
+                .build();
+
+        return this.call(requestTransactionByHash, ResponseTransaction.class);
+    }
+
+    public ResponseCoinStore requestCoinStore(String account, Resource resource) {
+        CoinStore coinStore = CoinStore.coinStore(resource);
+
+        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
+                .account(account)
+                .resource(coinStore)
+                .build();
+
+        return this.call(requestAccountResources, ResponseCoinStore.class);
     }
 
 }
