@@ -93,14 +93,13 @@ public class AptosClient {
                     .build();
         }
 
-        JSONObject jsonObject = JSONObject.parseObject(content);
-        String errorCode = jsonObject.getString("error_code");
-        if (Objects.nonNull(errorCode) && !"".equals(errorCode)) {
-            throw AptosRPCException.builder()
-                    .message(jsonObject.getString("message"))
-                    .errorCode(errorCode)
-                    .vmErrorCode(jsonObject.getString("vm_error_code"))
-                    .build();
+        AptosRPCException aptosRPCException = null;
+        try {
+            aptosRPCException = JSONObject.parseObject(content, AptosRPCException.class);
+        } catch (Exception exception) {
+        }
+        if (Objects.nonNull(aptosRPCException) && Objects.nonNull(aptosRPCException.errorCode) && !"".equals(aptosRPCException.errorCode)) {
+            throw aptosRPCException;
         }
 
         return content;
