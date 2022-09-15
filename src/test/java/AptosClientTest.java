@@ -1,6 +1,9 @@
+import com.aptos.request.v1.model.CoinStore;
+import com.aptos.request.v1.model.Token;
 import com.aptos.request.v1.request.*;
 import com.aptos.request.v1.response.ResponseAccountResource;
 import com.aptos.request.v1.response.ResponseBlocksByVersion;
+import com.aptos.request.v1.response.ResponseToken;
 import com.aptos.utils.AptosClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,7 @@ public class AptosClientTest {
 
     final String host = "https://fullnode.devnet.aptoslabs.com";
 
-    final String account = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
+    final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
 
     AptosClient aptosClient;
 
@@ -45,7 +48,7 @@ public class AptosClientTest {
                 .build();
 
         RequestAccountResources requestAccountResources = RequestAccountResources.builder()
-                .account(this.account)
+                .account(this.account1)
                 .query(requestLedgerVersionQuery)
                 .build();
 
@@ -60,13 +63,28 @@ public class AptosClientTest {
                 .build();
 
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
-                .account(this.account)
+                .account(this.account1)
                 .resourceType("0x1::account::Account")
                 .query(requestLedgerVersionQuery)
                 .build();
 
         ResponseAccountResource responseAccountResource = aptosClient.call(requestAccountResources, ResponseAccountResource.class);
         println(responseAccountResource);
+    }
+
+    @Test
+    public void test() {
+        CoinStore coinStore = CoinStore.builder()
+                .token(Token.APT())
+                .build();
+
+        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
+                .account(this.account1)
+                .resourceType(coinStore.type())
+                .build();
+
+        ResponseToken responseToken = aptosClient.call(requestAccountResources, ResponseToken.class);
+        println(responseToken);
     }
 
     @Test

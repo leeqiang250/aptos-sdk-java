@@ -42,23 +42,13 @@ public class AptosClient {
 
     @SneakyThrows
     public <T> T call(IAptosRequest aptosRequest, Class<T> aptosResponseClass) {
-        Request request = getRequest(aptosRequest);
-        Response response = okHttpClient.newCall(request).execute();
-        String content = response.body().string();
-        if (Objects.isNull(content) || "".equals(content)) {
-            return null;
-        }
+        String content = request(aptosRequest);
         return JSONObject.parseObject(content, aptosResponseClass);
     }
 
     @SneakyThrows
     public <T> List<T> callList(IAptosRequest aptosRequest, Class<T> aptosResponseClass) {
-        Request request = getRequest(aptosRequest);
-        Response response = okHttpClient.newCall(request).execute();
-        String content = response.body().string();
-        if (Objects.isNull(content) || "".equals(content)) {
-            return null;
-        }
+        String content = request(aptosRequest);
         JSONArray jsonArray = JSONArray.parseArray(content);
         List<T> list = new ArrayList<>(jsonArray.size());
         jsonArray.forEach(o -> list.add(JSONObject.parseObject(o.toString(), aptosResponseClass)));
@@ -81,6 +71,39 @@ public class AptosClient {
         }
 
         return new Request.Builder().get().url(stringBuilder.toString()).build();
+    }
+
+    @SneakyThrows
+    public String request(IAptosRequest aptosRequest) {
+        Request request = getRequest(aptosRequest);
+        Response response = okHttpClient.newCall(request).execute();
+        if (Objects.isNull(response)) {
+            throw AptosRPCException.builder()
+                    .message("request execute error")
+                    .errorCode("request execute error")
+                    .vmErrorCode(null)
+                    .build();
+        }
+        String content = response.body().string();
+        if (Objects.isNull(content) || "".equals(content)) {
+            throw AptosRPCException.builder()
+                    .message("response is null")
+                    .errorCode("response is null")
+                    .vmErrorCode(null)
+                    .build();
+        }
+
+        JSONObject jsonObject = JSONObject.parseObject(content);
+        String errorCode = jsonObject.getString("error_code");
+        if (Objects.nonNull(errorCode) && !"".equals(errorCode)) {
+            throw AptosRPCException.builder()
+                    .message(jsonObject.getString("message"))
+                    .errorCode(errorCode)
+                    .vmErrorCode(jsonObject.getString("vm_error_code"))
+                    .build();
+        }
+
+        return content;
     }
 
 }
