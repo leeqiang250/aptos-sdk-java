@@ -5,7 +5,6 @@ import com.aptos.request.v1.response.ResponseAccountResource;
 import com.aptos.request.v1.response.ResponseBlocksByVersion;
 import com.aptos.request.v1.response.ResponseToken;
 import com.aptos.utils.AptosClient;
-import kotlin.Result;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,7 +73,7 @@ public class AptosClientTest {
     }
 
     @Test
-    public void test() {
+    public void testResponseToken() {
         CoinStore coinStore = CoinStore.builder()
                 .token(Token.APT())
                 .build();
