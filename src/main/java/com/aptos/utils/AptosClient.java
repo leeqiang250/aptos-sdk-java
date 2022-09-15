@@ -26,7 +26,7 @@ public class AptosClient {
     }
 
     public long estimateGasPrice() {
-        return 0;
+        return 1L;
         //TODO
     }
 
