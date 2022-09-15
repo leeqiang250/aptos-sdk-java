@@ -2,10 +2,7 @@ package com.aptos.utils;
 
 import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.request.*;
-import com.aptos.request.v1.response.ResponseAccountResource;
-import com.aptos.request.v1.response.ResponseGasEstimate;
-import com.aptos.request.v1.response.ResponseNode;
-import com.aptos.request.v1.response.ResponseTransaction;
+import com.aptos.request.v1.response.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -67,6 +64,32 @@ public class AptosClient2 extends AptosClient {
                 .build();
 
         return this.call(requestAccountResource, ResponseAccountResource.class);
+    }
+
+    public ResponseBlock requestBlockByHeight(String height, boolean withTransactions) {
+        RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
+                .withTransactions(withTransactions)
+                .build();
+
+        RequestBlockByHeight requestBlockByHeight = RequestBlockByHeight.builder()
+                .height(height)
+                .query(requestBlockQuery)
+                .build();
+
+        return this.call(requestBlockByHeight, ResponseBlock.class);
+    }
+
+    public ResponseBlock requestBlockByVersion(String ledgerVersion, boolean withTransactions) {
+        RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
+                .withTransactions(withTransactions)
+                .build();
+
+        RequestBlockByVersion requestBlockByVersion = RequestBlockByVersion.builder()
+                .ledgerVersion(ledgerVersion)
+                .query(requestBlockQuery)
+                .build();
+
+        return this.call(requestBlockByVersion, ResponseBlock.class);
     }
 
     public ResponseTransaction requestTransactionByHash(String hash) {

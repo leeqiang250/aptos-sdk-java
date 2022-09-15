@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseBlocksByVersion implements Serializable {
+public class ResponseBlock implements Serializable {
 
     @JSONField(name = "block_height")
     String blockHeight;

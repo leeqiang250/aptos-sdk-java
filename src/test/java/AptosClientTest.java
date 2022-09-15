@@ -60,6 +60,16 @@ public class AptosClientTest {
     }
 
     @Test
+    public void requestBlockByHeight() {
+        println(aptosClient.requestBlockByHeight("5171839",true));
+    }
+
+    @Test
+    public void requestBlockByVersion() {
+        println(aptosClient.requestBlockByVersion("29473448",true));
+    }
+
+    @Test
     public void testRequestTransactionByHash() {
         println(aptosClient.requestTransactionByHash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be"));
     }
@@ -68,8 +78,7 @@ public class AptosClientTest {
 //    public void testResponseToken() {
 ////        println(aptosClient.requestToken(this.account1, Token.APT()));
 //    }
-
-
+    
     void println(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());
         System.out.println(serializable);

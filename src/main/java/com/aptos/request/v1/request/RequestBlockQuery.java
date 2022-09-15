@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestBlocksByVersionQuery implements IAptosRequestQuery {
+public class RequestBlockQuery implements IAptosRequestQuery {
 
     @JSONField(name = "with_transactions")
     boolean withTransactions = false;

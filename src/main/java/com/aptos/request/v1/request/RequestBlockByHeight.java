@@ -16,20 +16,20 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestBlocksByVersion implements IAptosRequest {
+public class RequestBlockByHeight implements IAptosRequest {
 
     @Override
     public String path() {
-        if (Objects.isNull(this.ledgerVersion) || "".equals(this.ledgerVersion)) {
-            throw new RuntimeException("Invalid RequestBlocksByVersion LedgerVersion");
+        if (Objects.isNull(this.height) || "".equals(this.height)) {
+            throw new RuntimeException("Invalid RequestBlocksByHeight Height");
         }
 
-        return "/v1/blocks/by_version/" + this.ledgerVersion;
+        return "/v1/blocks/by_height/" + this.height;
     }
 
-    String ledgerVersion;
+    String height;
 
-    RequestBlocksByVersionQuery query;
+    RequestBlockQuery query;
 
     @Override
     public IAptosRequestQuery query() {
