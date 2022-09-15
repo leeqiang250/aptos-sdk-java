@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 /**
  * @author liqiang
  */
@@ -18,6 +20,9 @@ public class RequestBlocksByVersion implements IAptosRequest {
 
     @Override
     public String path() {
+        if (0L >= this.ledgerVersion) {
+            throw new RuntimeException("Invalid RequestBlocksByVersion LedgerVersion");
+        }
         return "/v1/blocks/by_version/" + this.ledgerVersion;
     }
 

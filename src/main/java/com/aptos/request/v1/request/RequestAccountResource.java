@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 /**
  * @author liqiang
  */
@@ -18,6 +20,12 @@ public class RequestAccountResource implements IAptosRequest {
 
     @Override
     public String path() {
+        if (Objects.isNull(this.account) || "".equals(this.account)) {
+            throw new RuntimeException("Invalid RequestAccountResource Account");
+        }
+        if (Objects.isNull(this.resourceType) || "".equals(this.resourceType)) {
+            throw new RuntimeException("Invalid RequestAccountResource ResourceType");
+        }
         return "/v1/accounts/" + this.account + "/resource/" + this.resourceType;
     }
 
