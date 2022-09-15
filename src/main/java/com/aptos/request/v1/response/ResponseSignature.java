@@ -1,4 +1,4 @@
-package com.aptos.request.v1;
+package com.aptos.request.v1.response;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * @author liqiang
@@ -16,18 +15,15 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseEvent implements Serializable {
-
-    @JSONField(name = "key")
-    String key;
-
-    @JSONField(name = "sequence_number")
-    String sequenceNumber;
+public class ResponseSignature implements Serializable {
 
     @JSONField(name = "type")
     String type;
 
-    @JSONField(name = "data")
-    Map<String, String> data;
+    @JSONField(name = "public_key")
+    String publicKey;
+
+    @JSONField(name = "signature")
+    String signature;
 
 }

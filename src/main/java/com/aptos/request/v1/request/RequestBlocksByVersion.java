@@ -1,4 +1,4 @@
-package com.aptos.request.v1;
+package com.aptos.request.v1.request;
 
 import com.aptos.request.IAptosRequest;
 import com.aptos.request.IAptosRequestQuery;
@@ -14,16 +14,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestAccountResources implements IAptosRequest {
+public class RequestBlocksByVersion implements IAptosRequest {
 
     @Override
     public String path() {
-        return "/v1/accounts/" + this.account + "/resources";
+        return "/v1/blocks/by_version/" + this.ledgerVersion;
     }
 
-    String account;
+    long ledgerVersion;
 
-    RequestLedgerVersionQuery query;
+    RequestBlocksByVersionQuery query = RequestBlocksByVersionQuery.builder()
+            .withTransactions(false)
+            .build();
 
     @Override
     public IAptosRequestQuery query() {

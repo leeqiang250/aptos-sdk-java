@@ -1,4 +1,6 @@
-import com.aptos.request.v1.*;
+import com.aptos.request.v1.request.*;
+import com.aptos.request.v1.response.ResponseAccountResource;
+import com.aptos.request.v1.response.ResponseBlocksByVersion;
 import com.aptos.utils.AptosClient;
 import org.junit.Before;
 import org.junit.Test;

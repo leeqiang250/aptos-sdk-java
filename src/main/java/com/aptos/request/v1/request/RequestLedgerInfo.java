@@ -1,4 +1,4 @@
-package com.aptos.request.v1;
+package com.aptos.request.v1.request;
 
 import com.aptos.request.IAptosRequest;
 
