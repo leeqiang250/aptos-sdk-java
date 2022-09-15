@@ -23,8 +23,8 @@ public class AptosClientTest {
         aptosClient = new AptosClient2(this.host);
     }
 
-    @Test
-    public void testResponseBlocksByVersion() {
+//    @Test
+//    public void testResponseBlocksByVersion() {
 //        RequestBlocksByVersionQuery requestBlocksByVersionQuery = RequestBlocksByVersionQuery.builder()
 //                .withTransactions(true)
 //                .build();
@@ -36,6 +36,16 @@ public class AptosClientTest {
 //
 //        ResponseBlocksByVersion responseBlocksByVersion = aptosClient.call(requestBlocksByVersion, ResponseBlocksByVersion.class);
 //        println(responseBlocksByVersion);
+//    }
+
+    @Test
+    public void requestNode() {
+        println(aptosClient.requestNode());
+    }
+
+    @Test
+    public void requestEstimateGasPrice() {
+        println(aptosClient.requestGasEstimate());
     }
 
     @Test
@@ -44,14 +54,9 @@ public class AptosClientTest {
     }
 
     @Test
-    public void testRequestAccountResource() {
+    public void requestAccountResource() {
         println(aptosClient.requestAccountResource(this.account1, Struct.Account()));
         println(aptosClient.requestAccountResource(this.account1, CoinStore.coinStore(Struct.APT())));
-    }
-
-    @Test
-    public void testResponseToken() {
-//        println(aptosClient.requestToken(this.account1, Token.APT()));
     }
 
     @Test
@@ -59,11 +64,11 @@ public class AptosClientTest {
         println(aptosClient.requestTransactionByHash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be"));
     }
 
-    @Test
-    public void testEstimateGasPrice() {
-        long estimateGasPrice = aptosClient.estimateGasPrice();
-        println(estimateGasPrice);
-    }
+//    @Test
+//    public void testResponseToken() {
+////        println(aptosClient.requestToken(this.account1, Token.APT()));
+//    }
+
 
     void println(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());

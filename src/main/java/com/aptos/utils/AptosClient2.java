@@ -1,11 +1,10 @@
 package com.aptos.utils;
 
 import com.aptos.request.v1.model.Resource;
-import com.aptos.request.v1.request.RequestAccountResource;
-import com.aptos.request.v1.request.RequestAccountResources;
-import com.aptos.request.v1.request.RequestLedgerVersionQuery;
-import com.aptos.request.v1.request.RequestTransactionByHash;
+import com.aptos.request.v1.request.*;
 import com.aptos.request.v1.response.ResponseAccountResource;
+import com.aptos.request.v1.response.ResponseGasEstimate;
+import com.aptos.request.v1.response.ResponseNode;
 import com.aptos.request.v1.response.ResponseTransaction;
 
 import java.util.List;
@@ -15,6 +14,18 @@ public class AptosClient2 extends AptosClient {
 
     public AptosClient2(String host) {
         super(host);
+    }
+
+    public ResponseNode requestNode() {
+        RequestNode requestNode = RequestNode.builder().build();
+
+        return this.call(requestNode, ResponseNode.class);
+    }
+
+    public ResponseGasEstimate requestGasEstimate() {
+        RequestGasEstimate requestGasEstimate = RequestGasEstimate.builder().build();
+
+        return this.call(requestGasEstimate, ResponseGasEstimate.class);
     }
 
     public List<ResponseAccountResource> requestAccountResources(String account) {
@@ -49,13 +60,13 @@ public class AptosClient2 extends AptosClient {
                     .build();
         }
 
-        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
+        RequestAccountResource requestAccountResource = RequestAccountResource.builder()
                 .account(account)
                 .resource(resource)
                 .query(requestLedgerVersionQuery)
                 .build();
 
-        return this.call(requestAccountResources, ResponseAccountResource.class);
+        return this.call(requestAccountResource, ResponseAccountResource.class);
     }
 
     public ResponseTransaction requestTransactionByHash(String hash) {
