@@ -20,11 +20,4 @@ public abstract class Module implements Serializable {
 
     String moduleName;
 
-    /**
-     * type
-     *
-     * @return
-     */
-    public abstract String type();
-
 }

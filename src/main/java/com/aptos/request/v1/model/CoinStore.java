@@ -1,29 +1,26 @@
 package com.aptos.request.v1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Objects;
+import java.util.List;
 
 /**
  * @author liqiang
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-public class CoinStore extends Module {
+public class CoinStore extends Resource {
 
-    Token token;
-
-    @Override
-    public String type() {
-        if (Objects.isNull(this.token)) {
-            throw new RuntimeException("Invalid CoinStore Token");
-        }
-        return "0x1::coin::CoinStore<" + this.token.type() + ">";
+    public static CoinStore coinStore(Resource resource) {
+        return CoinStore.builder()
+                .moduleAddress("0x1")
+                .moduleName("coin")
+                .resourceName("CoinStore")
+                .resources(List.of(resource))
+                .build();
     }
 
 }

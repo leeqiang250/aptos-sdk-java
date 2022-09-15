@@ -23,6 +23,7 @@ public class RequestAccountResources implements IAptosRequest {
         if (Objects.isNull(this.account) || "".equals(this.account)) {
             throw new RuntimeException("Invalid RequestAccountResources Account");
         }
+
         return "/v1/accounts/" + this.account + "/resources";
     }
 

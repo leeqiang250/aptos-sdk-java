@@ -2,6 +2,7 @@ package com.aptos.request.v1.request;
 
 import com.aptos.request.IAptosRequest;
 import com.aptos.request.IAptosRequestQuery;
+import com.aptos.request.v1.model.Resource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,15 +24,15 @@ public class RequestAccountResource implements IAptosRequest {
         if (Objects.isNull(this.account) || "".equals(this.account)) {
             throw new RuntimeException("Invalid RequestAccountResource Account");
         }
-        if (Objects.isNull(this.resourceType) || "".equals(this.resourceType)) {
-            throw new RuntimeException("Invalid RequestAccountResource ResourceType");
+        if (Objects.isNull(this.resource) || "".equals(this.resource.resourceTag())) {
+            throw new RuntimeException("Invalid RequestAccountResource Resource");
         }
-        return "/v1/accounts/" + this.account + "/resource/" + this.resourceType;
+        return "/v1/accounts/" + this.account + "/resource/" + this.resource.resourceTag();
     }
 
     String account;
 
-    String resourceType;
+    Resource resource;
 
     RequestLedgerVersionQuery query;
 

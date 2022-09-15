@@ -1,7 +1,6 @@
 package com.aptos.request.v1.request;
 
 import com.aptos.request.IAptosRequest;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-//@AllArgsConstructor
 public class RequestLedgerInfo implements IAptosRequest {
 
     @Override

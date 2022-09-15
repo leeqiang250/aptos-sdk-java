@@ -20,17 +20,16 @@ public class RequestBlocksByVersion implements IAptosRequest {
 
     @Override
     public String path() {
-        if (0L >= this.ledgerVersion) {
+        if (Objects.isNull(this.ledgerVersion) || "".equals(this.ledgerVersion)) {
             throw new RuntimeException("Invalid RequestBlocksByVersion LedgerVersion");
         }
+
         return "/v1/blocks/by_version/" + this.ledgerVersion;
     }
 
-    long ledgerVersion;
+    String ledgerVersion;
 
-    RequestBlocksByVersionQuery query = RequestBlocksByVersionQuery.builder()
-            .withTransactions(false)
-            .build();
+    RequestBlocksByVersionQuery query;
 
     @Override
     public IAptosRequestQuery query() {

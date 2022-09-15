@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 public class RequestLedgerVersionQuery implements IAptosRequestQuery {
 
     @JSONField(name = "ledger_version")
-    long ledgerVersion;
+    String ledgerVersion;
 
 }

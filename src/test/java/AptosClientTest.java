@@ -1,11 +1,7 @@
 import com.aptos.request.v1.model.CoinStore;
-import com.aptos.request.v1.model.Token;
-import com.aptos.request.v1.request.*;
-import com.aptos.request.v1.response.ResponseAccountResource;
-import com.aptos.request.v1.response.ResponseBlocksByVersion;
-import com.aptos.request.v1.response.ResponseToken;
-import com.aptos.request.v1.response.ResponseTransaction;
-import com.aptos.utils.AptosClient;
+import com.aptos.request.v1.model.Resource;
+import com.aptos.request.v1.model.Struct;
+import com.aptos.utils.AptosClient2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,88 +10,53 @@ import java.util.List;
 
 public class AptosClientTest {
 
-    final long ledgerVersion = 29473448L;
+    final String ledgerVersion = "29473448";
 
     final String host = "https://fullnode.devnet.aptoslabs.com";
 
     final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
 
-    AptosClient aptosClient;
+    AptosClient2 aptosClient;
 
     @Before
     public void init() {
-        aptosClient = new AptosClient(this.host);
+        aptosClient = new AptosClient2(this.host);
     }
 
     @Test
     public void testResponseBlocksByVersion() {
-        RequestBlocksByVersionQuery requestBlocksByVersionQuery = RequestBlocksByVersionQuery.builder()
-                .withTransactions(true)
-                .build();
-
-        RequestBlocksByVersion requestBlocksByVersion = RequestBlocksByVersion.builder()
-                .ledgerVersion(this.ledgerVersion)
-                .query(requestBlocksByVersionQuery)
-                .build();
-
-        ResponseBlocksByVersion responseBlocksByVersion = aptosClient.call(requestBlocksByVersion, ResponseBlocksByVersion.class);
-        println(responseBlocksByVersion);
+//        RequestBlocksByVersionQuery requestBlocksByVersionQuery = RequestBlocksByVersionQuery.builder()
+//                .withTransactions(true)
+//                .build();
+//
+//        RequestBlocksByVersion requestBlocksByVersion = RequestBlocksByVersion.builder()
+//                .ledgerVersion(this.ledgerVersion)
+//                .query(requestBlocksByVersionQuery)
+//                .build();
+//
+//        ResponseBlocksByVersion responseBlocksByVersion = aptosClient.call(requestBlocksByVersion, ResponseBlocksByVersion.class);
+//        println(responseBlocksByVersion);
     }
 
     @Test
-    public void testRequestAccountResources() {
-        RequestLedgerVersionQuery requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
-                .ledgerVersion(this.ledgerVersion)
-                .build();
-
-        RequestAccountResources requestAccountResources = RequestAccountResources.builder()
-                .account(this.account1)
-                .query(requestLedgerVersionQuery)
-                .build();
-
-        List<ResponseAccountResource> responseAccountResources = aptosClient.callList(requestAccountResources, ResponseAccountResource.class);
-        printlnList(responseAccountResources);
+    public void requestAccountResources() {
+        printlnList(aptosClient.requestAccountResources(this.account1));
     }
 
     @Test
     public void testRequestAccountResource() {
-        RequestLedgerVersionQuery requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
-                .ledgerVersion(this.ledgerVersion)
-                .build();
-
-        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
-                .account(this.account1)
-                .resourceType("0x1::account::Account")
-                .query(requestLedgerVersionQuery)
-                .build();
-
-        ResponseAccountResource responseAccountResource = aptosClient.call(requestAccountResources, ResponseAccountResource.class);
-        println(responseAccountResource);
+        println(aptosClient.requestAccountResource(this.account1, Struct.Account()));
+        println(aptosClient.requestAccountResource(this.account1, CoinStore.coinStore(Struct.APT())));
     }
 
     @Test
     public void testResponseToken() {
-        CoinStore coinStore = CoinStore.builder()
-                .token(Token.APT())
-                .build();
-
-        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
-                .account(this.account1)
-                .resourceType(coinStore.type())
-                .build();
-
-        ResponseToken responseToken = aptosClient.call(requestAccountResources, ResponseToken.class);
-        println(responseToken);
+//        println(aptosClient.requestToken(this.account1, Token.APT()));
     }
 
     @Test
     public void testRequestTransactionByHash() {
-        RequestTransactionByHash requestTransactionByHash = RequestTransactionByHash.builder()
-                .hash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be")
-                .build();
-
-        ResponseTransaction responseTransaction = aptosClient.call(requestTransactionByHash, ResponseTransaction.class);
-        println(responseTransaction);
+        println(aptosClient.requestTransactionByHash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be"));
     }
 
     @Test
