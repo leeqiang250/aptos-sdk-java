@@ -1,4 +1,5 @@
 import com.aptos.request.v1.model.CoinStore;
+import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.model.Struct;
 import com.aptos.utils.AptosClient;
 import org.junit.Before;
@@ -8,8 +9,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class AptosClientTest {
-
-    final String ledgerVersion = "29473448";
 
     final String host = "https://fullnode.devnet.aptoslabs.com";
 
@@ -39,7 +38,7 @@ public class AptosClientTest {
 
     @Test
     public void requestAccountResource() {
-        println(aptosClient.requestAccountResource(this.account1, Struct.Account()));
+        println(aptosClient.requestAccountResource(this.account1, Struct.account()));
         println(aptosClient.requestAccountResource(this.account1, CoinStore.coinStore(Struct.APT())));
     }
 
@@ -61,6 +60,39 @@ public class AptosClientTest {
     @Test
     public void requestCoinStore() {
         println(aptosClient.requestCoinStore(this.account1, Struct.APT()));
+    }
+
+    @Test
+    public void resourceTag() {
+        Resource resource0 = Resource.builder()
+                .moduleAddress("0")
+                .moduleName("0")
+                .resourceName("0")
+                .build();
+
+        Resource resource1 = Resource.builder()
+                .moduleAddress("1")
+                .moduleName("1")
+                .resourceName("1")
+                .resources(List.of(resource0))
+                .build();
+
+        Resource resource2 = Resource.builder()
+                .moduleAddress("2")
+                .moduleName("2")
+                .resourceName("2")
+                .resources(List.of(resource1))
+                .build();
+
+
+        Resource resource3 = Resource.builder()
+                .moduleAddress("3")
+                .moduleName("3")
+                .resourceName("3")
+                .resources(List.of(resource2))
+                .build();
+
+        println(resource3.resourceTag());
     }
 
     void println(Serializable serializable) {

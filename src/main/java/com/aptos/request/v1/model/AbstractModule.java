@@ -14,7 +14,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Module implements Serializable {
+public abstract class AbstractModule implements Serializable {
 
     String moduleAddress;
 

@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class Struct extends Resource {
 
-    public static Struct Account() {
+    public static Struct account() {
         return Struct.builder()
                 .moduleAddress("0x1")
                 .moduleName("account")

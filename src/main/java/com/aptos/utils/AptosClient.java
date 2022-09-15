@@ -8,7 +8,10 @@ import com.aptos.request.v1.response.*;
 import java.util.List;
 import java.util.Objects;
 
-public class AptosClient extends Client {
+/**
+ * @author liqiang
+ */
+public class AptosClient extends AbstractClient {
 
     public AptosClient(String host) {
         super(host);
@@ -110,6 +113,10 @@ public class AptosClient extends Client {
                 .build();
 
         return this.call(requestAccountResources, ResponseCoinStore.class);
+    }
+
+    public boolean checkTransaction(String hash) {
+        return true;
     }
 
 }

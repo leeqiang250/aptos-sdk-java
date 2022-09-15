@@ -40,7 +40,7 @@ public class ResponseCoinStore implements Serializable {
         public class Coin implements Serializable {
 
             @JSONField(name = "value")
-            String Value;
+            String value;
 
         }
 

@@ -1,6 +1,7 @@
 package com.aptos.utils;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.IAptosRequest;
 import lombok.SneakyThrows;
@@ -15,13 +16,13 @@ import java.util.Objects;
 /**
  * @author liqiang
  */
-public abstract class Client {
+public abstract class AbstractClient {
 
     private final String host;
 
     private final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
-    public Client(String host) {
+    public AbstractClient(String host) {
         this.host = host;
     }
 
@@ -62,15 +63,9 @@ public abstract class Client {
     public String request(IAptosRequest aptosRequest) {
         Request request = getRequest(aptosRequest);
         Response response = okHttpClient.newCall(request).execute();
-        if (Objects.isNull(response)) {
-            throw AptosRpcException.builder()
-                    .message("request execute error")
-                    .errorCode("request execute error")
-                    .vmErrorCode(null)
-                    .build();
-        }
         String content = response.body().string();
-        if (Objects.isNull(content) || "".equals(content)) {
+        if ("".equals(content)) {
+            response.close();
             throw AptosRpcException.builder()
                     .message("response is null")
                     .errorCode("response is null")
@@ -78,14 +73,16 @@ public abstract class Client {
                     .build();
         }
 
-        AptosRpcException aptosRPCException = null;
+        AptosRpcException aptosRpcException = null;
         try {
-            aptosRPCException = JSONObject.parseObject(content, AptosRpcException.class);
-        } catch (Exception exception) {
+            aptosRpcException = JSONObject.parseObject(content, AptosRpcException.class);
+        } catch (JSONException exception) {
         }
-        if (Objects.nonNull(aptosRPCException) && Objects.nonNull(aptosRPCException.errorCode) && !"".equals(aptosRPCException.errorCode)) {
-            throw aptosRPCException;
+        if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.errorCode) && !"".equals(aptosRpcException.errorCode)) {
+            response.close();
+            throw aptosRpcException;
         }
+        response.close();
 
         return content;
     }

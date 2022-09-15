@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Resource extends Module {
+public class Resource extends AbstractModule {
 
     String resourceName;
 

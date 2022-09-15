@@ -5,7 +5,14 @@ package com.aptos.request;
  */
 public enum AptosMethod {
 
+    /**
+     * GET
+     */
     GET,
+
+    /**
+     * POST
+     */
     POST,
 
 }
