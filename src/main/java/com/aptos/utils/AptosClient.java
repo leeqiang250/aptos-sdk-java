@@ -2,7 +2,9 @@ package com.aptos.utils;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.aptos.request.IAptosRequest;
+import kotlin.Result;
 import lombok.SneakyThrows;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -53,6 +55,12 @@ public class AptosClient {
         List<T> list = new ArrayList<>(jsonArray.size());
         jsonArray.forEach(o -> list.add(JSONObject.parseObject(o.toString(), aptosResponseClass)));
         return list;
+    }
+
+    public <T> Result<List<T>> parseResultV2(Class<T> clazz) {
+        return null;
+//        return JSONObject.parseObject("", new TypeReference<Result<T>>(clazz) {
+//        });
     }
 
     Request getRequest(IAptosRequest aptosRequest) {
