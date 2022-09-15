@@ -71,6 +71,9 @@ public class ResponseTransaction implements Serializable {
 
     @JSONField(name = "events")
     List<ResponseEvent> events;
+    
+    @JSONField(name = "proposer")
+    String proposer;
 
     @JSONField(name = "timestamp")
     String timestamp;

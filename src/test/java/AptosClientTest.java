@@ -4,6 +4,7 @@ import com.aptos.request.v1.request.*;
 import com.aptos.request.v1.response.ResponseAccountResource;
 import com.aptos.request.v1.response.ResponseBlocksByVersion;
 import com.aptos.request.v1.response.ResponseToken;
+import com.aptos.request.v1.response.ResponseTransaction;
 import com.aptos.utils.AptosClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,6 +86,16 @@ public class AptosClientTest {
 
         ResponseToken responseToken = aptosClient.call(requestAccountResources, ResponseToken.class);
         println(responseToken);
+    }
+
+    @Test
+    public void testRequestTransactionByHash() {
+        RequestTransactionByHash requestTransactionByHash = RequestTransactionByHash.builder()
+                .hash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be")
+                .build();
+
+        ResponseTransaction responseTransaction = aptosClient.call(requestTransactionByHash, ResponseTransaction.class);
+        println(responseTransaction);
     }
 
     @Test
