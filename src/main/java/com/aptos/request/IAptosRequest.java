@@ -39,8 +39,6 @@ public interface IAptosRequest extends Serializable {
      * @return
      */
     default IAptosRequestQuery query() {
-
-
         return null;
     }
 
