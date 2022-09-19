@@ -21,7 +21,7 @@ public class ResponseCoinInfo implements Serializable {
     String type;
 
     @JSONField(name = "data")
-    ResponseCoinInfo.Data data;
+    Data data;
 
     @lombok.Data
     @NoArgsConstructor
