@@ -14,6 +14,8 @@ public class AptosClientTest {
 
     final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
 
+    final String account2 = "0xdddae7d9bd64a8b7200a3ec8a95386e416257236a3e673cc48a159535d418f53";
+
     AptosClient aptosClient;
 
     @Before
@@ -39,7 +41,7 @@ public class AptosClientTest {
     @Test
     public void requestAccountResource() {
         println(aptosClient.requestAccountResource(this.account1, Struct.account()));
-        println(aptosClient.requestAccountResource(this.account1, CoinStore.coinStore(Struct.APT())));
+        println(aptosClient.requestAccountResource(this.account1, CoinStore.of(Struct.APT())));
     }
 
     @Test
@@ -60,6 +62,17 @@ public class AptosClientTest {
     @Test
     public void requestCoinStore() {
         println(aptosClient.requestCoinStore(this.account1, Struct.APT()));
+    }
+
+    @Test
+    public void requestCoinInfo() {
+        Resource token = Resource.builder()
+                .moduleAddress("0xdddae7d9bd64a8b7200a3ec8a95386e416257236a3e673cc48a159535d418f53")
+                .moduleName("good_token")
+                .resourceName("GoodToken")
+                .build();
+
+        println(aptosClient.requestCoinInfo(account2, token));
     }
 
     @Test

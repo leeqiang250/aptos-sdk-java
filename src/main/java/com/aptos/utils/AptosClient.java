@@ -1,5 +1,6 @@
 package com.aptos.utils;
 
+import com.aptos.request.v1.model.CoinInfo;
 import com.aptos.request.v1.model.CoinStore;
 import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.request.*;
@@ -105,7 +106,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public ResponseCoinStore requestCoinStore(String account, Resource resource) {
-        CoinStore coinStore = CoinStore.coinStore(resource);
+        CoinStore coinStore = CoinStore.of(resource);
 
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
                 .account(account)
@@ -113,6 +114,17 @@ public class AptosClient extends AbstractClient {
                 .build();
 
         return this.call(requestAccountResources, ResponseCoinStore.class);
+    }
+
+    public ResponseCoinInfo requestCoinInfo(String account, Resource resource) {
+        CoinInfo coinInfo = CoinInfo.of(resource);
+
+        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
+                .account(account)
+                .resource(coinInfo)
+                .build();
+
+        return this.call(requestAccountResources, ResponseCoinInfo.class);
     }
 
     public boolean checkTransaction(String hash) {

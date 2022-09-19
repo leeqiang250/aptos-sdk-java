@@ -12,13 +12,13 @@ import java.util.List;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-public class CoinStore extends Resource {
+public class CoinInfo extends Resource {
 
-    public static CoinStore of(Resource resource) {
-        return CoinStore.builder()
+    public static CoinInfo of(Resource resource) {
+        return CoinInfo.builder()
                 .moduleAddress("0x1")
                 .moduleName("coin")
-                .resourceName("CoinStore")
+                .resourceName("CoinInfo")
                 .resources(List.of(resource))
                 .build();
     }

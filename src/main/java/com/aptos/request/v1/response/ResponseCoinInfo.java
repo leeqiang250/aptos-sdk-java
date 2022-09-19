@@ -15,34 +15,27 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseCoinStore implements Serializable {
+public class ResponseCoinInfo implements Serializable {
 
     @JSONField(name = "type")
     String type;
 
     @JSONField(name = "data")
-    Data data;
+    ResponseCoinInfo.Data data;
 
     @lombok.Data
     @NoArgsConstructor
     @AllArgsConstructor
     public class Data implements Serializable {
 
-        @JSONField(name = "Coin")
-        Coin coin;
+        @JSONField(name = "decimals")
+        int decimals;
 
-        @JSONField(name = "frozen")
-        boolean frozen;
+        @JSONField(name = "name")
+        String name;
 
-        @lombok.Data
-        @NoArgsConstructor
-        @AllArgsConstructor
-        public class Coin implements Serializable {
-
-            @JSONField(name = "value")
-            String value;
-
-        }
+        @JSONField(name = "symbol")
+        String symbol;
 
     }
 
