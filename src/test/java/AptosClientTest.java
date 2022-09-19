@@ -12,9 +12,15 @@ public class AptosClientTest {
 
     final String host = "https://fullnode.devnet.aptoslabs.com";
 
-    final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
+    //final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
 
-    final String account2 = "0xdddae7d9bd64a8b7200a3ec8a95386e416257236a3e673cc48a159535d418f53";
+    final String account1 = "0xdddae7d9bd64a8b7200a3ec8a95386e416257236a3e673cc48a159535d418f53";
+
+    final String height = "3639613";
+
+    final String ledgerVersion = "11987459";
+
+    final String tx = "0xb046e9791f0420121741f710ee2da4db9db685ed852f141bb75001e0e6e531d2";
 
     AptosClient aptosClient;
 
@@ -46,17 +52,17 @@ public class AptosClientTest {
 
     @Test
     public void requestBlockByHeight() {
-        println(aptosClient.requestBlockByHeight("5171839", true));
+        println(aptosClient.requestBlockByHeight(this.height, true));
     }
 
     @Test
     public void requestBlockByVersion() {
-        println(aptosClient.requestBlockByVersion("29473448", true));
+        println(aptosClient.requestBlockByVersion(this.ledgerVersion, true));
     }
 
     @Test
     public void requestTransactionByHash() {
-        println(aptosClient.requestTransactionByHash("0x363941d55528b648d979621f292956eb004f5cb7a9eb5ee1ad55df796ed5a0be"));
+        println(aptosClient.requestTransactionByHash(this.tx));
     }
 
     @Test
@@ -72,7 +78,7 @@ public class AptosClientTest {
                 .resourceName("GoodToken")
                 .build();
 
-        println(aptosClient.requestCoinInfo(account2, token));
+        println(aptosClient.requestCoinInfo(this.account1, token));
     }
 
     @Test
