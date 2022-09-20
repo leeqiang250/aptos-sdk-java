@@ -127,6 +127,21 @@ public class AptosClient extends AbstractClient {
         return this.call(requestAccountResources, ResponseCoinInfo.class);
     }
 
+    public ResponseCollectionData requestTableCollectionData(String handle, String key) {
+        RequestTableCollectionDataBody requestTableCollectionDataBody = RequestTableCollectionDataBody.builder()
+                .keyType("vector<u8>")
+                .valueType("0x3::token::CollectionData")
+                .key(key)
+                .build();
+
+        RequestTable requestTable = RequestTable.builder()
+                .handle(handle)
+                .body(requestTableCollectionDataBody)
+                .build();
+
+        return this.call(requestTable, ResponseCollectionData.class);
+    }
+
     public boolean checkTransaction(String hash) {
         return true;
     }

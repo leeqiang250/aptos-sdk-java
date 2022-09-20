@@ -5,9 +5,7 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.IAptosRequest;
 import lombok.SneakyThrows;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,11 @@ import java.util.Objects;
  */
 public abstract class AbstractClient {
 
-    private final String host;
+    static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
 
-    private final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+    final String host;
+
+    final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
     public AbstractClient(String host) {
         this.host = host;
@@ -56,7 +56,23 @@ public abstract class AbstractClient {
             });
         }
 
-        return new Request.Builder().get().url(stringBuilder.toString()).build();
+        switch (aptosRequest.method()) {
+            case GET: {
+                return new Request.Builder().get().url(stringBuilder.toString()).build();
+            }
+            case POST: {
+                if (Objects.isNull(aptosRequest.body())) {
+                    throw new RuntimeException("body is null");
+                }
+                RequestBody body = RequestBody.create(JSONObject.toJSONString(aptosRequest.body()), MEDIA_TYPE_JSON);
+                return new Request.Builder().post(body).url(stringBuilder.toString()).build();
+            }
+            default: {
+                break;
+            }
+        }
+
+        throw new RuntimeException("unsupported method");
     }
 
     @SneakyThrows

@@ -13,6 +13,6 @@ public enum AptosMethod {
     /**
      * POST
      */
-    POST,
+    POST
 
 }

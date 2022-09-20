@@ -1,7 +1,6 @@
 package com.aptos.request;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author liqiang
@@ -11,7 +10,7 @@ public interface IAptosRequest extends Serializable {
     /**
      * method
      *
-     * @return
+     * @return AptosMethod
      */
     default AptosMethod method() {
         return AptosMethod.GET;
@@ -20,25 +19,25 @@ public interface IAptosRequest extends Serializable {
     /**
      * path
      *
-     * @return
+     * @return String
      */
     String path();
 
     /**
-     * body
+     * query
      *
-     * @return
+     * @return IAptosRequestQuery
      */
-    default List<Object> body() {
-        return List.of();
+    default IAptosRequestQuery query() {
+        return null;
     }
 
     /**
-     * query
+     * body
      *
-     * @return
+     * @return IAptosRequestBody
      */
-    default IAptosRequestQuery query() {
+    default IAptosRequestBody body() {
         return null;
     }
 
