@@ -13,6 +13,7 @@ public class NodeApiUtils {
 
     private static final long DEFAULT_MAX_GAS_AMOUNT = 2000L;
 
+
     public static void newEncodeSubmissionRequest(AptosClient aptosClient) {
         String publicKey = "0xa76e9dd1a2d9101de47e69e52e0232060b95cd7d80265d61c3fa25e406389b75";
         String privateKey = "0x09cc77f21e471431df54280da75749069b54bfe42e3cd2b532a1024262339090";

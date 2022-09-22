@@ -1,5 +1,6 @@
 package com.aptos.utils;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.model.*;
 import com.aptos.request.v1.response.CoinInfo;
 import com.aptos.request.v1.response.CoinStore;
@@ -170,6 +171,50 @@ public class AptosClient extends AbstractClient {
                 .build();
 
         return this.call(requestSubmitTransaction, Transaction.class);
+    }
+
+    public Transaction requestSubmitTransaction(
+            String publicKey,
+            String privateKey,
+            String sender,
+            TransactionPayload transactionPayload
+    ) {
+        EncodeSubmitBody requestEncodeSubmitBody = new EncodeSubmitBody();
+        requestEncodeSubmitBody.setSender(sender);
+        requestEncodeSubmitBody.setSequenceNumber(this.requestAccount(sender).getSequenceNumber());
+        //TODO 待优化
+        requestEncodeSubmitBody.setMaxGasAmount("4003243");
+        requestEncodeSubmitBody.setGasUnitPrice(String.valueOf(this.requestGasEstimate().getGasEstimate()));
+        requestEncodeSubmitBody.setExpirationTimestampSecs(String.valueOf(System.currentTimeMillis() / 1000L + 600L));
+        requestEncodeSubmitBody.setPayload(transactionPayload);
+
+        String encodeUnSign = this.requestEncodeSubmit(requestEncodeSubmitBody);
+
+        String signed = this.sign(publicKey, privateKey, JSONObject.toJSONString(requestEncodeSubmitBody), encodeUnSign);
+
+        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
+
+        return this.requestSubmitTransaction(submitTransactionBody);
+    }
+
+    public String sign(
+            String publicKey,
+            String privateKey,
+            String unSign,
+            String encodeUnSign
+    ) {
+        byte[] signed = SignatureUtils.ed25519Sign(HexUtils.hexToByteArray(privateKey), HexUtils.hexToByteArray(encodeUnSign));
+
+        Signature signature = Signature.builder()
+                .type(Signature.ED25519_SIGNATURE)
+                .publicKey(publicKey)
+                .signature(HexUtils.byteArrayToHexWithPrefix(signed))
+                .build();
+
+        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(unSign, SubmitTransactionBody.class);
+        submitTransactionBody.setSignature(signature);
+
+        return JSONObject.toJSONString(submitTransactionBody);
     }
 
     public boolean checkTransaction(String hash) {

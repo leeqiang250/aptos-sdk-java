@@ -3,7 +3,6 @@ import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.model.Struct;
 import com.aptos.request.v1.model.TransactionPayload;
 import com.aptos.utils.AptosClient;
-import com.aptos.utils.NodeApiUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -123,8 +122,19 @@ public class AptosClientTest {
     }
 
     @Test
-    public void sss() {
-        NodeApiUtils.newEncodeSubmissionRequest(this.aptosClient);
+    public void requestSubmitTransaction() {
+        TransactionPayload transactionPayload = TransactionPayload.builder()
+                .type(TransactionPayload.ENTRY_FUNCTION_PAYLOAD)
+                .function("0x2b490841c230a31fe012f3b2a3f3d146316be073e599eb7d7e5074838073ef14::message::set_message")
+                .arguments(List.of("hello"))
+                .typeArguments(List.of())
+                .build();
+
+        println(aptosClient.requestSubmitTransaction(
+                "0xa76e9dd1a2d9101de47e69e52e0232060b95cd7d80265d61c3fa25e406389b75",
+                "0x09cc77f21e471431df54280da75749069b54bfe42e3cd2b532a1024262339090",
+                "0x2b490841c230a31fe012f3b2a3f3d146316be073e599eb7d7e5074838073ef14",
+                transactionPayload));
     }
 
     void println(Serializable serializable) {
