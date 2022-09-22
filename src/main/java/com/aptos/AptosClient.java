@@ -1,4 +1,4 @@
-package com.aptos.utils;
+package com.aptos;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.model.*;
@@ -11,6 +11,8 @@ import com.aptos.request.v1.rpc.query.RequestBlockQuery;
 import com.aptos.request.v1.rpc.query.RequestLedgerVersionQuery;
 import com.aptos.request.v1.rpc.body.CollectionDataBody;
 import com.aptos.request.v1.rpc.request.*;
+import com.aptos.utils.Hex;
+import com.aptos.utils.Signature;
 
 import java.util.List;
 import java.util.Objects;
@@ -174,7 +176,6 @@ public class AptosClient extends AbstractClient {
     }
 
     public Transaction requestSubmitTransaction(
-            String publicKey,
             String privateKey,
             String sender,
             TransactionPayload transactionPayload
@@ -190,7 +191,7 @@ public class AptosClient extends AbstractClient {
 
         String encodeUnSign = this.requestEncodeSubmit(requestEncodeSubmitBody);
 
-        String signed = this.sign(publicKey, privateKey, JSONObject.toJSONString(requestEncodeSubmitBody), encodeUnSign);
+        String signed = this.sign(privateKey, JSONObject.toJSONString(requestEncodeSubmitBody), encodeUnSign);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
@@ -198,17 +199,16 @@ public class AptosClient extends AbstractClient {
     }
 
     public String sign(
-            String publicKey,
             String privateKey,
             String unSign,
             String encodeUnSign
     ) {
-        byte[] signed = SignatureUtils.ed25519Sign(HexUtils.hexToByteArray(privateKey), HexUtils.hexToByteArray(encodeUnSign));
+        byte[] signed = Signature.ed25519Sign(Hex.decode(privateKey), Hex.decode(encodeUnSign));
 
-        Signature signature = Signature.builder()
-                .type(Signature.ED25519_SIGNATURE)
-                .publicKey(publicKey)
-                .signature(HexUtils.byteArrayToHexWithPrefix(signed))
+        com.aptos.request.v1.model.Signature signature = com.aptos.request.v1.model.Signature.builder()
+                .type(com.aptos.request.v1.model.Signature.ED25519_SIGNATURE)
+                .publicKey(Signature.getPublicKey(Hex.decode(privateKey)))
+                .signature(Hex.encode(signed))
                 .build();
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(unSign, SubmitTransactionBody.class);

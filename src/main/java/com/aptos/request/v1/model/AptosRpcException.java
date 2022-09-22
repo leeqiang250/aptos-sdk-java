@@ -1,4 +1,4 @@
-package com.aptos.utils;
+package com.aptos.request.v1.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;

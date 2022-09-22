@@ -1,4 +1,4 @@
-package com.aptos.utils;
+package com.aptos;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONException;
@@ -6,8 +6,9 @@ import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.rpc.request.IAptosRequest;
 import com.aptos.request.v1.rpc.request.RequestSubmitBatchTransaction;
 import com.aptos.request.v1.rpc.request.RequestSubmitTransaction;
+import com.aptos.request.v1.model.AptosRpcException;
+import com.aptos.utils.StringUtils;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okio.ByteString;
 
@@ -113,7 +114,7 @@ public abstract class AbstractClient {
             aptosRpcException = JSONObject.parseObject(content, AptosRpcException.class);
         } catch (JSONException exception) {
         }
-        if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.errorCode) && !"".equals(aptosRpcException.errorCode)) {
+        if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.getErrorCode()) && !"".equals(aptosRpcException.getErrorCode())) {
             response.close();
             throw aptosRpcException;
         }
