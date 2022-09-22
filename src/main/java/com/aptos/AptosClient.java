@@ -217,8 +217,4 @@ public class AptosClient extends AbstractClient {
         return JSONObject.toJSONString(submitTransactionBody);
     }
 
-    public boolean checkTransaction(String hash) {
-        return true;
-    }
-
 }
