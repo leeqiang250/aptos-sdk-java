@@ -1,0 +1,12 @@
+package com.aptos.request.serde;
+
+/**
+ * @author liqiang
+ */
+public final class SerializationError extends Exception {
+
+    public SerializationError(String s) {
+        super(s);
+    }
+
+}

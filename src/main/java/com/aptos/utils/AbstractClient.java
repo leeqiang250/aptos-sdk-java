@@ -3,9 +3,13 @@ package com.aptos.utils;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
-import com.aptos.request.IAptosRequest;
+import com.aptos.request.v1.rpc.request.IAptosRequest;
+import com.aptos.request.v1.rpc.request.RequestSubmitBatchTransaction;
+import com.aptos.request.v1.rpc.request.RequestSubmitTransaction;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import okio.ByteString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +20,9 @@ import java.util.Objects;
  */
 public abstract class AbstractClient {
 
-    static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+    static final MediaType MEDIA_TYPE_JSON_UTF8 = MediaType.parse("application/json;charset=utf-8");
+
+    static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
 
     final String host;
 
@@ -58,14 +64,26 @@ public abstract class AbstractClient {
 
         switch (aptosRequest.method()) {
             case GET: {
-                return new Request.Builder().get().url(stringBuilder.toString()).build();
+                return new Request.Builder()
+                        .get()
+                        .url(stringBuilder.toString())
+                        .build();
             }
             case POST: {
                 if (Objects.isNull(aptosRequest.body())) {
                     throw new RuntimeException("body is null");
                 }
-                RequestBody body = RequestBody.create(JSONObject.toJSONString(aptosRequest.body()), MEDIA_TYPE_JSON);
-                return new Request.Builder().post(body).url(stringBuilder.toString()).build();
+
+                RequestBody body;
+                if (StringUtils.endsWithIgnoreCase(aptosRequest.path(), RequestSubmitTransaction.PATH) || StringUtils.endsWithIgnoreCase(aptosRequest.path(), RequestSubmitBatchTransaction.PATH)) {
+                    body = RequestBody.create(MEDIA_TYPE_JSON, ByteString.encodeUtf8(JSONObject.toJSONString(aptosRequest.body())));
+                } else {
+                    body = RequestBody.create(JSONObject.toJSONString(aptosRequest.body()), MEDIA_TYPE_JSON_UTF8);
+                }
+                return new Request.Builder()
+                        .post(body)
+                        .url(stringBuilder.toString())
+                        .build();
             }
             default: {
                 break;
@@ -78,8 +96,9 @@ public abstract class AbstractClient {
     @SneakyThrows
     public String request(IAptosRequest aptosRequest) {
         Request request = getRequest(aptosRequest);
-        Response response = okHttpClient.newCall(request).execute();
+        Response response = this.okHttpClient.newCall(request).execute();
         String content = response.body().string();
+        System.out.println(content);
         if ("".equals(content)) {
             response.close();
             throw AptosRpcException.builder()

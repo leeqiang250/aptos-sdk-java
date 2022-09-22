@@ -1,8 +1,9 @@
 import com.aptos.request.v1.model.CoinStore;
 import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.model.Struct;
-import com.aptos.request.v1.request.RequestTable;
+import com.aptos.request.v1.model.TransactionPayload;
 import com.aptos.utils.AptosClient;
+import com.aptos.utils.NodeApiUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -121,6 +122,10 @@ public class AptosClientTest {
         println(aptosClient.requestTableCollectionData("0xbe512fec6c98dade8d0ce8dd9abd1c9a3427df6627c788efa3ee81b9d10ebd44", "0x69616d6e616d65"));
     }
 
+    @Test
+    public void sss() {
+        NodeApiUtils.newEncodeSubmissionRequest(this.aptosClient);
+    }
 
     void println(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());

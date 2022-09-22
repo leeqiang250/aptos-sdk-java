@@ -1,10 +1,15 @@
 package com.aptos.utils;
 
-import com.aptos.request.v1.model.CoinInfo;
-import com.aptos.request.v1.model.CoinStore;
-import com.aptos.request.v1.model.Resource;
-import com.aptos.request.v1.request.*;
-import com.aptos.request.v1.response.*;
+import com.aptos.request.v1.model.*;
+import com.aptos.request.v1.response.CoinInfo;
+import com.aptos.request.v1.response.CoinStore;
+import com.aptos.request.v1.response.Resource;
+import com.aptos.request.v1.rpc.body.EncodeSubmitBody;
+import com.aptos.request.v1.rpc.body.SubmitTransactionBody;
+import com.aptos.request.v1.rpc.query.RequestBlockQuery;
+import com.aptos.request.v1.rpc.query.RequestLedgerVersionQuery;
+import com.aptos.request.v1.rpc.body.CollectionDataBody;
+import com.aptos.request.v1.rpc.request.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,23 +23,32 @@ public class AptosClient extends AbstractClient {
         super(host);
     }
 
-    public ResponseNode requestNode() {
+
+    public Account requestAccount(String account) {
+        RequestAccount requestAccount = RequestAccount.builder()
+                .account(account)
+                .build();
+
+        return this.call(requestAccount, Account.class);
+    }
+
+    public Node requestNode() {
         RequestNode requestNode = RequestNode.builder().build();
 
-        return this.call(requestNode, ResponseNode.class);
+        return this.call(requestNode, Node.class);
     }
 
-    public ResponseGasEstimate requestGasEstimate() {
+    public GasEstimate requestGasEstimate() {
         RequestGasEstimate requestGasEstimate = RequestGasEstimate.builder().build();
 
-        return this.call(requestGasEstimate, ResponseGasEstimate.class);
+        return this.call(requestGasEstimate, GasEstimate.class);
     }
 
-    public List<ResponseAccountResource> requestAccountResources(String account) {
+    public List<Resource> requestAccountResources(String account) {
         return this.requestAccountResources(account, null);
     }
 
-    public List<ResponseAccountResource> requestAccountResources(String account, String ledgerVersion) {
+    public List<Resource> requestAccountResources(String account, String ledgerVersion) {
         RequestLedgerVersionQuery requestLedgerVersionQuery = null;
         if (Objects.nonNull(ledgerVersion)) {
             requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
@@ -47,14 +61,14 @@ public class AptosClient extends AbstractClient {
                 .query(requestLedgerVersionQuery)
                 .build();
 
-        return this.callList(requestAccountResources, ResponseAccountResource.class);
+        return this.callList(requestAccountResources, Resource.class);
     }
 
-    public ResponseAccountResource requestAccountResource(String account, Resource resource) {
+    public Resource requestAccountResource(String account, com.aptos.request.v1.model.Resource resource) {
         return this.requestAccountResource(account, resource, null);
     }
 
-    public ResponseAccountResource requestAccountResource(String account, Resource resource, String ledgerVersion) {
+    public Resource requestAccountResource(String account, com.aptos.request.v1.model.Resource resource, String ledgerVersion) {
         RequestLedgerVersionQuery requestLedgerVersionQuery = null;
         if (Objects.nonNull(ledgerVersion)) {
             requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
@@ -68,10 +82,10 @@ public class AptosClient extends AbstractClient {
                 .query(requestLedgerVersionQuery)
                 .build();
 
-        return this.call(requestAccountResource, ResponseAccountResource.class);
+        return this.call(requestAccountResource, Resource.class);
     }
 
-    public ResponseBlock requestBlockByHeight(String height, boolean withTransactions) {
+    public Block requestBlockByHeight(String height, boolean withTransactions) {
         RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
                 .withTransactions(withTransactions)
                 .build();
@@ -81,10 +95,10 @@ public class AptosClient extends AbstractClient {
                 .query(requestBlockQuery)
                 .build();
 
-        return this.call(requestBlockByHeight, ResponseBlock.class);
+        return this.call(requestBlockByHeight, Block.class);
     }
 
-    public ResponseBlock requestBlockByVersion(String ledgerVersion, boolean withTransactions) {
+    public Block requestBlockByVersion(String ledgerVersion, boolean withTransactions) {
         RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
                 .withTransactions(withTransactions)
                 .build();
@@ -94,41 +108,41 @@ public class AptosClient extends AbstractClient {
                 .query(requestBlockQuery)
                 .build();
 
-        return this.call(requestBlockByVersion, ResponseBlock.class);
+        return this.call(requestBlockByVersion, Block.class);
     }
 
-    public ResponseTransaction requestTransactionByHash(String hash) {
+    public Transaction requestTransactionByHash(String hash) {
         RequestTransactionByHash requestTransactionByHash = RequestTransactionByHash.builder()
                 .hash(hash)
                 .build();
 
-        return this.call(requestTransactionByHash, ResponseTransaction.class);
+        return this.call(requestTransactionByHash, Transaction.class);
     }
 
-    public ResponseCoinStore requestCoinStore(String account, Resource resource) {
-        CoinStore coinStore = CoinStore.of(resource);
+    public CoinStore requestCoinStore(String account, com.aptos.request.v1.model.Resource resource) {
+        com.aptos.request.v1.model.CoinStore coinStore = com.aptos.request.v1.model.CoinStore.of(resource);
 
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
                 .account(account)
                 .resource(coinStore)
                 .build();
 
-        return this.call(requestAccountResources, ResponseCoinStore.class);
+        return this.call(requestAccountResources, CoinStore.class);
     }
 
-    public ResponseCoinInfo requestCoinInfo(String account, Resource resource) {
-        CoinInfo coinInfo = CoinInfo.of(resource);
+    public CoinInfo requestCoinInfo(String account, com.aptos.request.v1.model.Resource resource) {
+        com.aptos.request.v1.model.CoinInfo coinInfo = com.aptos.request.v1.model.CoinInfo.of(resource);
 
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
                 .account(account)
                 .resource(coinInfo)
                 .build();
 
-        return this.call(requestAccountResources, ResponseCoinInfo.class);
+        return this.call(requestAccountResources, CoinInfo.class);
     }
 
-    public ResponseCollectionData requestTableCollectionData(String handle, String key) {
-        RequestTableCollectionDataBody requestTableCollectionDataBody = RequestTableCollectionDataBody.builder()
+    public CollectionData requestTableCollectionData(String handle, String key) {
+        CollectionDataBody requestTableCollectionDataBody = CollectionDataBody.builder()
                 .keyType("vector<u8>")
                 .valueType("0x3::token::CollectionData")
                 .key(key)
@@ -139,7 +153,23 @@ public class AptosClient extends AbstractClient {
                 .body(requestTableCollectionDataBody)
                 .build();
 
-        return this.call(requestTable, ResponseCollectionData.class);
+        return this.call(requestTable, CollectionData.class);
+    }
+
+    public String requestEncodeSubmit(EncodeSubmitBody body) {
+        RequestEncodeSubmit requestEncodeSubmit = RequestEncodeSubmit.builder()
+                .body(body)
+                .build();
+
+        return this.call(requestEncodeSubmit, String.class);
+    }
+
+    public Transaction requestSubmitTransaction(SubmitTransactionBody body) {
+        RequestSubmitTransaction requestSubmitTransaction = RequestSubmitTransaction.builder()
+                .body(body)
+                .build();
+
+        return this.call(requestSubmitTransaction, Transaction.class);
     }
 
     public boolean checkTransaction(String hash) {
