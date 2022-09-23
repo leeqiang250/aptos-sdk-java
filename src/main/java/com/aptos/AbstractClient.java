@@ -97,7 +97,8 @@ public abstract class AbstractClient {
     @SneakyThrows
     public String request(IAptosRequest aptosRequest) {
         System.out.println("------------------------------------------------------------------------------------------------");
-        System.out.println("request:" + JSONObject.toJSONString(aptosRequest));
+        System.out.println("path:" + aptosRequest.path());
+        System.out.println("parameter:" + JSONObject.toJSONString(aptosRequest));
         Request request = getRequest(aptosRequest);
         Response response = this.okHttpClient.newCall(request).execute();
         String content = response.body().string();
