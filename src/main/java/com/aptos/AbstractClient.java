@@ -104,7 +104,7 @@ public abstract class AbstractClient {
         String content = response.body().string();
         System.out.println("content:" + content);
         System.out.println("------------------------------------------------------------------------------------------------");
-        if ("".equals(content)) {
+        if (StringUtils.isEmpty(content)) {
             response.close();
             throw AptosRpcException.builder()
                     .message("response is null")
@@ -118,7 +118,7 @@ public abstract class AbstractClient {
             aptosRpcException = JSONObject.parseObject(content, AptosRpcException.class);
         } catch (JSONException exception) {
         }
-        if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.getErrorCode()) && !"".equals(aptosRpcException.getErrorCode())) {
+        if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.getErrorCode()) && StringUtils.isNotEmpty(aptosRpcException.getErrorCode())) {
             response.close();
             throw aptosRpcException;
         }
