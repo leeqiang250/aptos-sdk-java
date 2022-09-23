@@ -1,6 +1,7 @@
 package com.aptos.request.v1.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.aptos.utils.Hex;
 import lombok.*;
 
 import java.io.Serializable;
@@ -37,4 +38,16 @@ public class TransactionPayload implements Serializable {
     @JSONField(name = "type_arguments")
     List typeArguments;
 
+
+    public void sfd(String to, String amount) {
+        TransactionPayload transactionPayload = TransactionPayload.builder()
+                .type(TransactionPayload.ENTRY_FUNCTION_PAYLOAD)
+                .function("0x1::coin::transfer")
+                .arguments(List.of(
+                        to,
+                        amount
+                ))
+                .typeArguments(List.of(Struct.APT().resourceTag()))
+                .build();
+    }
 }

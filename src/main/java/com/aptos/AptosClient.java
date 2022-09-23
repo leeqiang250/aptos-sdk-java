@@ -14,7 +14,9 @@ import com.aptos.request.v1.rpc.request.*;
 import com.aptos.utils.Hex;
 import com.aptos.utils.Signature;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -22,10 +24,15 @@ import java.util.Objects;
  */
 public class AptosClient extends AbstractClient {
 
+    Map<String, String> addressPrivateKey = new HashMap<>();
+
     public AptosClient(String host) {
         super(host);
-    }
 
+        this.addressPrivateKey.put("0x1ff00114f046e27033b9bfdcd217fcf50023b576cbd3baaafe9674961632a5bd", "0x8710d71f5e02f5dd2d75d748abdbd778b427efa31e7a2e23344ea94e524476ff");
+        this.addressPrivateKey.put("0xe89e92f0ea0ccb394fa3cb10a72ad866c4ad786956898fe7164731aa348ec1c5", "0x679213b91c104a590ed0929ce40840d0bdd6c28c419a6f51734e086ccb13b314");
+        this.addressPrivateKey.put("0xf7e09293bfc8a0c70a4bf9b6fecc4527da518dc4d8a60a84c293de6854dae0d8", "0x6a1d7fe3e8cf255279d43732ffcf88fd7843e5fca5cfffbe41a552b4d25954b9");
+    }
 
     public Account requestAccount(String account) {
         RequestAccount requestAccount = RequestAccount.builder()
@@ -176,7 +183,6 @@ public class AptosClient extends AbstractClient {
     }
 
     public Transaction requestSubmitTransaction(
-            String privateKey,
             String sender,
             TransactionPayload transactionPayload
     ) {
@@ -191,7 +197,7 @@ public class AptosClient extends AbstractClient {
 
         String encodeUnSign = this.requestEncodeSubmit(requestEncodeSubmitBody);
 
-        String signed = this.sign(privateKey, JSONObject.toJSONString(requestEncodeSubmitBody), encodeUnSign);
+        String signed = this.sign(this.addressPrivateKey.get(sender), JSONObject.toJSONString(requestEncodeSubmitBody), encodeUnSign);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
