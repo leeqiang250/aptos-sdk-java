@@ -214,7 +214,7 @@ public class AptosClient extends AbstractClient {
         return this.requestSubmitTransaction(submitTransactionBody);
     }
 
-    public Transaction transferAptsss(
+    public Transaction transferResource(
             String from,
             String to,
             String amount,
