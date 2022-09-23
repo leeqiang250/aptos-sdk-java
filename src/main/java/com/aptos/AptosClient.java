@@ -32,6 +32,7 @@ public class AptosClient extends AbstractClient {
         this.addressPrivateKey.put("0x1ff00114f046e27033b9bfdcd217fcf50023b576cbd3baaafe9674961632a5bd", "0x8710d71f5e02f5dd2d75d748abdbd778b427efa31e7a2e23344ea94e524476ff");
         this.addressPrivateKey.put("0xe89e92f0ea0ccb394fa3cb10a72ad866c4ad786956898fe7164731aa348ec1c5", "0x679213b91c104a590ed0929ce40840d0bdd6c28c419a6f51734e086ccb13b314");
         this.addressPrivateKey.put("0xf7e09293bfc8a0c70a4bf9b6fecc4527da518dc4d8a60a84c293de6854dae0d8", "0x6a1d7fe3e8cf255279d43732ffcf88fd7843e5fca5cfffbe41a552b4d25954b9");
+        this.addressPrivateKey.put("0x4cd5040c25c069143f22995f0deaae6bfb674949302b008678455174b8ea8104", "0x7f4f1932d406a5e4857bb3e03bce782941cbcebbd800a5b61623433e930f25fe");
     }
 
     public Account requestAccount(String account) {
