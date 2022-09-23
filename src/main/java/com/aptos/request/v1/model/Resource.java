@@ -38,4 +38,16 @@ public class Resource extends AbstractModule {
         }
     }
 
+    public static Resource struct(
+            String moduleAddress,
+            String moduleName,
+            String resourceName
+    ) {
+        return Resource.builder()
+                .moduleAddress(moduleAddress)
+                .moduleName(moduleName)
+                .resourceName(resourceName)
+                .build();
+    }
+
 }

@@ -96,10 +96,13 @@ public abstract class AbstractClient {
 
     @SneakyThrows
     public String request(IAptosRequest aptosRequest) {
+        System.out.println("------------------------------------------------------------------------------------------------");
+        System.out.println("request:" + JSONObject.toJSONString(aptosRequest));
         Request request = getRequest(aptosRequest);
         Response response = this.okHttpClient.newCall(request).execute();
         String content = response.body().string();
-        System.out.println(content);
+        System.out.println("content:" + content);
+        System.out.println("------------------------------------------------------------------------------------------------");
         if ("".equals(content)) {
             response.close();
             throw AptosRpcException.builder()
