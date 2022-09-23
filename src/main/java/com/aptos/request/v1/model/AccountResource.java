@@ -1,4 +1,4 @@
-package com.aptos.request.v1.response;
+package com.aptos.request.v1.model;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.annotation.JSONField;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Resource implements Serializable {
+public class AccountResource implements Serializable {
 
     @JSONField(name = "type")
     String type;

@@ -1,4 +1,3 @@
-import com.aptos.request.v1.model.CoinStore;
 import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.model.Struct;
 import com.aptos.request.v1.model.TransactionPayload;
@@ -48,7 +47,7 @@ public class AptosClientTest {
     @Test
     public void requestAccountResource() {
         println(aptosClient.requestAccountResource(this.account1, Struct.account()));
-        println(aptosClient.requestAccountResource(this.account1, CoinStore.of(Struct.APT())));
+        println(aptosClient.requestAccountResource(this.account1, Resource.ofCoinStore(Struct.APT())));
     }
 
     @Test

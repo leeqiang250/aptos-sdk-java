@@ -50,4 +50,23 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
+
+    public static Resource ofCoinInfo(Resource resource) {
+        return Resource.builder()
+                .moduleAddress("0x1")
+                .moduleName("coin")
+                .resourceName("CoinInfo")
+                .resources(List.of(resource))
+                .build();
+    }
+
+    public static Resource ofCoinStore(Resource resource) {
+        return Resource.builder()
+                .moduleAddress("0x1")
+                .moduleName("coin")
+                .resourceName("CoinStore")
+                .resources(List.of(resource))
+                .build();
+    }
+
 }

@@ -1,26 +1,49 @@
 package com.aptos.request.v1.model;
 
+import com.alibaba.fastjson2.annotation.JSONField;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author liqiang
  */
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
-public class CoinStore extends Resource {
+@AllArgsConstructor
+public class CoinStore implements Serializable {
 
-    public static CoinStore of(Resource resource) {
-        return CoinStore.builder()
-                .moduleAddress("0x1")
-                .moduleName("coin")
-                .resourceName("CoinStore")
-                .resources(List.of(resource))
-                .build();
+    @JSONField(name = "type")
+    String type;
+
+    @JSONField(name = "data")
+    Data data;
+
+    @lombok.Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class Data implements Serializable {
+
+        @JSONField(name = "Coin")
+        Coin coin;
+
+        @JSONField(name = "frozen")
+        boolean frozen;
+
+        @lombok.Data
+        @NoArgsConstructor
+        @AllArgsConstructor
+        public class Coin implements Serializable {
+
+            @JSONField(name = "value")
+            String value;
+
+        }
+
     }
 
 }

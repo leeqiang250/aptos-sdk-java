@@ -2,9 +2,9 @@ package com.aptos;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.model.*;
-import com.aptos.request.v1.response.CoinInfo;
-import com.aptos.request.v1.response.CoinStore;
-import com.aptos.request.v1.response.Resource;
+import com.aptos.request.v1.model.CoinInfo;
+import com.aptos.request.v1.model.CoinStore;
+import com.aptos.request.v1.model.AccountResource;
 import com.aptos.request.v1.rpc.body.EncodeSubmitBody;
 import com.aptos.request.v1.rpc.body.SubmitTransactionBody;
 import com.aptos.request.v1.rpc.query.RequestBlockQuery;
@@ -55,12 +55,12 @@ public class AptosClient extends AbstractClient {
         return this.call(requestGasEstimate, GasEstimate.class);
     }
 
-    public List<Resource> requestAccountResources(String account) {
+    public List<AccountResource> requestAccountResources(String account) {
         return this.requestAccountResources(account, null);
     }
 
-    public List<Resource> requestAccountResources(String account,
-                                                  String ledgerVersion
+    public List<AccountResource> requestAccountResources(String account,
+                                                         String ledgerVersion
     ) {
         RequestLedgerVersionQuery requestLedgerVersionQuery = null;
         if (Objects.nonNull(ledgerVersion)) {
@@ -74,18 +74,18 @@ public class AptosClient extends AbstractClient {
                 .query(requestLedgerVersionQuery)
                 .build();
 
-        return this.callList(requestAccountResources, Resource.class);
+        return this.callList(requestAccountResources, AccountResource.class);
     }
 
-    public Resource requestAccountResource(String account,
-                                           com.aptos.request.v1.model.Resource resource
+    public AccountResource requestAccountResource(String account,
+                                                  com.aptos.request.v1.model.Resource resource
     ) {
         return this.requestAccountResource(account, resource, null);
     }
 
-    public Resource requestAccountResource(String account,
-                                           com.aptos.request.v1.model.Resource resource,
-                                           String ledgerVersion
+    public AccountResource requestAccountResource(String account,
+                                                  com.aptos.request.v1.model.Resource resource,
+                                                  String ledgerVersion
     ) {
         RequestLedgerVersionQuery requestLedgerVersionQuery = null;
         if (Objects.nonNull(ledgerVersion)) {
@@ -100,7 +100,7 @@ public class AptosClient extends AbstractClient {
                 .query(requestLedgerVersionQuery)
                 .build();
 
-        return this.call(requestAccountResource, Resource.class);
+        return this.call(requestAccountResource, AccountResource.class);
     }
 
     public Block requestBlockByHeight(String height,
@@ -145,7 +145,7 @@ public class AptosClient extends AbstractClient {
     public CoinStore requestCoinStore(String account,
                                       com.aptos.request.v1.model.Resource resource
     ) {
-        com.aptos.request.v1.model.CoinStore coinStore = com.aptos.request.v1.model.CoinStore.of(resource);
+        Resource coinStore = Resource.ofCoinStore(resource);
 
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
                 .account(account)
@@ -158,7 +158,7 @@ public class AptosClient extends AbstractClient {
     public CoinInfo requestCoinInfo(String account,
                                     com.aptos.request.v1.model.Resource resource
     ) {
-        com.aptos.request.v1.model.CoinInfo coinInfo = com.aptos.request.v1.model.CoinInfo.of(resource);
+        Resource coinInfo = Resource.ofCoinInfo(resource);
 
         RequestAccountResource requestAccountResources = RequestAccountResource.builder()
                 .account(account)
