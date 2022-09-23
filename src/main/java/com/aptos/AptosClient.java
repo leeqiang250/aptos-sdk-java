@@ -214,10 +214,11 @@ public class AptosClient extends AbstractClient {
         return this.requestSubmitTransaction(submitTransactionBody);
     }
 
-    public Transaction transferApt(
+    public Transaction transferAptsss(
             String from,
             String to,
-            String amount
+            String amount,
+            Resource resource
     ) {
         TransactionPayload transactionPayload = TransactionPayload.builder()
                 .type(TransactionPayload.ENTRY_FUNCTION_PAYLOAD)
@@ -226,7 +227,7 @@ public class AptosClient extends AbstractClient {
                         to,
                         amount
                 ))
-                .typeArguments(List.of(Struct.APT().resourceTag()))
+                .typeArguments(List.of(resource.resourceTag()))
                 .build();
 
         EncodeSubmitBody encodeSubmitBody = this.encodeSubmitBody(from, transactionPayload);
@@ -236,6 +237,14 @@ public class AptosClient extends AbstractClient {
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
         return this.requestSubmitTransaction(submitTransactionBody);
+    }
+
+    public Transaction transferApt(
+            String from,
+            String to,
+            String amount
+    ) {
+        return this.transferAptsss(from, to, amount, Resource.APT());
     }
 
     public String sign(

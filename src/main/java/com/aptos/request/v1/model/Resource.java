@@ -69,4 +69,20 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
+    public static Resource account() {
+        return Resource.builder()
+                .moduleAddress("0x1")
+                .moduleName("account")
+                .resourceName("Account")
+                .build();
+    }
+
+    public static Resource APT() {
+        return Resource.builder()
+                .moduleAddress("0x1")
+                .moduleName("aptos_coin")
+                .resourceName("AptosCoin")
+                .build();
+    }
+
 }
