@@ -2,6 +2,8 @@ package com.aptos.utils;
 
 import com.google.common.io.BaseEncoding;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author liqiang
  */
@@ -15,6 +17,10 @@ public class Hex {
 
     public static String encode(byte[] bytes) {
         return "0x" + BaseEncoding.base16().encode(bytes).toLowerCase();
+    }
+
+    public static String encode(String text) {
+        return encode(text.getBytes(StandardCharsets.UTF_8));
     }
 
 }
