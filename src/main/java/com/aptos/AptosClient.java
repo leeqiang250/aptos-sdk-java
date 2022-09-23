@@ -215,8 +215,8 @@ public class AptosClient extends AbstractClient {
         return this.requestSubmitTransaction(submitTransactionBody);
     }
 
-    public Transaction sss(
-            String sender,
+    public Transaction transferApt(
+            String from,
             String to,
             String amount
     ) {
@@ -230,14 +230,13 @@ public class AptosClient extends AbstractClient {
                 .typeArguments(List.of(Struct.APT().resourceTag()))
                 .build();
 
-        String encodeUnSign = this.requestEncodeSubmit(this.encodeSubmitBody(sender, transactionPayload));
+        String encodeUnSign = this.requestEncodeSubmit(this.encodeSubmitBody(from, transactionPayload));
 
-        String signed = this.sign(this.addressPrivateKey.get(sender), JSONObject.toJSONString(encodeUnSign), encodeUnSign);
+        String signed = this.sign(this.addressPrivateKey.get(from), JSONObject.toJSONString(encodeUnSign), encodeUnSign);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
         return this.requestSubmitTransaction(submitTransactionBody);
-
     }
 
     public String sign(
