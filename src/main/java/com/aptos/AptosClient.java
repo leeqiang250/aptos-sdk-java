@@ -206,9 +206,7 @@ public class AptosClient extends AbstractClient {
     ) {
         EncodeSubmitBody encodeSubmitBody = this.encodeSubmitBody(sender, transactionPayload);
 
-        String encodeUnSign = this.requestEncodeSubmit(encodeSubmitBody);
-
-        String signed = this.sign(this.addressPrivateKey.get(sender), encodeUnSign, encodeUnSign);
+        String signed = this.sign(this.addressPrivateKey.get(sender), this.requestEncodeSubmit(encodeSubmitBody), encodeSubmitBody);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
@@ -230,9 +228,9 @@ public class AptosClient extends AbstractClient {
                 .typeArguments(List.of(Struct.APT().resourceTag()))
                 .build();
 
-        String encodeUnSign = this.requestEncodeSubmit(this.encodeSubmitBody(from, transactionPayload));
+        EncodeSubmitBody encodeSubmitBody = this.encodeSubmitBody(from, transactionPayload);
 
-        String signed = this.sign(this.addressPrivateKey.get(from), encodeUnSign, encodeUnSign);
+        String signed = this.sign(this.addressPrivateKey.get(from), this.requestEncodeSubmit(encodeSubmitBody), encodeSubmitBody);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
@@ -241,8 +239,8 @@ public class AptosClient extends AbstractClient {
 
     public String sign(
             String privateKey,
-            String unSign,
-            String encodeUnSign
+            String encodeUnSign,
+            EncodeSubmitBody encodeSubmitBody
     ) {
         byte[] signed = Signature.ed25519Sign(Hex.decode(privateKey), Hex.decode(encodeUnSign));
 
@@ -252,7 +250,7 @@ public class AptosClient extends AbstractClient {
                 .signature(Hex.encode(signed))
                 .build();
 
-        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(unSign, SubmitTransactionBody.class);
+        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(JSONObject.toJSONString(encodeSubmitBody), SubmitTransactionBody.class);
         submitTransactionBody.setSignature(signature);
 
         return JSONObject.toJSONString(submitTransactionBody);
