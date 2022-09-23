@@ -208,7 +208,7 @@ public class AptosClient extends AbstractClient {
 
         String encodeUnSign = this.requestEncodeSubmit(encodeSubmitBody);
 
-        String signed = this.sign(this.addressPrivateKey.get(sender), JSONObject.toJSONString(encodeUnSign), encodeUnSign);
+        String signed = this.sign(this.addressPrivateKey.get(sender), encodeUnSign, encodeUnSign);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
@@ -232,7 +232,7 @@ public class AptosClient extends AbstractClient {
 
         String encodeUnSign = this.requestEncodeSubmit(this.encodeSubmitBody(from, transactionPayload));
 
-        String signed = this.sign(this.addressPrivateKey.get(from), JSONObject.toJSONString(encodeUnSign), encodeUnSign);
+        String signed = this.sign(this.addressPrivateKey.get(from), encodeUnSign, encodeUnSign);
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
