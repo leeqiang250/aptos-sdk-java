@@ -264,7 +264,7 @@ public class AptosClient extends AbstractClient {
         encodeSubmitBody.setSender(sender);
         encodeSubmitBody.setSequenceNumber(this.requestAccount(sender).getSequenceNumber());
         //TODO 待优化
-        encodeSubmitBody.setMaxGasAmount("4003243");
+        encodeSubmitBody.setMaxGasAmount("400000");
         encodeSubmitBody.setGasUnitPrice(String.valueOf(this.requestGasEstimate().getGasEstimate()));
         encodeSubmitBody.setExpirationTimestampSecs(String.valueOf(System.currentTimeMillis() / 1000L + 600L));
         encodeSubmitBody.setPayload(transactionPayload);
