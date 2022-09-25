@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CollectionData implements Serializable {
+public class TableCollectionData implements Serializable {
 
     @JSONField(name = "description")
     String description;

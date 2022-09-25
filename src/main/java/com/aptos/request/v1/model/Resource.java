@@ -85,4 +85,12 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
+    public static Resource Collections() {
+        return Resource.builder()
+                .moduleAddress("0x3")
+                .moduleName("token")
+                .resourceName("Collections")
+                .build();
+    }
+
 }

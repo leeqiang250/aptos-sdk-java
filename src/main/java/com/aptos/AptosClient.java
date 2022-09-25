@@ -7,8 +7,8 @@ import com.aptos.request.v1.model.CoinStore;
 import com.aptos.request.v1.model.AccountResource;
 import com.aptos.request.v1.rpc.body.EncodeSubmitBody;
 import com.aptos.request.v1.rpc.body.SubmitTransactionBody;
+import com.aptos.request.v1.rpc.body.TokenDataBody;
 import com.aptos.request.v1.rpc.query.RequestBlockQuery;
-import com.aptos.request.v1.rpc.query.RequestLedgerVersionQuery;
 import com.aptos.request.v1.rpc.body.CollectionDataBody;
 import com.aptos.request.v1.rpc.request.*;
 import com.aptos.utils.Hex;
@@ -17,7 +17,6 @@ import com.aptos.utils.Signature;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author liqiang
@@ -56,51 +55,29 @@ public class AptosClient extends AbstractClient {
     }
 
     public List<AccountResource> requestAccountResources(String account) {
-        return this.requestAccountResources(account, null);
-    }
-
-    public List<AccountResource> requestAccountResources(String account,
-                                                         String ledgerVersion
-    ) {
-        RequestLedgerVersionQuery requestLedgerVersionQuery = null;
-        if (Objects.nonNull(ledgerVersion)) {
-            requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
-                    .ledgerVersion(ledgerVersion)
-                    .build();
-        }
-
         RequestAccountResources requestAccountResources = RequestAccountResources.builder()
                 .account(account)
-                .query(requestLedgerVersionQuery)
                 .build();
 
         return this.callList(requestAccountResources, AccountResource.class);
     }
 
-    public AccountResource requestAccountResource(String account,
-                                                  com.aptos.request.v1.model.Resource resource
+    public <T> T requestAccountResource(String account,
+                                        Resource resource,
+                                        Class<T> objectClass
     ) {
-        return this.requestAccountResource(account, resource, null);
-    }
-
-    public AccountResource requestAccountResource(String account,
-                                                  com.aptos.request.v1.model.Resource resource,
-                                                  String ledgerVersion
-    ) {
-        RequestLedgerVersionQuery requestLedgerVersionQuery = null;
-        if (Objects.nonNull(ledgerVersion)) {
-            requestLedgerVersionQuery = RequestLedgerVersionQuery.builder()
-                    .ledgerVersion(ledgerVersion)
-                    .build();
-        }
-
         RequestAccountResource requestAccountResource = RequestAccountResource.builder()
                 .account(account)
                 .resource(resource)
-                .query(requestLedgerVersionQuery)
                 .build();
 
-        return this.call(requestAccountResource, AccountResource.class);
+        return this.call(requestAccountResource, objectClass);
+    }
+
+    public AccountResource requestAccountResource(String account,
+                                                  Resource resource
+    ) {
+        return this.requestAccountResource(account, resource, AccountResource.class);
     }
 
     public Block requestBlockByHeight(String height,
@@ -143,7 +120,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public CoinStore requestCoinStore(String account,
-                                      com.aptos.request.v1.model.Resource resource
+                                      Resource resource
     ) {
         Resource coinStore = Resource.ofCoinStore(resource);
 
@@ -156,7 +133,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public CoinInfo requestCoinInfo(String account,
-                                    com.aptos.request.v1.model.Resource resource
+                                    Resource resource
     ) {
         Resource coinInfo = Resource.ofCoinInfo(resource);
 
@@ -168,10 +145,10 @@ public class AptosClient extends AbstractClient {
         return this.call(requestAccountResources, CoinInfo.class);
     }
 
-    public CollectionData requestTableCollectionData(String handle,
-                                                     String key
+    public TableCollectionData requestTableCollectionData(String handle,
+                                                          String key
     ) {
-        CollectionDataBody requestTableCollectionDataBody = CollectionDataBody.builder()
+        CollectionDataBody collectionDataBody = CollectionDataBody.builder()
                 .keyType("vector<u8>")
                 .valueType("0x3::token::CollectionData")
                 .key(key)
@@ -179,10 +156,35 @@ public class AptosClient extends AbstractClient {
 
         RequestTable requestTable = RequestTable.builder()
                 .handle(handle)
-                .body(requestTableCollectionDataBody)
+                .body(collectionDataBody)
                 .build();
 
-        return this.call(requestTable, CollectionData.class);
+        return this.call(requestTable, TableCollectionData.class);
+    }
+
+
+    public TableTokenData requestTableTokenData(String handle,
+                                                String creator,
+                                                String collection,
+                                                String name
+    ) {
+        TokenDataBody.Key key = new TokenDataBody.Key();
+        key.setCreator(creator);
+        key.setCollection(collection);
+        key.setName(name);
+
+        TokenDataBody tokenDataBody = TokenDataBody.builder()
+                .keyType("0x3::token::TokenDataId")
+                .valueType("0x3::token::TokenData")
+                .key(key)
+                .build();
+
+        RequestTable requestTable = RequestTable.builder()
+                .handle(handle)
+                .body(tokenDataBody)
+                .build();
+
+        return this.call(requestTable, TableTokenData.class);
     }
 
     public String requestEncodeSubmit(EncodeSubmitBody body) {
