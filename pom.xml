@@ -12,7 +12,7 @@
     <description>aptos-sdk</description>
 
     <properties>
-        <jdk.version>18</jdk.version>
+        <jdk.version>15</jdk.version>
         <encoding.version>UTF-8</encoding.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
