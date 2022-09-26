@@ -53,41 +53,8 @@ public class TableTokenData implements Serializable {
     public class DefaultProperties implements Serializable {
 
         @JSONField(name = "map")
-        Map map;
+        PropertyMap map;
 
-        @Data
-        @NoArgsConstructor
-        @AllArgsConstructor
-        public class Map implements Serializable {
-
-            @JSONField(name = "data")
-            List<Data> data;
-
-            @lombok.Data
-            @NoArgsConstructor
-            @AllArgsConstructor
-            public class Data implements Serializable {
-
-                @JSONField(name = "key")
-                String key;
-
-                @JSONField(name = "value")
-                Value value;
-
-                @lombok.Data
-                @NoArgsConstructor
-                @AllArgsConstructor
-                public class Value implements Serializable {
-
-                    @JSONField(name = "type")
-                    String type;
-
-                    @JSONField(name = "value")
-                    String value;
-
-                }
-            }
-        }
     }
 
     @Data
@@ -112,30 +79,11 @@ public class TableTokenData implements Serializable {
 
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Royalty implements Serializable {
-
-        @JSONField(name = "payee_address")
-        String payeeAddress;
-
-        @JSONField(name = "royalty_points_denominator")
-        String royaltyPointsDenominator;
-
-        @JSONField(name = "royalty_points_numerator")
-        String royaltyPointsNumerator;
-
-    }
-
     public void decode() {
-        this.defaultProperties.map.data.forEach(new Consumer<DefaultProperties.Map.Data>() {
-            @Override
-            public void accept(DefaultProperties.Map.Data data) {
-                data.key = Hex.decodeToString(data.key);
-                data.value.type = Hex.decodeToString(data.value.type);
-                data.value.value = Hex.decodeToString(data.value.value);
-            }
+        this.defaultProperties.map.data.forEach(data -> {
+            data.key = Hex.decodeToString(data.key);
+            data.value.type = Hex.decodeToString(data.value.type);
+            data.value.value = Hex.decodeToString(data.value.value);
         });
         this.description = Hex.decodeToString(this.description);
         this.name = Hex.decodeToString(this.name);

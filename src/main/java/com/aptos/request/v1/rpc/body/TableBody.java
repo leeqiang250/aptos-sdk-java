@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author liqiang
  */
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CollectionDataBody implements IAptosRequestBody {
+public class TableBody implements IAptosRequestBody {
 
     @JSONField(name = "key_type")
     String keyType;
@@ -22,6 +24,6 @@ public class CollectionDataBody implements IAptosRequestBody {
     String valueType;
 
     @JSONField(name = "key")
-    String key;
+    Serializable key;
 
 }

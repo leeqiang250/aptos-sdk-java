@@ -15,15 +15,15 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenDataId implements Serializable {
+public class TokenDataId222 implements Serializable {
 
-    @JSONField(name = "creator")
-    String creator;
+    @JSONField(name = "amount")
+    String amount;
 
-    @JSONField(name = "collection")
-    String collection;
+    @JSONField(name = "id")
+    String id;
 
-    @JSONField(name = "name")
+    @JSONField(name = "token_properties")
     String name;
 
 }

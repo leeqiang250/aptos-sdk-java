@@ -118,6 +118,7 @@ public abstract class AbstractClient {
             aptosRpcException = JSONObject.parseObject(content, AptosRpcException.class);
         } catch (JSONException exception) {
         }
+
         if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.getErrorCode()) && StringUtils.isNotEmpty(aptosRpcException.getErrorCode())) {
             response.close();
             throw aptosRpcException;
