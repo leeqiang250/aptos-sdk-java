@@ -93,4 +93,12 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
+    public static Resource TokenStore() {
+        return Resource.builder()
+                .moduleAddress("0x3")
+                .moduleName("token")
+                .resourceName("TokenStore")
+                .build();
+    }
+
 }

@@ -168,15 +168,14 @@ public class AptosClient extends AbstractClient {
                                                 String collection,
                                                 String name
     ) {
-        TokenDataBody.Key key = new TokenDataBody.Key();
-        key.setCreator(creator);
-        key.setCollection(collection);
-        key.setName(name);
-
         TokenDataBody tokenDataBody = TokenDataBody.builder()
                 .keyType("0x3::token::TokenDataId")
                 .valueType("0x3::token::TokenData")
-                .key(key)
+                .key(TokenDataId.builder()
+                        .creator(creator)
+                        .collection(collection)
+                        .name(name)
+                        .build())
                 .build();
 
         RequestTable requestTable = RequestTable.builder()

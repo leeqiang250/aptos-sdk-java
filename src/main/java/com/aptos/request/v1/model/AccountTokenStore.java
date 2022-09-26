@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountCollectionData implements Serializable {
+public class AccountTokenStore implements Serializable {
 
     @JSONField(name = "type")
     String type;
@@ -27,11 +27,11 @@ public class AccountCollectionData implements Serializable {
     @AllArgsConstructor
     public class Data implements Serializable {
 
-        @JSONField(name = "collection_data")
-        Table collectionData;
+        @JSONField(name = "direct_transfer")
+        boolean directTransfer;
 
-        @JSONField(name = "token_data")
-        Table tokenData;
+        @JSONField(name = "tokens")
+        Table tokens;
 
     }
 
