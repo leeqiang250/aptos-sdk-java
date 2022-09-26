@@ -37,9 +37,11 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<T>();
         try {
             content = this.request(request);
-            com.aptos.request.v1.model.Response exception = JSONObject.parseObject(content, com.aptos.request.v1.model.Response.class);
-            if (StringUtils.isNotEmpty(exception.getErrorCode())) {
-                return exception;
+            if (!String.class.equals(clazz) || !"\"0x".equals(content.substring(0, 3))) {
+                com.aptos.request.v1.model.Response exception = JSONObject.parseObject(content, com.aptos.request.v1.model.Response.class);
+                if (StringUtils.isNotEmpty(exception.getErrorCode())) {
+                    return exception;
+                }
             }
 
             response.setData(JSONObject.parseObject(content, clazz));

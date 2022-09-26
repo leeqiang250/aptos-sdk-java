@@ -159,10 +159,10 @@ public class AptosClient extends AbstractClient {
         return this.call(requestTable, TableCollectionData.class);
     }
 
-    public Response<TableTokenData> requestTableTokenData(String handle,
-                                                          String creator,
-                                                          String collection,
-                                                          String name
+    public Response<TableTokenData> requestTableToken(String handle,
+                                                      String creator,
+                                                      String collection,
+                                                      String name
     ) {
         TableBody tableBody = TableBody.builder()
                 .keyType("0x3::token::TokenId")
@@ -186,10 +186,10 @@ public class AptosClient extends AbstractClient {
         return this.call(requestTable, TableTokenData.class);
     }
 
-    public Response<TableTokenData> aaaa(String handle,
-                                         String creator,
-                                         String collection,
-                                         String name
+    public Response<TableTokenData> requestTableTokenData(String handle,
+                                                          String creator,
+                                                          String collection,
+                                                          String name
     ) {
         RequestTable requestTable = RequestTable.builder()
                 .handle(handle)
