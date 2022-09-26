@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.rpc.request.IAptosRequest;
 import com.aptos.request.v1.rpc.request.RequestSubmitBatchTransaction;
 import com.aptos.request.v1.rpc.request.RequestSubmitTransaction;
-import com.aptos.request.v1.model.AptosException;
 import com.aptos.utils.StringUtils;
 import lombok.SneakyThrows;
 import okhttp3.*;
@@ -34,23 +33,20 @@ public abstract class AbstractClient {
     }
 
     public <T> com.aptos.request.v1.model.Response<T> call(IAptosRequest request, Class<T> clazz) {
+        String content = null;
         var response = new com.aptos.request.v1.model.Response<T>();
         try {
-            String content = this.request(request);
-            if (StringUtils.isEmpty(content)) {
-
-            }
-
-            AptosException exception = JSONObject.parseObject(content, AptosException.class);
-            if (Objects.nonNull(exception)
-                    && Objects.nonNull(exception.getErrorCode())
-                    && StringUtils.isNotEmpty(exception.getErrorCode())) {
-                return null;
+            content = this.request(request);
+            com.aptos.request.v1.model.Response exception = JSONObject.parseObject(content, com.aptos.request.v1.model.Response.class);
+            if (StringUtils.isNotEmpty(exception.getErrorCode())) {
+                return exception;
             }
 
             response.setData(JSONObject.parseObject(content, clazz));
         } catch (Exception e) {
-
+            response.setMessage(e.getMessage());
+            response.setErrorCode(e.getMessage());
+            response.setVmErrorCode(e.getMessage());
         }
 
         return response;
