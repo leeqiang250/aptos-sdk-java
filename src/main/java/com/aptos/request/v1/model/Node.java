@@ -30,7 +30,7 @@ public class Node implements Serializable {
     String oldestLedgerVersion;
 
     @JSONField(name = "ledger_timestamp")
-    String ledgerRimestamp;
+    String ledgerTimestamp;
 
     @JSONField(name = "node_role")
     String nodeRole;

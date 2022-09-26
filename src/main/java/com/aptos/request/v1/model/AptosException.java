@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AptosRpcException extends RuntimeException {
+public class AptosException extends RuntimeException {
 
     @JSONField(name = "message")
     String message;
