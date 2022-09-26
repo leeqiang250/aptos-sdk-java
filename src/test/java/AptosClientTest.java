@@ -25,7 +25,7 @@ public class AptosClientTest {
 
     @Before
     public void init() {
-        aptosClient = new AptosClient(this.host);
+        aptosClient = new AptosClient(this.host, log -> null);
     }
 
     @Test

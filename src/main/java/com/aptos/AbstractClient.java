@@ -2,6 +2,7 @@ package com.aptos;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.aptos.request.v1.model.RequestInfo;
 import com.aptos.request.v1.rpc.request.IAptosRequest;
 import com.aptos.request.v1.rpc.request.RequestSubmitBatchTransaction;
 import com.aptos.request.v1.rpc.request.RequestSubmitTransaction;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * @author liqiang
@@ -26,20 +28,34 @@ public abstract class AbstractClient {
 
     final String host;
 
+    final Function<RequestInfo, RequestInfo> function;
+
     final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
-    public AbstractClient(String host) {
+    public AbstractClient(String host, Function<RequestInfo, RequestInfo> function) {
         this.host = host;
+        this.function = function;
     }
 
     public <T> com.aptos.request.v1.model.Response<T> call(IAptosRequest request, Class<T> clazz) {
         String content = null;
+        RequestInfo info = RequestInfo.builder()
+                .result(true)
+                .request(request)
+                .build();
         var response = new com.aptos.request.v1.model.Response<T>();
         try {
             content = this.request(request);
             if (!String.class.equals(clazz) || !"\"0x".equals(content.substring(0, 3))) {
                 com.aptos.request.v1.model.Response exception = JSONObject.parseObject(content, com.aptos.request.v1.model.Response.class);
                 if (StringUtils.isNotEmpty(exception.getErrorCode())) {
+                    info.setResult(false);
+                    info.setMessage(exception.getMessage());
+                    info.setErrorCode(exception.getErrorCode());
+                    info.setVmErrorCode(exception.getVmErrorCode());
+
+                    this.function.apply(info);
+
                     return exception;
                 }
             }
@@ -49,7 +65,14 @@ public abstract class AbstractClient {
             response.setMessage(e.getMessage());
             response.setErrorCode(e.getMessage());
             response.setVmErrorCode(e.getMessage());
+
+            info.setResult(false);
+            info.setMessage(response.getMessage());
+            info.setErrorCode(response.getErrorCode());
+            info.setVmErrorCode(response.getVmErrorCode());
         }
+
+        this.function.apply(info);
 
         return response;
     }
