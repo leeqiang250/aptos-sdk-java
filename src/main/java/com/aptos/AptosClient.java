@@ -1,6 +1,8 @@
 package com.aptos;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.aptos.request.v1.model.*;
 import com.aptos.request.v1.model.CoinInfo;
 import com.aptos.request.v1.model.CoinStore;
@@ -9,10 +11,12 @@ import com.aptos.request.v1.rpc.body.EncodeSubmitBody;
 import com.aptos.request.v1.rpc.body.SubmitTransactionBody;
 import com.aptos.request.v1.rpc.body.TableBody;
 import com.aptos.request.v1.rpc.query.RequestBlockQuery;
+import com.aptos.request.v1.rpc.query.RequestTransactionQuery;
 import com.aptos.request.v1.rpc.request.*;
 import com.aptos.utils.Hex;
 import com.aptos.utils.Signature;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +58,15 @@ public class AptosClient extends AbstractClient {
         return this.call(requestGasEstimate, GasEstimate.class);
     }
 
-    public List<AccountResource> requestAccountResources(String account) {
+    public Response<List<AccountResource>> requestAccountResources(String account) {
         RequestAccountResources requestAccountResources = RequestAccountResources.builder()
                 .account(account)
                 .build();
 
-        return this.callList(requestAccountResources, AccountResource.class);
+        Function<String, List<AccountResource>> function = o -> JSONObject.parseObject(o, new TypeReference<List<AccountResource>>() {
+        });
+
+        return this.callList(requestAccountResources, function);
     }
 
     public <T> Response<T> requestAccountResource(String account,
@@ -330,6 +337,19 @@ public class AptosClient extends AbstractClient {
         encodeSubmitBody.setPayload(transactionPayload);
 
         return Response.from(encodeSubmitBody);
+    }
+
+    public Response<List<Transaction>> requestTransaction(String start) {
+        var requestTransaction = RequestTransaction.builder()
+                .query(RequestTransactionQuery.builder()
+                        .limit("1000")
+                        .start(start)
+                        .build())
+                .build();
+        Function<String, List<Transaction>> function = o -> JSONObject.parseObject(o, new TypeReference<List<Transaction>>() {
+        });
+
+        return this.callList(requestTransaction, function);
     }
 
 }

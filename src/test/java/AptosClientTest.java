@@ -140,7 +140,7 @@ public class AptosClientTest {
     }
 
     @SuppressWarnings(value = {"rawtypes"})
-    void printlnList(List serializable) {
+    void printlnList(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());
         System.out.println(serializable);
         System.out.println("----------------------------------------");

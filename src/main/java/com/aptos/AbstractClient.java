@@ -2,12 +2,13 @@ package com.aptos;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.aptos.request.v1.model.RequestInfo;
+import com.aptos.request.v1.model.Transaction;
 import com.aptos.request.v1.rpc.request.IAptosRequest;
 import com.aptos.request.v1.rpc.request.RequestSubmitBatchTransaction;
 import com.aptos.request.v1.rpc.request.RequestSubmitTransaction;
 import com.aptos.utils.StringUtils;
-import lombok.SneakyThrows;
 import okhttp3.*;
 import okio.ByteString;
 
@@ -20,6 +21,7 @@ import java.util.function.Function;
 /**
  * @author liqiang
  */
+@SuppressWarnings({"all"})
 public abstract class AbstractClient {
 
     static final MediaType MEDIA_TYPE_JSON_UTF8 = MediaType.parse("application/json;charset=utf-8");
@@ -77,13 +79,30 @@ public abstract class AbstractClient {
         return response;
     }
 
-    @SneakyThrows
-    public <T> List<T> callList(IAptosRequest request, Class<T> clazz) {
-        String content = this.request(request);
-        JSONArray jsonArray = JSONArray.parseArray(content);
-        List<T> list = new ArrayList<>(jsonArray.size());
-        jsonArray.forEach(o -> list.add(JSONObject.parseObject(o.toString(), clazz)));
-        return list;
+    public <T> com.aptos.request.v1.model.Response<List<T>> callList(IAptosRequest request, Function<String, List<T>> function) {
+        String content = null;
+        RequestInfo info = RequestInfo.builder()
+                .result(true)
+                .request(request)
+                .build();
+        var response = new com.aptos.request.v1.model.Response<List<T>>();
+        try {
+            content = this.request(request);
+            response.setData(function.apply(content));
+        } catch (Exception e) {
+            response.setMessage(e.getMessage());
+            response.setErrorCode(e.getMessage());
+            response.setVmErrorCode(e.getMessage());
+
+            info.setResult(false);
+            info.setMessage(response.getMessage());
+            info.setErrorCode(response.getErrorCode());
+            info.setVmErrorCode(response.getVmErrorCode());
+        }
+
+        this.function.apply(info);
+
+        return response;
     }
 
     Request getRequest(IAptosRequest request) {
@@ -139,27 +158,6 @@ public abstract class AbstractClient {
         Request request_ = this.getRequest(request);
         Response response = this.okHttpClient.newCall(request_).execute();
         String content = response.body().string();
-//        System.out.println("content:" + content);
-//        System.out.println("------------------------------------------------------------------------------------------------");
-//        if (StringUtils.isEmpty(content)) {
-//            response.close();
-//            throw AptosRpcException.builder()
-//                    .message("response is null")
-//                    .errorCode("response is null")
-//                    .vmErrorCode(null)
-//                    .build();
-//        }
-//
-//        AptosRpcException aptosRpcException = null;
-//        try {
-//            aptosRpcException = JSONObject.parseObject(content, AptosRpcException.class);
-//        } catch (JSONException e) {
-//        }
-//
-//        if (Objects.nonNull(aptosRpcException) && Objects.nonNull(aptosRpcException.getErrorCode()) && StringUtils.isNotEmpty(aptosRpcException.getErrorCode())) {
-//            response.close();
-//            throw aptosRpcException;
-//        }
         response.close();
 
         return content;
