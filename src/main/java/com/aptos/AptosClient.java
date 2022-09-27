@@ -1,6 +1,5 @@
 package com.aptos;
 
-import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
 import com.aptos.request.v1.model.*;
@@ -16,10 +15,10 @@ import com.aptos.request.v1.rpc.request.*;
 import com.aptos.utils.Hex;
 import com.aptos.utils.Signature;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -29,8 +28,8 @@ public class AptosClient extends AbstractClient {
 
     Map<String, String> addressPrivateKey = new HashMap<>();
 
-    public AptosClient(String host, Function<RequestInfo, RequestInfo> function) {
-        super(host, function);
+    public AptosClient(String host, Function<RequestInfo, RequestInfo> function, Consumer<String> log) {
+        super(host, function, log);
 
         this.addressPrivateKey.put("0x1ff00114f046e27033b9bfdcd217fcf50023b576cbd3baaafe9674961632a5bd", "0x8710d71f5e02f5dd2d75d748abdbd778b427efa31e7a2e23344ea94e524476ff");
         this.addressPrivateKey.put("0xe89e92f0ea0ccb394fa3cb10a72ad866c4ad786956898fe7164731aa348ec1c5", "0x679213b91c104a590ed0929ce40840d0bdd6c28c419a6f51734e086ccb13b314");

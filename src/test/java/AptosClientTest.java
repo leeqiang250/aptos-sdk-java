@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class AptosClientTest {
 
@@ -25,7 +26,8 @@ public class AptosClientTest {
 
     @Before
     public void init() {
-        aptosClient = new AptosClient(this.host, log -> null);
+        aptosClient = new AptosClient(this.host, log -> null, s -> {
+        });
     }
 
     @Test
