@@ -10,7 +10,6 @@ import okhttp3.*;
 import okio.ByteString;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -28,15 +27,15 @@ public abstract class AbstractClient {
 
     final String host;
 
-    final Function<RequestInfo, RequestInfo> function;
+    final Consumer<RequestInfo> info;
 
     final Consumer<String> log;
 
     final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
-    public AbstractClient(String host, Function<RequestInfo, RequestInfo> function, Consumer<String> log) {
+    public AbstractClient(String host, Consumer<RequestInfo> info, Consumer<String> log) {
         this.host = host;
-        this.function = function;
+        this.info = info;
         this.log = log;
     }
 
@@ -57,7 +56,7 @@ public abstract class AbstractClient {
                     info.setErrorCode(exception.getErrorCode());
                     info.setVmErrorCode(exception.getVmErrorCode());
 
-                    this.function.apply(info);
+                    this.info.accept(info);
 
                     return exception;
                 }
@@ -75,7 +74,7 @@ public abstract class AbstractClient {
             info.setVmErrorCode(response.getVmErrorCode());
         }
 
-        this.function.apply(info);
+        this.info.accept(info);
 
         return response;
     }
@@ -101,7 +100,7 @@ public abstract class AbstractClient {
             info.setVmErrorCode(response.getVmErrorCode());
         }
 
-        this.function.apply(info);
+        this.info.accept(info);
 
         return response;
     }
