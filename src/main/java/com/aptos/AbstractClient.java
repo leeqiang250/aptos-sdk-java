@@ -155,6 +155,7 @@ public abstract class AbstractClient {
         log.accept("------------------------------------------------------------------------------------------------");
         log.accept("path:" + request.path());
         log.accept("parameter:" + JSONObject.toJSONString(request));
+        log.accept("------------------------------------------------------------------------------------------------");
         Request request_ = this.getRequest(request);
         Response response = this.okHttpClient.newCall(request_).execute();
         String content = response.body().string();
