@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -32,11 +33,14 @@ public abstract class AbstractClient {
 
     final Function<RequestInfo, RequestInfo> function;
 
+    final Consumer<String> log;
+
     final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
-    public AbstractClient(String host, Function<RequestInfo, RequestInfo> function) {
+    public AbstractClient(String host, Function<RequestInfo, RequestInfo> function, Consumer<String> log) {
         this.host = host;
         this.function = function;
+        this.log = log;
     }
 
     public <T> com.aptos.request.v1.model.Response<T> call(IAptosRequest request, Class<T> clazz) {
@@ -152,9 +156,9 @@ public abstract class AbstractClient {
     }
 
     public String request(IAptosRequest request) throws IOException {
-        System.out.println("------------------------------------------------------------------------------------------------");
-        System.out.println("path:" + request.path());
-        System.out.println("parameter:" + JSONObject.toJSONString(request));
+        log.accept("------------------------------------------------------------------------------------------------");
+        log.accept("path:" + request.path());
+        log.accept("parameter:" + JSONObject.toJSONString(request));
         Request request_ = this.getRequest(request);
         Response response = this.okHttpClient.newCall(request_).execute();
         String content = response.body().string();
