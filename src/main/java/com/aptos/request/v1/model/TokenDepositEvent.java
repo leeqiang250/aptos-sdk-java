@@ -15,21 +15,12 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event implements Serializable {
+public class TokenDepositEvent implements Serializable {
 
-    @JSONField(name = "key")
-    String key;
+    @JSONField(name = "amount")
+    String amount;
 
-    @JSONField(name = "guid")
-    Guid guid;
-
-    @JSONField(name = "sequence_number")
-    String sequenceNumber;
-
-    @JSONField(name = "type")
-    String type;
-
-    @JSONField(name = "data")
-    TokenDepositEvent data;
+    @JSONField(name = "id")
+    TokenId id;
 
 }
