@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event implements Serializable {
+public class Event<T> implements Serializable {
 
     @JSONField(name = "key")
     String key;
@@ -30,6 +30,6 @@ public class Event implements Serializable {
     String type;
 
     @JSONField(name = "data")
-    TokenDepositEvent data;
+    T data;
 
 }

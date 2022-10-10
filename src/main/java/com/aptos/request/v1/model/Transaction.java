@@ -1,8 +1,6 @@
 package com.aptos.request.v1.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
-import com.aptos.request.v1.model.Event;
-import com.aptos.request.v1.model.Signature;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liqiang
@@ -47,9 +46,6 @@ public class Transaction implements Serializable {
     @JSONField(name = "accumulator_root_hash")
     String accumulatorRootHash;
 
-    //@JSONField(name = "changes")
-    //changes
-
     @JSONField(name = "sender")
     String sender;
 
@@ -69,7 +65,7 @@ public class Transaction implements Serializable {
     Signature signature;
 
     @JSONField(name = "events")
-    List<Event> events;
+    List<Event<Map>> events;
     
     @JSONField(name = "proposer")
     String proposer;

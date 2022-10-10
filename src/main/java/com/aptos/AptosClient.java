@@ -341,7 +341,8 @@ public class AptosClient extends AbstractClient {
     public Response<List<Transaction>> requestTransaction(String start) {
         var requestTransaction = RequestTransaction.builder()
                 .query(RequestTransactionQuery.builder()
-                        .limit("1000")
+                        //TODO
+                        .limit("10")
                         .start(start)
                         .build())
                 .build();
