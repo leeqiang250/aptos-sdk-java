@@ -35,6 +35,9 @@ public class AptosClient extends AbstractClient {
         this.addressPrivateKey.put("0xe89e92f0ea0ccb394fa3cb10a72ad866c4ad786956898fe7164731aa348ec1c5", "0x679213b91c104a590ed0929ce40840d0bdd6c28c419a6f51734e086ccb13b314");
         this.addressPrivateKey.put("0xf7e09293bfc8a0c70a4bf9b6fecc4527da518dc4d8a60a84c293de6854dae0d8", "0x6a1d7fe3e8cf255279d43732ffcf88fd7843e5fca5cfffbe41a552b4d25954b9");
         this.addressPrivateKey.put("0x4cd5040c25c069143f22995f0deaae6bfb674949302b008678455174b8ea8104", "0x7f4f1932d406a5e4857bb3e03bce782941cbcebbd800a5b61623433e930f25fe");
+        this.addressPrivateKey.put("0x5278d1f03aa5b3586d0c835835e6593dcb629f0fbcf69365b741365041d31a5a", "0x91f088fc2baaf07b4403e4aec916eb6ff1d3c7095b5380fe139da56dc73bb9b7");
+        this.addressPrivateKey.put("0x48d2915b483ab4c88fb420ffe0e784c5ffb44a39c4aec197a6871dc835fa0fa", "0x8ae91715a4328ce244dfe2f30d3f3b72c8c9cc60c18feeeef4886c19599de60d");
+        this.addressPrivateKey.put("0xf350c47af19cb5c1de817454e8ca925581d813d055fe276dca99ee91b4dda259", "0xb4bde7f579247c785968ac530761832e23eef5096b84646edae1fdcfdc9362f5");
     }
 
     public Response<Account> requestAccount(String account) {
