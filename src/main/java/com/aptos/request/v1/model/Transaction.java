@@ -66,7 +66,7 @@ public class Transaction implements Serializable {
 
     @JSONField(name = "events")
     List<Event<Map>> events;
-    
+
     @JSONField(name = "proposer")
     String proposer;
 
@@ -75,5 +75,9 @@ public class Transaction implements Serializable {
 
     @JSONField(name = "type")
     String type;
+
+    public String getTimestampMillisecond() {
+        return String.valueOf(Long.parseLong(this.timestamp) / 1000L);
+    }
 
 }

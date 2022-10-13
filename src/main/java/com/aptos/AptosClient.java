@@ -38,6 +38,7 @@ public class AptosClient extends AbstractClient {
         this.addressPrivateKey.put("0x5278d1f03aa5b3586d0c835835e6593dcb629f0fbcf69365b741365041d31a5a", "0x91f088fc2baaf07b4403e4aec916eb6ff1d3c7095b5380fe139da56dc73bb9b7");
         this.addressPrivateKey.put("0x48d2915b483ab4c88fb420ffe0e784c5ffb44a39c4aec197a6871dc835fa0fa", "0x8ae91715a4328ce244dfe2f30d3f3b72c8c9cc60c18feeeef4886c19599de60d");
         this.addressPrivateKey.put("0xf350c47af19cb5c1de817454e8ca925581d813d055fe276dca99ee91b4dda259", "0xb4bde7f579247c785968ac530761832e23eef5096b84646edae1fdcfdc9362f5");
+        this.addressPrivateKey.put("0xb1ddfbcb10bfd108577a49d84f59b1eea2bdec252b4b58616345c8a7e12e7392", "0x4c8c1b6217091f228fd8c25aba77bea83861d2c8eacaf08205aa49e5bf524dce");
     }
 
     public Response<Account> requestAccount(String account) {
@@ -345,7 +346,7 @@ public class AptosClient extends AbstractClient {
         var requestTransaction = RequestTransaction.builder()
                 .query(RequestTransactionQuery.builder()
                         //TODO
-                        .limit("10")
+                        .limit("1000")
                         .start(start)
                         .build())
                 .build();
