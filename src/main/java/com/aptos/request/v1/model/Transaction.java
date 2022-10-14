@@ -19,6 +19,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class Transaction implements Serializable {
 
+    public static final String USER_TRANSACTION = "user_transaction";
+
     @JSONField(name = "version")
     String version;
 
