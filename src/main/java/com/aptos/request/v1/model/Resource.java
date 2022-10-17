@@ -50,6 +50,18 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
+    public static Resource ofStruct(String resource) {
+        var data = resource.split("::");
+        if (3 == data.length) {
+            return null;
+        }
+
+        return Resource.builder()
+                .moduleAddress(data[0])
+                .moduleName(data[1])
+                .resourceName(data[2])
+                .build();
+    }
 
     public static Resource ofCoinInfo(Resource resource) {
         return Resource.builder()
