@@ -52,7 +52,7 @@ public class Resource extends AbstractModule {
 
     public static Resource ofStruct(String resource) {
         var data = resource.split("::");
-        if (3 == data.length) {
+        if (3 != data.length) {
             return null;
         }
 
