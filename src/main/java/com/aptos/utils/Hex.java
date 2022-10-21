@@ -9,6 +9,10 @@ import java.nio.charset.StandardCharsets;
  */
 public class Hex {
 
+    final static String FALSE = "0x00";
+
+    final static String TRUE = "0x01";
+
     public static String decodeToString(String hex) {
         return new String(decode(hex));
     }
@@ -25,6 +29,14 @@ public class Hex {
 
     public static String encode(byte[] bytes) {
         return "0x" + BaseEncoding.base16().encode(bytes).toLowerCase();
+    }
+
+    public static String encodeBoolean(boolean b) {
+        return b ? TRUE : FALSE;
+    }
+
+    public static boolean decodeBoolean(String hex) {
+        return TRUE.equalsIgnoreCase(hex);
     }
 
 }
