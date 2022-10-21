@@ -17,6 +17,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Node implements Serializable {
 
+    @JSONField(name = "rpc")
+    String rpc;
+
     @JSONField(name = "chain_id")
     long chainId;
 
@@ -42,4 +45,3 @@ public class Node implements Serializable {
     String blockHeight;
 
 }
-
