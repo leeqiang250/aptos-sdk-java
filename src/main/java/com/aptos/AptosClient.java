@@ -18,6 +18,7 @@ import com.aptos.utils.Signature;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -40,6 +41,7 @@ public class AptosClient extends AbstractClient {
         this.addressPrivateKey.put("0xf350c47af19cb5c1de817454e8ca925581d813d055fe276dca99ee91b4dda259", "0xb4bde7f579247c785968ac530761832e23eef5096b84646edae1fdcfdc9362f5");
         this.addressPrivateKey.put("0xb1ddfbcb10bfd108577a49d84f59b1eea2bdec252b4b58616345c8a7e12e7392", "0x4c8c1b6217091f228fd8c25aba77bea83861d2c8eacaf08205aa49e5bf524dce");
         this.addressPrivateKey.put("0x1c87ad158f251d661cbacb167e0e459ab1ab43e1a3ca61edbf548f1cc6b23b11", "0xc6913a0bf06eb49f49957f4cbccb802d7f2ef0913910066db185122281c9b915");
+        this.addressPrivateKey.put("0x3fccd08ccac071ee2d241344e6909068c1a152d3051ad22553abd2b8c4a2e3b8", "0x940d1805f68533bfc281dce0952fce288260a541bfa2f3ea2b0479845ec49dc2");
     }
 
     public Response<Account> requestAccount(String account) {
@@ -250,7 +252,7 @@ public class AptosClient extends AbstractClient {
             return Response.from(stringResponse, Transaction.class);
         }
 
-        String signed = this.sign(this.addressPrivateKey.get(sender), stringResponse.getData(), encodeSubmitBodyResponse.getData());
+        String signed = this.sign(this.getAddressPrivateKey(sender), stringResponse.getData(), encodeSubmitBodyResponse.getData());
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
@@ -283,7 +285,7 @@ public class AptosClient extends AbstractClient {
             return Response.from(stringResponse, Transaction.class);
         }
 
-        String signed = this.sign(this.addressPrivateKey.get(from), stringResponse.getData(), encodeSubmitBodyResponse.getData());
+        String signed = this.sign(this.getAddressPrivateKey(from), stringResponse.getData(), encodeSubmitBodyResponse.getData());
 
         SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
 
@@ -357,4 +359,11 @@ public class AptosClient extends AbstractClient {
         return this.callList(requestTransaction, function);
     }
 
+    String getAddressPrivateKey(String address) {
+        var privateKey = this.addressPrivateKey.get(address);
+        if (Objects.isNull(privateKey)) {
+            throw new RuntimeException("private key is null");
+        }
+        return privateKey;
+    }
 }
