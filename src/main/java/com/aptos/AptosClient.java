@@ -213,6 +213,17 @@ public class AptosClient extends AbstractClient {
         return this.call(requestTable, TableTokenData.class);
     }
 
+    public Response<JSONObject> requestTable(String handle,
+                                             TableBody body
+    ) {
+        RequestTable requestTable = RequestTable.builder()
+                .handle(handle)
+                .body(body)
+                .build();
+
+        return this.call(requestTable, JSONObject.class);
+    }
+
     public Response<String> requestEncodeSubmit(EncodeSubmitBody body) {
         RequestEncodeSubmit requestEncodeSubmit = RequestEncodeSubmit.builder()
                 .body(body)
