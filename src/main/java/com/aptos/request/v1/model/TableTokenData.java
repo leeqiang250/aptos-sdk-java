@@ -1,7 +1,7 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
 import com.aptos.utils.Hex;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,31 +18,31 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TableTokenData implements Serializable {
 
-    @JSONField(name = "default_properties")
+    @JsonProperty("default_properties")
     DefaultProperties defaultProperties;
 
-    @JSONField(name = "description")
+    @JsonProperty("description")
     String description;
 
-    @JSONField(name = "largest_property_version")
+    @JsonProperty("largest_property_version")
     String largestPropertyVersion;
 
-    @JSONField(name = "maximum")
+    @JsonProperty("maximum")
     String maximum;
 
-    @JSONField(name = "mutability_config")
+    @JsonProperty("mutability_config")
     MutabilityConfig mutabilityConfig;
 
-    @JSONField(name = "name")
+    @JsonProperty("name")
     String name;
 
-    @JSONField(name = "royalty")
+    @JsonProperty("royalty")
     Royalty royalty;
 
-    @JSONField(name = "supply")
+    @JsonProperty("supply")
     String supply;
 
-    @JSONField(name = "uri")
+    @JsonProperty("uri")
     String uri;
 
     @Data
@@ -50,7 +50,7 @@ public class TableTokenData implements Serializable {
     @AllArgsConstructor
     public class DefaultProperties implements Serializable {
 
-        @JSONField(name = "map")
+        @JsonProperty("map")
         PropertyMap map;
 
     }
@@ -60,19 +60,19 @@ public class TableTokenData implements Serializable {
     @AllArgsConstructor
     public class MutabilityConfig implements Serializable {
 
-        @JSONField(name = "description")
+        @JsonProperty("description")
         boolean description;
 
-        @JSONField(name = "maximum")
+        @JsonProperty("maximum")
         boolean maximum;
 
-        @JSONField(name = "properties")
+        @JsonProperty("properties")
         boolean properties;
 
-        @JSONField(name = "royalty")
+        @JsonProperty("royalty")
         boolean royalty;
 
-        @JSONField(name = "uri")
+        @JsonProperty("uri")
         boolean uri;
 
     }

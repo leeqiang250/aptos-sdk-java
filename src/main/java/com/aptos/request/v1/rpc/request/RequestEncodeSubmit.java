@@ -1,7 +1,5 @@
 package com.aptos.request.v1.rpc.request;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.aptos.request.v1.model.TransactionPayload;
 import com.aptos.request.v1.rpc.AptosMethod;
 import com.aptos.request.v1.rpc.body.IAptosRequestBody;
 import lombok.AllArgsConstructor;

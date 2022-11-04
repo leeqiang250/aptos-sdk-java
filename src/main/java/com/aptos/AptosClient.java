@@ -1,7 +1,5 @@
 package com.aptos;
 
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.TypeReference;
 import com.aptos.request.v1.model.*;
 import com.aptos.request.v1.model.CoinInfo;
 import com.aptos.request.v1.model.CoinStore;
@@ -13,7 +11,9 @@ import com.aptos.request.v1.rpc.query.RequestBlockQuery;
 import com.aptos.request.v1.rpc.query.RequestTransactionQuery;
 import com.aptos.request.v1.rpc.request.*;
 import com.aptos.utils.Hex;
+import com.aptos.utils.Jackson;
 import com.aptos.utils.Signature;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +60,7 @@ public class AptosClient extends AbstractClient {
                 .account(account)
                 .build();
 
-        Function<String, List<AccountResource>> function = o -> JSONObject.parseObject(o, new TypeReference<List<AccountResource>>() {
+        Function<String, List<AccountResource>> function = o -> Jackson.readValue(o, new TypeReference<List<AccountResource>>() {
         });
 
         return this.callList(requestAccountResources, function);
@@ -213,10 +213,10 @@ public class AptosClient extends AbstractClient {
         return this.call(requestTable, TableTokenData.class);
     }
 
-    public Response<JSONObject> requestTable(String handle,
-                                             TableBody body
+    public Response<Map> requestTable(String handle,
+                                      TableBody body
     ) {
-        return this.requestTable(handle, body, JSONObject.class);
+        return this.requestTable(handle, body, Map.class);
     }
 
     public <T> Response<T> requestTable(String handle,
@@ -263,7 +263,7 @@ public class AptosClient extends AbstractClient {
 
         String signed = this.sign(this.getAddressPrivateKey(sender), stringResponse.getData(), encodeSubmitBodyResponse.getData());
 
-        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
+        SubmitTransactionBody submitTransactionBody = Jackson.readValue(signed, SubmitTransactionBody.class);
 
         return this.requestSubmitTransaction(submitTransactionBody);
     }
@@ -296,7 +296,7 @@ public class AptosClient extends AbstractClient {
 
         String signed = this.sign(this.getAddressPrivateKey(from), stringResponse.getData(), encodeSubmitBodyResponse.getData());
 
-        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(signed, SubmitTransactionBody.class);
+        SubmitTransactionBody submitTransactionBody = Jackson.readValue(signed, SubmitTransactionBody.class);
 
         return this.requestSubmitTransaction(submitTransactionBody);
     }
@@ -322,10 +322,10 @@ public class AptosClient extends AbstractClient {
                 .signature(Hex.encode(signed))
                 .build();
 
-        SubmitTransactionBody submitTransactionBody = JSONObject.parseObject(JSONObject.toJSONString(encodeSubmitBody), SubmitTransactionBody.class);
+        SubmitTransactionBody submitTransactionBody = Jackson.readValue(encodeSubmitBody, SubmitTransactionBody.class);
         submitTransactionBody.setSignature(signature);
 
-        return JSONObject.toJSONString(submitTransactionBody);
+        return Jackson.toJson(submitTransactionBody);
     }
 
     public Response<EncodeSubmitBody> encodeSubmitBody(
@@ -362,7 +362,7 @@ public class AptosClient extends AbstractClient {
                         .start(start)
                         .build())
                 .build();
-        Function<String, List<Transaction>> function = o -> JSONObject.parseObject(o, new TypeReference<List<Transaction>>() {
+        Function<String, List<Transaction>> function = o -> Jackson.readValue(o, new TypeReference<List<Transaction>>() {
         });
 
         return this.callList(requestTransaction, function);

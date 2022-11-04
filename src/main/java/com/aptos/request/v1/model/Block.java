@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,22 +18,22 @@ import java.util.List;
 @AllArgsConstructor
 public class Block implements Serializable {
 
-    @JSONField(name = "block_height")
+    @JsonProperty("block_height")
     String blockHeight;
 
-    @JSONField(name = "block_hash")
+    @JsonProperty("block_hash")
     String blockHash;
 
-    @JSONField(name = "block_timestamp")
+    @JsonProperty("block_timestamp")
     String blockTimestamp;
 
-    @JSONField(name = "first_version")
+    @JsonProperty("first_version")
     String firstVersion;
 
-    @JSONField(name = "last_version")
+    @JsonProperty("last_version")
     String lastVersion;
 
-    @JSONField(name = "transactions")
+    @JsonProperty("transactions")
     List<Transaction> transactions;
 
 }

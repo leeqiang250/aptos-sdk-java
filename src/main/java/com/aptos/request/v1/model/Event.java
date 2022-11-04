@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,19 +17,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Event<T> implements Serializable {
 
-    @JSONField(name = "key")
+    @JsonProperty("key")
     String key;
 
-    @JSONField(name = "guid")
+    @JsonProperty("guid")
     Guid guid;
 
-    @JSONField(name = "sequence_number")
+    @JsonProperty("sequence_number")
     String sequenceNumber;
 
-    @JSONField(name = "type")
+    @JsonProperty("type")
     String type;
 
-    @JSONField(name = "data")
+    @JsonProperty("data")
     T data;
 
 }

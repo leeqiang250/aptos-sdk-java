@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TokenId implements Serializable {
 
-    @JSONField(name = "token_data_id")
+    @JsonProperty("token_data_id")
     TokenDataId tokenDataId;
 
-    @JSONField(name = "property_version")
+    @JsonProperty("property_version")
     String propertyVersion;
 
     public String getUniqueKey() {

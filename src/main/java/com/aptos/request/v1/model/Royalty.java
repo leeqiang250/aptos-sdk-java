@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +17,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Royalty implements Serializable {
 
-    @JSONField(name = "payee_address")
+    @JsonProperty("payee_address")
     String payeeAddress;
 
-    @JSONField(name = "royalty_points_denominator")
+    @JsonProperty("royalty_points_denominator")
     String royaltyPointsDenominator;
 
-    @JSONField(name = "royalty_points_numerator")
+    @JsonProperty("royalty_points_numerator")
     String royaltyPointsNumerator;
 
 }

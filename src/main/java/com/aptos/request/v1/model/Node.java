@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,31 +17,31 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Node implements Serializable {
 
-    @JSONField(name = "rpc")
+    @JsonProperty("rpc")
     String rpc;
 
-    @JSONField(name = "chain_id")
+    @JsonProperty("chain_id")
     long chainId;
 
-    @JSONField(name = "epoch")
+    @JsonProperty("epoch")
     String epoch;
 
-    @JSONField(name = "ledger_version")
+    @JsonProperty("ledger_version")
     String ledgerVersion;
 
-    @JSONField(name = "oldest_ledger_version")
+    @JsonProperty("oldest_ledger_version")
     String oldestLedgerVersion;
 
-    @JSONField(name = "ledger_timestamp")
+    @JsonProperty("ledger_timestamp")
     String ledgerTimestamp;
 
-    @JSONField(name = "node_role")
+    @JsonProperty("node_role")
     String nodeRole;
 
-    @JSONField(name = "oldest_block_height")
+    @JsonProperty("oldest_block_height")
     String oldestBlockHeight;
 
-    @JSONField(name = "block_height")
+    @JsonProperty("block_height")
     String blockHeight;
 
 }

@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.io.Serializable;
@@ -25,16 +25,16 @@ public class TransactionPayload implements Serializable {
 
     public static final String ENTRY_FUNCTION_PAYLOAD = "entry_function_payload";
 
-    @JSONField(name = "type")
+    @JsonProperty("type")
     String type;
 
-    @JSONField(name = "function")
+    @JsonProperty("function")
     String function;
 
-    @JSONField(name = "arguments")
+    @JsonProperty("arguments")
     List arguments;
 
-    @JSONField(name = "type_arguments")
+    @JsonProperty("type_arguments")
     List typeArguments;
 
 }

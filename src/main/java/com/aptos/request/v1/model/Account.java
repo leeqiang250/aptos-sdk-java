@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +17,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Account implements Serializable {
 
-    @JSONField(name = "sequence_number")
+    @JsonProperty("sequence_number")
     String sequenceNumber;
 
-    @JSONField(name = "authentication_key")
+    @JsonProperty("authentication_key")
     String authenticationKey;
 
 }

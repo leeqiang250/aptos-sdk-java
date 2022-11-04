@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +17,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CoinInfo implements Serializable {
 
-    @JSONField(name = "type")
+    @JsonProperty("type")
     String type;
 
-    @JSONField(name = "data")
+    @JsonProperty("data")
     Data data;
 
     @lombok.Data
@@ -28,13 +28,13 @@ public class CoinInfo implements Serializable {
     @AllArgsConstructor
     public class Data implements Serializable {
 
-        @JSONField(name = "decimals")
+        @JsonProperty("decimals")
         int decimals;
 
-        @JSONField(name = "name")
+        @JsonProperty("name")
         String name;
 
-        @JSONField(name = "symbol")
+        @JsonProperty("symbol")
         String symbol;
 
     }

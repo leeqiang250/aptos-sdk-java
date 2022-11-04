@@ -1,6 +1,6 @@
 package com.aptos.request.v1.rpc.query;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestLedgerVersionQuery implements IAptosRequestQuery {
 
-    @JSONField(name = "ledger_version")
+    @JsonProperty("ledger_version")
     String ledgerVersion;
 
 }

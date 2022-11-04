@@ -1,6 +1,6 @@
 package com.aptos.request.v1.rpc.query;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestTransactionQuery implements IAptosRequestQuery {
 
-    @JSONField(name = "limit")
+    @JsonProperty("limit")
     String limit;
 
-    @JSONField(name = "start")
+    @JsonProperty("start")
     String start;
 
 }

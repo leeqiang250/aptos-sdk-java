@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PropertyMap implements Serializable {
 
-    @JSONField(name = "data")
+    @JsonProperty("data")
     List<Data> data;
 
     @lombok.Data
@@ -26,10 +26,10 @@ public class PropertyMap implements Serializable {
     @AllArgsConstructor
     public class Data implements Serializable {
 
-        @JSONField(name = "key")
+        @JsonProperty("key")
         String key;
 
-        @JSONField(name = "value")
+        @JsonProperty("value")
         Value value;
 
         @lombok.Data
@@ -37,10 +37,10 @@ public class PropertyMap implements Serializable {
         @AllArgsConstructor
         public class Value implements Serializable {
 
-            @JSONField(name = "type")
+            @JsonProperty("type")
             String type;
 
-            @JSONField(name = "value")
+            @JsonProperty("value")
             String value;
 
         }

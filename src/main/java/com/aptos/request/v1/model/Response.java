@@ -1,7 +1,7 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
 import com.aptos.utils.StringUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,16 +18,16 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Response<T> implements Serializable {
 
-    @JSONField(name = "message")
+    @JsonProperty("message")
     String message;
 
-    @JSONField(name = "error_code")
+    @JsonProperty("error_code")
     String errorCode;
 
-    @JSONField(name = "vm_error_code")
+    @JsonProperty("vm_error_code")
     String vmErrorCode;
 
-    @JSONField(name = "data")
+    @JsonProperty("data")
     T data;
 
     public boolean isValid() {

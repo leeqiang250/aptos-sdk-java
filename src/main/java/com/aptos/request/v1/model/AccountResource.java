@@ -1,13 +1,13 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author liqiang
@@ -18,10 +18,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AccountResource implements Serializable {
 
-    @JSONField(name = "type")
+    @JsonProperty("type")
     String type;
 
-    @JSONField(name = "data")
-    JSONObject data;
+    @JsonProperty("data")
+    Map data;
 
 }

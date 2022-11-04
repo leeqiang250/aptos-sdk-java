@@ -1,17 +1,19 @@
 package com.aptos;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.aptos.request.v1.model.RequestInfo;
 import com.aptos.request.v1.rpc.request.IAptosRequest;
 import com.aptos.request.v1.rpc.request.RequestSubmitBatchTransaction;
 import com.aptos.request.v1.rpc.request.RequestSubmitTransaction;
+import com.aptos.utils.Jackson;
 import com.aptos.utils.StringUtils;
 import okhttp3.*;
 import okio.ByteString;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -49,7 +51,7 @@ public abstract class AbstractClient {
         try {
             content = this.request(request);
             if (!String.class.equals(clazz) || !"\"0x".equals(content.substring(0, 3))) {
-                com.aptos.request.v1.model.Response exception = JSONObject.parseObject(content, com.aptos.request.v1.model.Response.class);
+                var exception = Jackson.readValue(content, com.aptos.request.v1.model.Response.class);
                 if (StringUtils.isNotEmpty(exception.getErrorCode())) {
                     info.setResult(false);
                     info.setMessage(exception.getMessage());
@@ -62,7 +64,7 @@ public abstract class AbstractClient {
                 }
             }
 
-            response.setData(JSONObject.parseObject(content, clazz));
+            response.setData(Jackson.readValue(content, clazz));
         } catch (Exception e) {
             response.setMessage(e.getMessage());
             response.setErrorCode(e.getMessage());
@@ -111,12 +113,15 @@ public abstract class AbstractClient {
         stringBuilder.append(request.path());
         if (Objects.nonNull(request.query())) {
             stringBuilder.append("?");
-            JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(request.query()));
-            jsonObject.forEach((s, o) -> {
-                stringBuilder.append(s);
-                stringBuilder.append("=");
-                stringBuilder.append(o);
-                stringBuilder.append("&");
+            var map = Jackson.readValue(request.query(), Map.class);
+            map.forEach(new BiConsumer() {
+                @Override
+                public void accept(Object s, Object o) {
+                    stringBuilder.append(s);
+                    stringBuilder.append("=");
+                    stringBuilder.append(o);
+                    stringBuilder.append("&");
+                }
             });
         }
 
@@ -134,9 +139,9 @@ public abstract class AbstractClient {
 
                 RequestBody body;
                 if (StringUtils.endsWithIgnoreCase(request.path(), RequestSubmitTransaction.PATH) || StringUtils.endsWithIgnoreCase(request.path(), RequestSubmitBatchTransaction.PATH)) {
-                    body = RequestBody.create(MEDIA_TYPE_JSON, ByteString.encodeUtf8(JSONObject.toJSONString(request.body())));
+                    body = RequestBody.create(MEDIA_TYPE_JSON, ByteString.encodeUtf8(Jackson.toJson(request.body())));
                 } else {
-                    body = RequestBody.create(JSONObject.toJSONString(request.body()), MEDIA_TYPE_JSON_UTF8);
+                    body = RequestBody.create(Jackson.toJson(request.body()), MEDIA_TYPE_JSON_UTF8);
                 }
                 return new Request.Builder()
                         .post(body)
@@ -154,7 +159,7 @@ public abstract class AbstractClient {
     public String request(IAptosRequest request) throws IOException {
         log.accept("------------------------------------------------------------------------------------------------");
         log.accept("path:" + request.path());
-        log.accept("parameter:" + JSONObject.toJSONString(request));
+        log.accept("parameter:" + Jackson.toJson(request));
         log.accept("------------------------------------------------------------------------------------------------");
         Request request_ = this.getRequest(request);
         Response response = this.okHttpClient.newCall(request_).execute();

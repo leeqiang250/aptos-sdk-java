@@ -1,6 +1,6 @@
 package com.aptos.request.v1.rpc.query;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestBlockQuery implements IAptosRequestQuery {
 
-    @JSONField(name = "with_transactions")
+    @JsonProperty("with_transactions")
     boolean withTransactions = false;
 
 }

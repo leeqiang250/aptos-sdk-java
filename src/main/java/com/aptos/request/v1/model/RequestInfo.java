@@ -1,7 +1,7 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
 import com.aptos.request.v1.rpc.request.IAptosRequest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,19 +18,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class RequestInfo implements Serializable {
 
-    @JSONField(name = "result")
+    @JsonProperty("result")
     boolean result;
 
-    @JSONField(name = "request")
+    @JsonProperty("request")
     IAptosRequest request;
 
-    @JSONField(name = "message")
+    @JsonProperty("message")
     String message;
 
-    @JSONField(name = "error_code")
+    @JsonProperty("error_code")
     String errorCode;
 
-    @JSONField(name = "vm_error_code")
+    @JsonProperty("vm_error_code")
     String vmErrorCode;
 
 }

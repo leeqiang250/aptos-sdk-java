@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,22 +17,22 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TableCollectionData implements Serializable {
 
-    @JSONField(name = "description")
+    @JsonProperty("description")
     String description;
 
-    @JSONField(name = "maximum")
+    @JsonProperty("maximum")
     String maximum;
 
-    @JSONField(name = "mutability_config")
+    @JsonProperty("mutability_config")
     MutabilityConfig mutabilityConfig;
 
-    @JSONField(name = "name")
+    @JsonProperty("name")
     String name;
 
-    @JSONField(name = "supply")
+    @JsonProperty("supply")
     String supply;
 
-    @JSONField(name = "uri")
+    @JsonProperty("uri")
     String uri;
 
     @lombok.Data
@@ -40,13 +40,13 @@ public class TableCollectionData implements Serializable {
     @AllArgsConstructor
     public class MutabilityConfig implements Serializable {
 
-        @JSONField(name = "description")
+        @JsonProperty("description")
         boolean description;
 
-        @JSONField(name = "maximum")
+        @JsonProperty("maximum")
         boolean maximum;
 
-        @JSONField(name = "uri")
+        @JsonProperty("uri")
         boolean uri;
 
     }

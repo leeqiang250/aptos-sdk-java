@@ -1,6 +1,6 @@
 package com.aptos.request.v1.rpc.body;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +17,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TableBody implements IAptosRequestBody {
 
-    @JSONField(name = "key_type")
+    @JsonProperty("key_type")
     String keyType;
 
-    @JSONField(name = "value_type")
+    @JsonProperty("value_type")
     String valueType;
 
-    @JSONField(name = "key")
+    @JsonProperty("key")
     Serializable key;
 
 }

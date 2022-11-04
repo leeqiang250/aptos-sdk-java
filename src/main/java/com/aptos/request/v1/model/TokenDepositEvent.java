@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +17,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TokenDepositEvent implements Serializable {
 
-    @JSONField(name = "amount")
+    @JsonProperty("amount")
     String amount;
 
-    @JSONField(name = "id")
+    @JsonProperty("id")
     TokenId id;
 
 }

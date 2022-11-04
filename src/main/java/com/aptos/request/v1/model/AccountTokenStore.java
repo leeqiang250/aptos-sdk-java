@@ -1,6 +1,6 @@
 package com.aptos.request.v1.model;
 
-import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -16,10 +16,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AccountTokenStore implements Serializable {
 
-    @JSONField(name = "type")
+    @JsonProperty("type")
     String type;
 
-    @JSONField(name = "data")
+    @JsonProperty("data")
     Data data;
 
     @lombok.Data
@@ -27,10 +27,10 @@ public class AccountTokenStore implements Serializable {
     @AllArgsConstructor
     public class Data implements Serializable {
 
-        @JSONField(name = "direct_transfer")
+        @JsonProperty("direct_transfer")
         boolean directTransfer;
 
-        @JSONField(name = "tokens")
+        @JsonProperty("tokens")
         Table tokens;
 
     }
