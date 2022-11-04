@@ -25,7 +25,7 @@ public class TokenId implements Serializable {
     @JSONField(name = "property_version")
     String propertyVersion;
 
-    public String getNftTokenIdKey() {
+    public String getUniqueKey() {
         return List.of(
                 this.tokenDataId.creator,
                 this.tokenDataId.collection,
@@ -34,7 +34,7 @@ public class TokenId implements Serializable {
         ).stream().collect(Collectors.joining("@"));
     }
 
-    public TokenId getNftTokenIdFromKey(String value) {
+    public TokenId fromUniqueKey(String value) {
         var values = value.split("@");
 
         return TokenId.builder()

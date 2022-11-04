@@ -26,7 +26,7 @@ public class TokenDataId implements Serializable {
     @JSONField(name = "name")
     String name;
 
-    public String getNftGroupKey() {
+    public String getCollectionUniqueKey() {
         return this.creator + "@" + this.collection;
     }
 
