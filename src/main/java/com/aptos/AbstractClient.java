@@ -81,6 +81,26 @@ public abstract class AbstractClient {
         return response;
     }
 
+    public <T> T callV2(IAptosRequest request, Class<T> clazz) {
+        RequestInfo info = RequestInfo.builder()
+                .result(true)
+                .request(request)
+                .build();
+        T t = null;
+        try {
+            t = Jackson.readValue(this.request(request), clazz);
+        } catch (Exception e) {
+            info.setResult(false);
+            info.setMessage(e.getMessage());
+            info.setErrorCode("");
+            info.setVmErrorCode("");
+        }
+
+        this.info.accept(info);
+
+        return t;
+    }
+
     public <T> com.aptos.request.v1.model.Response<List<T>> callList(IAptosRequest request, Function<String, List<T>> function) {
         String content = null;
         RequestInfo info = RequestInfo.builder()

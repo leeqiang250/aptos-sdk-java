@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 /**
  * @author liqiang
@@ -18,6 +19,10 @@ public final class Jackson {
     }
 
     public static <T> T readValue(Object json, Class<T> clazz) {
+        if (Objects.isNull(json)) {
+            return null;
+        }
+
         try {
             if (json instanceof String) {
                 return objectMapper.readValue((String) json, clazz);
@@ -33,6 +38,10 @@ public final class Jackson {
     }
 
     public static <T> T readValue(String json, TypeReference<T> typeReference) {
+        if (Objects.isNull(json)) {
+            return null;
+        }
+
         try {
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
@@ -44,6 +53,10 @@ public final class Jackson {
     }
 
     public static <T> T readByteValue(byte[] json, TypeReference<T> typeReference) {
+        if (Objects.isNull(json)) {
+            return null;
+        }
+
         try {
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
@@ -54,6 +67,10 @@ public final class Jackson {
     }
 
     public static String toJson(Object object) {
+        if (Objects.isNull(object)) {
+            return null;
+        }
+
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
@@ -65,6 +82,10 @@ public final class Jackson {
     }
 
     public static byte[] toBytes(Object object) {
+        if (Objects.isNull(object)) {
+            return null;
+        }
+
         try {
             return objectMapper.writeValueAsBytes(object);
         } catch (Exception e) {

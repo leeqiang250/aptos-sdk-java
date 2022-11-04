@@ -1,6 +1,5 @@
 package com.aptos.request.v1.model;
 
-import com.aptos.utils.Hex;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 public class TableTokenData implements Serializable {
 
     @JsonProperty("default_properties")
-    DefaultProperties defaultProperties;
+    PropertyMap<String, String> defaultProperties;
 
     @JsonProperty("description")
     String description;
@@ -48,16 +47,6 @@ public class TableTokenData implements Serializable {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class DefaultProperties implements Serializable {
-
-        @JsonProperty("map")
-        PropertyMap map;
-
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
     public class MutabilityConfig implements Serializable {
 
         @JsonProperty("description")
@@ -75,17 +64,6 @@ public class TableTokenData implements Serializable {
         @JsonProperty("uri")
         boolean uri;
 
-    }
-
-    public void decode() {
-        this.defaultProperties.map.data.forEach(data -> {
-            data.key = Hex.decodeToString(data.key);
-            data.value.type = Hex.decodeToString(data.value.type);
-            data.value.value = Hex.decodeToString(data.value.value);
-        });
-        this.description = Hex.decodeToString(this.description);
-        this.name = Hex.decodeToString(this.name);
-        this.uri = Hex.decodeToString(this.uri);
     }
 
 }

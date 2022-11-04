@@ -9,16 +9,18 @@ import java.nio.charset.StandardCharsets;
  */
 public class Hex {
 
-    final static String FALSE = "0x00";
+    public final static String HEX_PREFIX = "0x";
 
-    final static String TRUE = "0x01";
+    public final static String FALSE = "0x00";
+
+    public final static String TRUE = "0x01";
 
     public static String decodeToString(String hex) {
         return new String(decode(hex));
     }
 
     public static byte[] decode(String hex) {
-        return "0x".equalsIgnoreCase(hex.substring(0, 2))
+        return hex.startsWith(HEX_PREFIX)
                 ? BaseEncoding.base16().decode(hex.substring(2).toUpperCase())
                 : BaseEncoding.base16().decode(hex.toUpperCase());
     }
@@ -28,7 +30,7 @@ public class Hex {
     }
 
     public static String encode(byte[] bytes) {
-        return "0x" + BaseEncoding.base16().encode(bytes).toLowerCase();
+        return HEX_PREFIX + BaseEncoding.base16().encode(bytes).toLowerCase();
     }
 
     public static String encodeBoolean(boolean b) {

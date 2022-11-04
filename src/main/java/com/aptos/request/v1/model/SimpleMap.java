@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author liqiang
@@ -15,9 +16,9 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PropertyMap<KEY, VALUE> implements Serializable {
+public class SimpleMap<KEY, VALUE> implements Serializable {
 
-    @JsonProperty("map")
-    SimpleMap<KEY, VALUE> map;
+    @JsonProperty("data")
+    List<Element<KEY, VALUE>> data;
 
 }
