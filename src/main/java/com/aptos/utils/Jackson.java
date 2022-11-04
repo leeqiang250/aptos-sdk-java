@@ -3,6 +3,7 @@ package com.aptos.utils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Objects;
@@ -12,11 +13,7 @@ import java.util.Objects;
  */
 public final class Jackson {
 
-    public static ObjectMapper objectMapper = new ObjectMapper();
-
-    public Jackson() {
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-    }
+    static ObjectMapper objectMapper = null;
 
     public static <T> T readValue(Object json, Class<T> clazz) {
         if (Objects.isNull(json)) {
@@ -94,6 +91,16 @@ public final class Jackson {
         }
 
         return null;
+    }
+
+    public static ObjectMapper getObjectMapper() {
+        if (Objects.isNull(objectMapper)) {
+            objectMapper = new ObjectMapper();
+            objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+
+        return objectMapper;
     }
 
 }
