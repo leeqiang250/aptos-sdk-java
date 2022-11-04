@@ -25,6 +25,7 @@ public final class Jackson {
                 return objectMapper.readValue(Jackson.toJson(json), clazz);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             //log.error("{}", e);
         }
 
@@ -35,6 +36,7 @@ public final class Jackson {
         try {
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
+            e.printStackTrace();
             //log.error("{}", e);
         }
 
@@ -45,6 +47,7 @@ public final class Jackson {
         try {
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
+            e.printStackTrace();
             //log.error("{}", e);
         }
         return null;
@@ -54,6 +57,7 @@ public final class Jackson {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
+            e.printStackTrace();
             //log.error("{}", e);
         }
 
@@ -64,6 +68,7 @@ public final class Jackson {
         try {
             return objectMapper.writeValueAsBytes(object);
         } catch (Exception e) {
+            e.printStackTrace();
             //log.error("{}", e);
         }
 
