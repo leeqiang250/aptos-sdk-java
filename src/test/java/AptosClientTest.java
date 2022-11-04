@@ -9,11 +9,11 @@ import java.util.List;
 
 public class AptosClientTest {
 
-    final String host = "https://fullnode.devnet.aptoslabs.com";
+    final String host = "https://fullnode.testnet.aptoslabs.com";
 
     //final String account1 = "0xc73b774dd8ea3ce870a29f20e9f37bc9631198bcf21dc294cc72fea27f212a10";
 
-    final String account1 = "0xdddae7d9bd64a8b7200a3ec8a95386e416257236a3e673cc48a159535d418f53";
+    final String account1 = "0x27be2062af855f33c483911d1cf118aca5b3b6f0dd9482e7e45907e259b08bda";
 
     final String height = "3639613";
 

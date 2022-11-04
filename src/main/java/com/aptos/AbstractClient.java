@@ -51,16 +51,23 @@ public abstract class AbstractClient {
         try {
             content = this.request(request);
             if (!String.class.equals(clazz) || !"\"0x".equals(content.substring(0, 3))) {
-                var exception = Jackson.readValue(content, com.aptos.request.v1.model.Response.class);
-                if (StringUtils.isNotEmpty(exception.getErrorCode())) {
+                var map = Jackson.readValue(content, Map.class);
+                var message = map.get("message");
+                var errorCode = map.get("error_code");
+                var vmErrorCode = map.get("vm_error_code");
+                if (!Objects.isNull(errorCode) && StringUtils.isNotEmpty(errorCode.toString())) {
+                    response.setMessage(Objects.isNull(message) ? "" : message.toString());
+                    response.setErrorCode(Objects.isNull(errorCode) ? "" : errorCode.toString());
+                    response.setVmErrorCode(Objects.isNull(vmErrorCode) ? "" : vmErrorCode.toString());
+
                     info.setResult(false);
-                    info.setMessage(exception.getMessage());
-                    info.setErrorCode(exception.getErrorCode());
-                    info.setVmErrorCode(exception.getVmErrorCode());
+                    info.setMessage(response.getMessage());
+                    info.setErrorCode(response.getErrorCode());
+                    info.setVmErrorCode(response.getVmErrorCode());
 
                     this.info.accept(info);
 
-                    return exception;
+                    return response;
                 }
             }
 
@@ -79,26 +86,6 @@ public abstract class AbstractClient {
         this.info.accept(info);
 
         return response;
-    }
-
-    public <T> T callV2(IAptosRequest request, Class<T> clazz) {
-        RequestInfo info = RequestInfo.builder()
-                .result(true)
-                .request(request)
-                .build();
-        T t = null;
-        try {
-            t = Jackson.readValue(this.request(request), clazz);
-        } catch (Exception e) {
-            info.setResult(false);
-            info.setMessage(e.getMessage());
-            info.setErrorCode("");
-            info.setVmErrorCode("");
-        }
-
-        this.info.accept(info);
-
-        return t;
     }
 
     public <T> com.aptos.request.v1.model.Response<List<T>> callList(IAptosRequest request, Function<String, List<T>> function) {

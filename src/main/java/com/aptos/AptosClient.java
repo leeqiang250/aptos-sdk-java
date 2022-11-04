@@ -191,10 +191,10 @@ public class AptosClient extends AbstractClient {
         return this.call(requestTable, TableTokenData.class);
     }
 
-    public TableTokenData requestTableTokenData(String handle,
-                                                String creator,
-                                                String collection,
-                                                String name
+    public Response<TableTokenData> requestTableTokenData(String handle,
+                                                          String creator,
+                                                          String collection,
+                                                          String name
     ) {
         RequestTable requestTable = RequestTable.builder()
                 .handle(handle)
@@ -210,7 +210,7 @@ public class AptosClient extends AbstractClient {
                         .build())
                 .build();
 
-        return this.callV2(requestTable, TableTokenData.class);
+        return this.call(requestTable, TableTokenData.class);
     }
 
     public Response<Map> requestTable(String handle,
