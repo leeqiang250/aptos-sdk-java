@@ -8,14 +8,11 @@ import lombok.*;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class RequestNode implements IAptosRequest {
+public class RequestNode extends RequestSeat implements IAptosRequest {
 
     @Override
     public String path() {
         return "/v1";
     }
-
-    String seat;
 
 }

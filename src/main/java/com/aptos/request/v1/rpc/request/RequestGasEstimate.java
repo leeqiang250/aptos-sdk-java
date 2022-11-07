@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-public class RequestGasEstimate implements IAptosRequest {
+public class RequestGasEstimate extends RequestSeat implements IAptosRequest {
 
     @Override
     public String path() {
