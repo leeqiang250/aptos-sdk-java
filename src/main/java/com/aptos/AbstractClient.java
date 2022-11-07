@@ -97,6 +97,7 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<List<T>>();
         try {
             content = this.request(request);
+            this.log.accept(content);
             var map = Jackson.readValue(content, Map.class);
             if (!Objects.isNull(map)) {
                 var message = map.get("message");
