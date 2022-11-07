@@ -26,12 +26,7 @@ public class TokenId implements Serializable {
     String propertyVersion;
 
     public String getUniqueKey() {
-        return List.of(
-                this.tokenDataId.creator,
-                this.tokenDataId.collection,
-                this.tokenDataId.name,
-                this.propertyVersion
-        ).stream().collect(Collectors.joining("@"));
+        return this.tokenDataId.getNftUniqueKey() + "@" + this.propertyVersion;
     }
 
     public TokenId fromUniqueKey(String value) {
