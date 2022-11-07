@@ -97,7 +97,6 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<List<T>>();
         try {
             content = this.request(request);
-            this.log.accept(content);
             if (!content.startsWith("[")) {
                 var map = Jackson.readValue(content, Map.class);
                 if (!Objects.isNull(map)) {
@@ -188,10 +187,10 @@ public abstract class AbstractClient {
     }
 
     public String request(IAptosRequest request) throws IOException {
-        log.accept("------------------------------------------------------------------------------------------------");
-        log.accept("path:" + request.path());
-        log.accept("parameter:" + Jackson.toJson(request));
-        log.accept("------------------------------------------------------------------------------------------------");
+        this.log.accept("------------------------------------------------------------------------------------------------");
+        this.log.accept("path:" + request.path());
+        this.log.accept("parameter:" + Jackson.toJson(request));
+        this.log.accept("------------------------------------------------------------------------------------------------");
         var request_ = this.getRequest(request);
         var response = this.okHttpClient.newCall(request_).execute();
         var content = response.body().string();
