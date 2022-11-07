@@ -43,7 +43,7 @@ public abstract class AbstractClient {
 
     public <T> com.aptos.request.v1.model.Response<T> call(IAptosRequest request, Class<T> clazz) {
         String content = null;
-        RequestInfo info = RequestInfo.builder()
+        var info = RequestInfo.builder()
                 .result(true)
                 .request(request)
                 .build();
@@ -90,7 +90,7 @@ public abstract class AbstractClient {
 
     public <T> com.aptos.request.v1.model.Response<List<T>> callList(IAptosRequest request, Function<String, List<T>> function) {
         String content = null;
-        RequestInfo info = RequestInfo.builder()
+        var info = RequestInfo.builder()
                 .result(true)
                 .request(request)
                 .build();
@@ -98,24 +98,26 @@ public abstract class AbstractClient {
         try {
             content = this.request(request);
             this.log.accept(content);
-            var map = Jackson.readValue(content, Map.class);
-            if (!Objects.isNull(map)) {
-                var message = map.get("message");
-                var errorCode = map.get("error_code");
-                var vmErrorCode = map.get("vm_error_code");
-                if (!Objects.isNull(errorCode) && StringUtils.isNotEmpty(errorCode.toString())) {
-                    response.setMessage(Objects.isNull(message) ? "" : message.toString());
-                    response.setErrorCode(Objects.isNull(errorCode) ? "" : errorCode.toString());
-                    response.setVmErrorCode(Objects.isNull(vmErrorCode) ? "" : vmErrorCode.toString());
+            if (!content.startsWith("[")) {
+                var map = Jackson.readValue(content, Map.class);
+                if (!Objects.isNull(map)) {
+                    var message = map.get("message");
+                    var errorCode = map.get("error_code");
+                    var vmErrorCode = map.get("vm_error_code");
+                    if (!Objects.isNull(errorCode) && StringUtils.isNotEmpty(errorCode.toString())) {
+                        response.setMessage(Objects.isNull(message) ? "" : message.toString());
+                        response.setErrorCode(Objects.isNull(errorCode) ? "" : errorCode.toString());
+                        response.setVmErrorCode(Objects.isNull(vmErrorCode) ? "" : vmErrorCode.toString());
 
-                    info.setResult(false);
-                    info.setMessage(response.getMessage());
-                    info.setErrorCode(response.getErrorCode());
-                    info.setVmErrorCode(response.getVmErrorCode());
+                        info.setResult(false);
+                        info.setMessage(response.getMessage());
+                        info.setErrorCode(response.getErrorCode());
+                        info.setVmErrorCode(response.getVmErrorCode());
 
-                    this.info.accept(info);
+                        this.info.accept(info);
 
-                    return response;
+                        return response;
+                    }
                 }
             }
 
@@ -137,7 +139,7 @@ public abstract class AbstractClient {
     }
 
     Request getRequest(IAptosRequest request) {
-        StringBuilder stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         stringBuilder.append(this.host);
         stringBuilder.append(request.path());
         if (Objects.nonNull(request.query())) {
@@ -190,9 +192,9 @@ public abstract class AbstractClient {
         log.accept("path:" + request.path());
         log.accept("parameter:" + Jackson.toJson(request));
         log.accept("------------------------------------------------------------------------------------------------");
-        Request request_ = this.getRequest(request);
-        Response response = this.okHttpClient.newCall(request_).execute();
-        String content = response.body().string();
+        var request_ = this.getRequest(request);
+        var response = this.okHttpClient.newCall(request_).execute();
+        var content = response.body().string();
         response.close();
 
         return content;
