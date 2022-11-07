@@ -32,7 +32,7 @@ public class AptosClient extends AbstractClient {
     public AptosClient(String host, Consumer<RequestInfo> info, Consumer<String> log) {
         super(host, info, log);
 
-        this.addressPrivateKey.put("0xb560154d648ee4c0012acb6b68fc428f7bdb6be11026ae432057122edd73635f", "0x6c15d116c752f2910d6bf3dd1b640a1839ae7e7ca37316570ca50604e0242da1");
+        this.addressPrivateKey.put("0x67bfab475d188c3d5a17d1f067c715e78d46ea38af43e601530d79431659c518", "0x2d0e69083decab751f8df38b7ca2c4f9f26691e3f06aa82290ee242cfc96dd93");
     }
 
     public Response<Account> requestAccount(String account) {
