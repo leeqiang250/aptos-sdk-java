@@ -50,7 +50,7 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<T>();
         try {
             content = this.request(request);
-            if (!String.class.equals(clazz) || !"\"0x".equals(content.substring(0, 3))) {
+            if (!String.class.equals(clazz) || !content.startsWith("\"0x")) {
                 var map = Jackson.readValue(content, Map.class);
                 var message = map.get("message");
                 var errorCode = map.get("error_code");
@@ -97,6 +97,27 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<List<T>>();
         try {
             content = this.request(request);
+            var map = Jackson.readValue(content, Map.class);
+            if (!Objects.isNull(map)) {
+                var message = map.get("message");
+                var errorCode = map.get("error_code");
+                var vmErrorCode = map.get("vm_error_code");
+                if (!Objects.isNull(errorCode) && StringUtils.isNotEmpty(errorCode.toString())) {
+                    response.setMessage(Objects.isNull(message) ? "" : message.toString());
+                    response.setErrorCode(Objects.isNull(errorCode) ? "" : errorCode.toString());
+                    response.setVmErrorCode(Objects.isNull(vmErrorCode) ? "" : vmErrorCode.toString());
+
+                    info.setResult(false);
+                    info.setMessage(response.getMessage());
+                    info.setErrorCode(response.getErrorCode());
+                    info.setVmErrorCode(response.getVmErrorCode());
+
+                    this.info.accept(info);
+
+                    return response;
+                }
+            }
+
             response.setData(function.apply(content));
         } catch (Exception e) {
             response.setMessage(e.getMessage());
