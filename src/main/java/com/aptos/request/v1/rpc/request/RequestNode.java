@@ -1,8 +1,6 @@
 package com.aptos.request.v1.rpc.request;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @author liqiang
@@ -10,11 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class RequestNode implements IAptosRequest {
 
     @Override
     public String path() {
         return "/v1";
     }
+
+    String seat;
 
 }
