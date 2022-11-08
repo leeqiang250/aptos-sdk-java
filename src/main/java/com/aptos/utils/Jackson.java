@@ -34,13 +34,17 @@ public final class Jackson {
         return null;
     }
 
-    public static <T> T readValue(String json, TypeReference<T> typeReference) {
+    public static <T> T readValue(Object json, TypeReference<T> typeReference) {
         if (Objects.isNull(json)) {
             return null;
         }
 
         try {
-            return objectMapper.readValue(json, typeReference);
+            if (json instanceof String) {
+                return objectMapper.readValue((String) json, typeReference);
+            } else {
+                return objectMapper.readValue(Jackson.toJson(json), typeReference);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             //log.error("{}", e);

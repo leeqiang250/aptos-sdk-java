@@ -29,7 +29,7 @@ public class TokenId implements Serializable {
         return this.tokenDataId.getNftUniqueKey() + "@" + this.propertyVersion;
     }
 
-    public TokenId fromUniqueKey(String value) {
+    public static TokenId fromUniqueKey(String value) {
         var values = value.split("@");
 
         return TokenId.builder()
