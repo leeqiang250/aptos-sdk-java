@@ -21,6 +21,19 @@ public class AccountCollectionData implements Serializable {
     String type;
 
     @JsonProperty("data")
-    AccountCollectionDataData data;
+    Data data;
+
+    @lombok.Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class Data implements Serializable {
+
+        @JsonProperty("collection_data")
+        Table collectionData;
+
+        @JsonProperty("token_data")
+        Table tokenData;
+
+    }
 
 }

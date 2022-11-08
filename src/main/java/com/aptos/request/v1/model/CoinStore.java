@@ -21,6 +21,19 @@ public class CoinStore implements Serializable {
     String type;
 
     @JsonProperty("data")
-    CoinStoreData data;
+    Data data;
+
+    @lombok.Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class Data implements Serializable {
+
+        @JsonProperty("coin")
+        Coin coin;
+
+        @JsonProperty("frozen")
+        boolean frozen;
+
+    }
 
 }
