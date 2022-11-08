@@ -21,6 +21,6 @@ public class CoinStore implements Serializable {
     String type;
 
     @JsonProperty("data")
-    CoinStoreCoin data;
+    CoinStoreData data;
 
 }
