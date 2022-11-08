@@ -15,12 +15,12 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoinStore implements Serializable {
+public class CoinStoreCoin implements Serializable {
 
-    @JsonProperty("type")
-    String type;
+    @JsonProperty("Coin")
+    Coin coin;
 
-    @JsonProperty("data")
-    CoinStoreCoin data;
+    @JsonProperty("frozen")
+    boolean frozen;
 
 }
