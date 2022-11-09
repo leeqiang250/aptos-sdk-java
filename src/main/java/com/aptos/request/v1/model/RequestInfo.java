@@ -33,4 +33,7 @@ public class RequestInfo implements Serializable {
     @JsonProperty("vm_error_code")
     String vmErrorCode;
 
+    @JsonProperty("vm_status")
+    String vmStatus;
+
 }

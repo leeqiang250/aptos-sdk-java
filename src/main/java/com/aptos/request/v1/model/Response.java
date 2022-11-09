@@ -27,6 +27,9 @@ public class Response<T> implements Serializable {
     @JsonProperty("vm_error_code")
     String vmErrorCode;
 
+    @JsonProperty("vm_status")
+    String vmStatus;
+
     @JsonProperty("data")
     T data;
 
@@ -39,6 +42,7 @@ public class Response<T> implements Serializable {
         response_.message = response.message;
         response_.errorCode = response.errorCode;
         response_.vmErrorCode = response.vmErrorCode;
+        response_.vmStatus = response.vmStatus;
 
         return response_;
     }

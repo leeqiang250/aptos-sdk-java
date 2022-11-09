@@ -19,7 +19,10 @@ import java.util.Map;
 @AllArgsConstructor
 public class Transaction implements Serializable {
 
+    public static final String PENDING_TRANSACTION = "pending_transaction";
+
     public static final String USER_TRANSACTION = "user_transaction";
+
 
     @JsonProperty("version")
     String version;

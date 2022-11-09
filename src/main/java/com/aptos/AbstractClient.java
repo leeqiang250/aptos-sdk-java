@@ -55,15 +55,18 @@ public abstract class AbstractClient {
                 var message = map.get("message");
                 var errorCode = map.get("error_code");
                 var vmErrorCode = map.get("vm_error_code");
+                var vmStatus = map.get("vm_status");
                 if (!Objects.isNull(errorCode) && StringUtils.isNotEmpty(errorCode.toString())) {
                     response.setMessage(Objects.isNull(message) ? "" : message.toString());
                     response.setErrorCode(Objects.isNull(errorCode) ? "" : errorCode.toString());
                     response.setVmErrorCode(Objects.isNull(vmErrorCode) ? "" : vmErrorCode.toString());
+                    response.setVmStatus(Objects.isNull(vmStatus) ? "" : vmStatus.toString());
 
                     info.setResult(false);
                     info.setMessage(response.getMessage());
                     info.setErrorCode(response.getErrorCode());
                     info.setVmErrorCode(response.getVmErrorCode());
+                    info.setVmStatus(response.getVmStatus());
 
                     this.info.accept(info);
 
@@ -103,15 +106,18 @@ public abstract class AbstractClient {
                     var message = map.get("message");
                     var errorCode = map.get("error_code");
                     var vmErrorCode = map.get("vm_error_code");
+                    var vmStatus = map.get("vm_status");
                     if (!Objects.isNull(errorCode) && StringUtils.isNotEmpty(errorCode.toString())) {
                         response.setMessage(Objects.isNull(message) ? "" : message.toString());
                         response.setErrorCode(Objects.isNull(errorCode) ? "" : errorCode.toString());
                         response.setVmErrorCode(Objects.isNull(vmErrorCode) ? "" : vmErrorCode.toString());
+                        response.setVmStatus(Objects.isNull(vmStatus) ? "" : vmStatus.toString());
 
                         info.setResult(false);
                         info.setMessage(response.getMessage());
                         info.setErrorCode(response.getErrorCode());
                         info.setVmErrorCode(response.getVmErrorCode());
+                        info.setVmStatus(response.getVmStatus());
 
                         this.info.accept(info);
 
