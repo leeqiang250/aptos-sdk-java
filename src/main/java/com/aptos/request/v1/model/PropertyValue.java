@@ -15,9 +15,12 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PropertyMap implements Serializable {
+public class PropertyValue implements Serializable {
 
-    @JsonProperty("map")
-    SimpleMap<String, PropertyValue> map;
+    @JsonProperty("value")
+    String value;
+
+    @JsonProperty("type")
+    String type;
 
 }

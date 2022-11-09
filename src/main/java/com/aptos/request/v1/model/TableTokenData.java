@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class TableTokenData implements Serializable {
 
     @JsonProperty("default_properties")
-    PropertyMap<String, String> defaultProperties;
+    PropertyMap defaultProperties;
 
     @JsonProperty("description")
     String description;
