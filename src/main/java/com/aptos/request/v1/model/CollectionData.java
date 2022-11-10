@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TableCollectionData implements Serializable {
+public class CollectionData implements Serializable {
 
     @JsonProperty("description")
     String description;
@@ -24,7 +24,7 @@ public class TableCollectionData implements Serializable {
     String maximum;
 
     @JsonProperty("mutability_config")
-    MutabilityConfig mutabilityConfig;
+    CollectionMutabilityConfig mutabilityConfig;
 
     @JsonProperty("name")
     String name;
@@ -34,21 +34,5 @@ public class TableCollectionData implements Serializable {
 
     @JsonProperty("uri")
     String uri;
-
-    @lombok.Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class MutabilityConfig implements Serializable {
-
-        @JsonProperty("description")
-        boolean description;
-
-        @JsonProperty("maximum")
-        boolean maximum;
-
-        @JsonProperty("uri")
-        boolean uri;
-
-    }
 
 }

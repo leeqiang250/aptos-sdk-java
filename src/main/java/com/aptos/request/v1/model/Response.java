@@ -34,7 +34,7 @@ public class Response<T> implements Serializable {
     T data;
 
     public boolean isValid() {
-        return StringUtils.isNotEmpty(this.errorCode);
+        return StringUtils.isNotEmpty(this.errorCode) || StringUtils.isNotEmpty(this.errorCode);
     }
 
     public static <T> com.aptos.request.v1.model.Response<T> from(Response response, Class<T> clazz) {

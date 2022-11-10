@@ -15,6 +15,7 @@ public final class Jackson {
 
     static ObjectMapper objectMapper = null;
 
+    //无需Jackson.readValue(Jackson.toJson(
     public static <T> T readValue(Object json, Class<T> clazz) {
         if (Objects.isNull(json)) {
             return null;
@@ -34,6 +35,7 @@ public final class Jackson {
         return null;
     }
 
+    //无需Jackson.readValue(Jackson.toJson(
     public static <T> T readValue(Object json, TypeReference<T> typeReference) {
         if (Objects.isNull(json)) {
             return null;

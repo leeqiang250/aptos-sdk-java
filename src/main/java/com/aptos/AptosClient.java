@@ -150,8 +150,8 @@ public class AptosClient extends AbstractClient {
         return this.call(requestAccountResources, CoinInfo.class);
     }
 
-    public Response<TableCollectionData> requestTableCollectionData(String handle,
-                                                                    String key
+    public Response<CollectionData> requestTableCollectionData(String handle,
+                                                               String key
     ) {
         RequestTable requestTable = RequestTable.builder()
                 .handle(handle)
@@ -162,13 +162,14 @@ public class AptosClient extends AbstractClient {
                         .build())
                 .build();
 
-        return this.call(requestTable, TableCollectionData.class);
+        return this.call(requestTable, CollectionData.class);
     }
 
-    public Response<TableTokenData> requestTableToken(String handle,
-                                                      String creator,
-                                                      String collection,
-                                                      String name
+    public Response<Token> requestTableToken(String handle,
+                                             String creator,
+                                             String collection,
+                                             String name,
+                                             String propertyVersion
     ) {
         TableBody tableBody = TableBody.builder()
                 .keyType("0x3::token::TokenId")
@@ -180,7 +181,7 @@ public class AptosClient extends AbstractClient {
                                 .name(name)
                                 .build()
                         )
-                        .propertyVersion("0")
+                        .propertyVersion(propertyVersion)
                         .build()
                 ).build();
 
@@ -189,13 +190,13 @@ public class AptosClient extends AbstractClient {
                 .body(tableBody)
                 .build();
 
-        return this.call(requestTable, TableTokenData.class);
+        return this.call(requestTable, Token.class);
     }
 
-    public Response<TableTokenData> requestTableTokenData(String handle,
-                                                          String creator,
-                                                          String collection,
-                                                          String name
+    public Response<TokenData> requestTableTokenData(String handle,
+                                                     String creator,
+                                                     String collection,
+                                                     String name
     ) {
         RequestTable requestTable = RequestTable.builder()
                 .handle(handle)
@@ -211,7 +212,7 @@ public class AptosClient extends AbstractClient {
                         .build())
                 .build();
 
-        return this.call(requestTable, TableTokenData.class);
+        return this.call(requestTable, TokenData.class);
     }
 
     public Response<Map> requestTable(String handle,

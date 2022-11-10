@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TableTokenData implements Serializable {
+public class TokenData implements Serializable {
 
     @JsonProperty("default_properties")
     PropertyMap defaultProperties;
@@ -30,7 +30,7 @@ public class TableTokenData implements Serializable {
     String maximum;
 
     @JsonProperty("mutability_config")
-    MutabilityConfig mutabilityConfig;
+    TokenMutabilityConfig mutabilityConfig;
 
     @JsonProperty("name")
     String name;
@@ -43,27 +43,5 @@ public class TableTokenData implements Serializable {
 
     @JsonProperty("uri")
     String uri;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class MutabilityConfig implements Serializable {
-
-        @JsonProperty("description")
-        boolean description;
-
-        @JsonProperty("maximum")
-        boolean maximum;
-
-        @JsonProperty("properties")
-        boolean properties;
-
-        @JsonProperty("royalty")
-        boolean royalty;
-
-        @JsonProperty("uri")
-        boolean uri;
-
-    }
 
 }

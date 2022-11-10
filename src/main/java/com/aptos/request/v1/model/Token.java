@@ -15,19 +15,15 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenDataId implements Serializable {
+public class Token implements Serializable {
 
-    @JsonProperty("creator")
-    String creator;
+    @JsonProperty("amount")
+    String amount;
 
-    @JsonProperty("collection")
-    String collection;
+    @JsonProperty("id")
+    TokenId id;
 
-    @JsonProperty("name")
-    String name;
-
-    public String getCollectionUniqueKey() {
-        return this.creator + "@" + this.collection;
-    }
+    @JsonProperty("token_properties")
+    PropertyMap tokenProperties;
 
 }

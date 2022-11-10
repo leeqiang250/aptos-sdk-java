@@ -15,19 +15,15 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenDataId implements Serializable {
+public class CollectionMutabilityConfig implements Serializable {
 
-    @JsonProperty("creator")
-    String creator;
+    @JsonProperty("description")
+    boolean description;
 
-    @JsonProperty("collection")
-    String collection;
+    @JsonProperty("uri")
+    boolean uri;
 
-    @JsonProperty("name")
-    String name;
-
-    public String getCollectionUniqueKey() {
-        return this.creator + "@" + this.collection;
-    }
+    @JsonProperty("maximum")
+    boolean maximum;
 
 }

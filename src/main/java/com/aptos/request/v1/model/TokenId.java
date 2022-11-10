@@ -25,11 +25,11 @@ public class TokenId implements Serializable {
     @JsonProperty("property_version")
     String propertyVersion;
 
-    public String getUniqueKey() {
-        return this.tokenDataId.getNftUniqueKey() + "@" + this.propertyVersion;
+    public String getNftUniqueKey() {
+        return this.tokenDataId.getCollectionUniqueKey() + "@" + this.tokenDataId.name + "@" + this.propertyVersion;
     }
 
-    public static TokenId fromUniqueKey(String value) {
+    public static TokenId fromNftUniqueKey(String value) {
         var values = value.split("@");
 
         return TokenId.builder()
