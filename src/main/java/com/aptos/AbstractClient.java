@@ -50,6 +50,11 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<T>();
         try {
             content = this.request(request);
+            if (Objects.isNull(content) || StringUtils.isEmpty(content)) {
+                response.setErrorCode("content is null");
+                return response;
+            }
+
             if (!String.class.equals(clazz) || !content.startsWith("\"0x")) {
                 var map = Jackson.readValue(content, Map.class);
                 var message = map.get("message");
@@ -104,6 +109,11 @@ public abstract class AbstractClient {
         var response = new com.aptos.request.v1.model.Response<List<T>>();
         try {
             content = this.request(request);
+            if (Objects.isNull(content) || StringUtils.isEmpty(content)) {
+                response.setErrorCode("content is null");
+                return response;
+            }
+
             if (!content.startsWith("[")) {
                 var map = Jackson.readValue(content, Map.class);
                 if (!Objects.isNull(map)) {
