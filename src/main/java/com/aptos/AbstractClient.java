@@ -68,6 +68,7 @@ public abstract class AbstractClient {
                     info.setVmErrorCode(response.getVmErrorCode());
                     info.setVmStatus(response.getVmStatus());
 
+                    this.log.accept(Jackson.toJson(response));
                     this.info.accept(info);
 
                     return response;
@@ -119,6 +120,7 @@ public abstract class AbstractClient {
                         info.setVmErrorCode(response.getVmErrorCode());
                         info.setVmStatus(response.getVmStatus());
 
+                        this.log.accept(Jackson.toJson(response));
                         this.info.accept(info);
 
                         return response;
