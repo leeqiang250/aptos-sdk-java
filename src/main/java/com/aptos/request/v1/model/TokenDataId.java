@@ -30,4 +30,11 @@ public class TokenDataId implements Serializable {
         return this.creator + "@" + this.collection;
     }
 
+    public TokenId getZeroPropertyVersionTokenId() {
+        return TokenId.builder()
+                .tokenDataId(this)
+                .propertyVersion("0")
+                .build();
+    }
+
 }
