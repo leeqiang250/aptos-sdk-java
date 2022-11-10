@@ -52,6 +52,7 @@ public abstract class AbstractClient {
             content = this.request(request);
             if (Objects.isNull(content) || StringUtils.isEmpty(content)) {
                 response.setErrorCode("content is null");
+                this.log.accept("6:" + Jackson.toJson(response));
                 return response;
             }
 
@@ -111,6 +112,7 @@ public abstract class AbstractClient {
             content = this.request(request);
             if (Objects.isNull(content) || StringUtils.isEmpty(content)) {
                 response.setErrorCode("content is null");
+                this.log.accept("7:" + Jackson.toJson(response));
                 return response;
             }
 
