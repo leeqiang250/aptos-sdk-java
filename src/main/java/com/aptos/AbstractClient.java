@@ -68,7 +68,7 @@ public abstract class AbstractClient {
                     info.setVmErrorCode(response.getVmErrorCode());
                     info.setVmStatus(response.getVmStatus());
 
-                    this.log.accept(Jackson.toJson(response));
+                    this.log.accept("0:" + Jackson.toJson(response));
                     this.info.accept(info);
 
                     return response;
@@ -86,8 +86,8 @@ public abstract class AbstractClient {
             info.setErrorCode(response.getErrorCode());
             info.setVmErrorCode(response.getVmErrorCode());
 
-            this.log.accept(Jackson.toJson(response));
-            this.log.accept(content);
+            this.log.accept("1:" + Jackson.toJson(response));
+            this.log.accept("2:" + content);
         }
 
         this.info.accept(info);
@@ -123,7 +123,7 @@ public abstract class AbstractClient {
                         info.setVmErrorCode(response.getVmErrorCode());
                         info.setVmStatus(response.getVmStatus());
 
-                        this.log.accept(Jackson.toJson(response));
+                        this.log.accept("3:" + Jackson.toJson(response));
                         this.info.accept(info);
 
                         return response;
@@ -142,8 +142,8 @@ public abstract class AbstractClient {
             info.setErrorCode(response.getErrorCode());
             info.setVmErrorCode(response.getVmErrorCode());
 
-            this.log.accept(Jackson.toJson(response));
-            this.log.accept(content);
+            this.log.accept("4:" + Jackson.toJson(response));
+            this.log.accept("5:" + content);
         }
 
         this.info.accept(info);
