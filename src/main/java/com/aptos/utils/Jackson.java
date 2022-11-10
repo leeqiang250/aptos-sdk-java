@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * @author liqiang
@@ -14,6 +15,9 @@ import java.util.Objects;
 public final class Jackson {
 
     static ObjectMapper objectMapper = null;
+
+    public static Consumer<String> log;
+
 
     //无需Jackson.readValue(Jackson.toJson(
     public static <T> T readValue(Object json, Class<T> clazz) {
@@ -28,8 +32,8 @@ public final class Jackson {
                 return objectMapper.readValue(Jackson.toJson(json), clazz);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            //log.error("{}", e);
+            log.accept(e.getMessage());
+            log.accept(json.toString());
         }
 
         return null;
@@ -48,8 +52,8 @@ public final class Jackson {
                 return objectMapper.readValue(Jackson.toJson(json), typeReference);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            //log.error("{}", e);
+            log.accept(e.getMessage());
+            log.accept(json.toString());
         }
 
         return null;
@@ -63,8 +67,8 @@ public final class Jackson {
         try {
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
-            e.printStackTrace();
-            //log.error("{}", e);
+            log.accept(e.getMessage());
+            log.accept(json.toString());
         }
         return null;
     }
@@ -77,8 +81,8 @@ public final class Jackson {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            e.printStackTrace();
-            //log.error("{}", e);
+            log.accept(e.getMessage());
+            log.accept(object.toString());
         }
 
         return null;
@@ -92,8 +96,8 @@ public final class Jackson {
         try {
             return objectMapper.writeValueAsBytes(object);
         } catch (Exception e) {
-            e.printStackTrace();
-            //log.error("{}", e);
+            log.accept(e.getMessage());
+            log.accept(object.toString());
         }
 
         return null;
