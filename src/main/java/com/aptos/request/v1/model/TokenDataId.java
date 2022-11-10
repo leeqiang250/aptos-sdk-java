@@ -30,9 +30,9 @@ public class TokenDataId implements Serializable {
         return this.creator + "@" + this.collection;
     }
 
-    public TokenId getZeroPropertyVersionTokenId() {
+    public static TokenId zeroPropertyVersionTokenId(TokenDataId tokenDataId) {
         return TokenId.builder()
-                .tokenDataId(this)
+                .tokenDataId(tokenDataId)
                 .propertyVersion("0")
                 .build();
     }
