@@ -33,6 +33,7 @@ public final class Jackson {
             }
         } catch (Exception e) {
             log.accept(e.getMessage());
+            log.accept(clazz.getSimpleName());
             log.accept(json.toString());
         }
 
@@ -53,6 +54,7 @@ public final class Jackson {
             }
         } catch (Exception e) {
             log.accept(e.getMessage());
+            log.accept(typeReference.toString());
             log.accept(json.toString());
         }
 
@@ -68,6 +70,7 @@ public final class Jackson {
             return objectMapper.readValue(json, typeReference);
         } catch (Exception e) {
             log.accept(e.getMessage());
+            log.accept(typeReference.toString());
             log.accept(json.toString());
         }
         return null;
