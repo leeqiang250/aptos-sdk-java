@@ -30,6 +30,10 @@ public class TokenDataId implements Serializable {
         return this.creator + "@" + this.collection;
     }
 
+    public String getNftUniqueKey() {
+        return this.getCollectionUniqueKey() + "@" + this.name;
+    }
+
     public static TokenId zeroPropertyVersionTokenId(TokenDataId tokenDataId) {
         return TokenId.builder()
                 .tokenDataId(tokenDataId)
