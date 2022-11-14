@@ -34,6 +34,16 @@ public class TokenDataId implements Serializable {
         return this.getCollectionUniqueKey() + "@" + this.name;
     }
 
+    public static TokenDataId fromNftUniqueKey(String value) {
+        var values = value.split("@");
+
+        return TokenDataId.builder()
+                .creator(values[0])
+                .collection(values[1])
+                .name(values[2])
+                .build();
+    }
+
     public static TokenId zeroPropertyVersionTokenId(TokenDataId tokenDataId) {
         return TokenId.builder()
                 .tokenDataId(tokenDataId)
