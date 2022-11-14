@@ -81,8 +81,12 @@ public class Transaction implements Serializable {
     @JsonProperty("type")
     String type;
 
-    public String getTimestampMillisecond() {
-        return String.valueOf(Long.parseLong(this.timestamp) / 1000L);
+    public String getTimestampMillisecondV1() {
+        return String.valueOf(this.getTimestampMillisecondV2());
+    }
+
+    public long getTimestampMillisecondV2() {
+        return Long.parseLong(this.timestamp) / 1000L;
     }
 
 }
