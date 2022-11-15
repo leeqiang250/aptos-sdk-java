@@ -89,7 +89,7 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
-    public static Resource APT() {
+    public static Resource apt() {
         return Resource.builder()
                 .moduleAddress("0x1")
                 .moduleName("aptos_coin")
@@ -97,7 +97,7 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
-    public static Resource Collections() {
+    public static Resource collections() {
         return Resource.builder()
                 .moduleAddress("0x3")
                 .moduleName("token")
@@ -105,12 +105,16 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
-    public static Resource TokenStore() {
+    public static Resource tokenStore() {
         return Resource.builder()
                 .moduleAddress("0x3")
                 .moduleName("token")
                 .resourceName("TokenStore")
                 .build();
+    }
+
+    public static String get2LevelStruct(String type) {
+        return type.split("<")[1].split(">")[0].split(",")[0].trim();
     }
 
 }
