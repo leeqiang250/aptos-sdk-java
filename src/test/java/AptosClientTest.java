@@ -48,7 +48,7 @@ public class AptosClientTest {
     @Test
     public void requestAccountResource() {
         println(aptosClient.requestAccountResource(this.account1, Resource.account()));
-        println(aptosClient.requestAccountResource(this.account1, Resource.ofCoinStore(Resource.APT())));
+        println(aptosClient.requestAccountResource(this.account1, Resource.ofCoinStore(Resource.apt())));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class AptosClientTest {
 
     @Test
     public void requestCoinStore() {
-        println(aptosClient.requestCoinStore(this.account1, Resource.APT()));
+        println(aptosClient.requestCoinStore(this.account1, Resource.apt()));
     }
 
     @Test

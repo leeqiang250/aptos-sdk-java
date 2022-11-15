@@ -113,8 +113,13 @@ public class Resource extends AbstractModule {
                 .build();
     }
 
-    public static String get2LevelStruct(String type) {
+    public static String get2LevelSplit0Struct(String type) {
         return type.split("<")[1].split(">")[0].split(",")[0].trim();
     }
+
+    public static String get2LevelSplit1Struct(String type) {
+        return type.split("<")[1].split(">")[0].split(",")[1].trim();
+    }
+
 
 }

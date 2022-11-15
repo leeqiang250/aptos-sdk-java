@@ -310,7 +310,7 @@ public class AptosClient extends AbstractClient {
             String to,
             String amount
     ) {
-        return this.transferResource(from, to, amount, Resource.APT());
+        return this.transferResource(from, to, amount, Resource.apt());
     }
 
     public String sign(
