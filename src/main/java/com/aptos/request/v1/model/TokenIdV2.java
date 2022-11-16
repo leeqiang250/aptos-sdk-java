@@ -20,7 +20,7 @@ public class TokenIdV2 extends TokenId {
     String owner;
 
     public String getTokenIdOwner() {
-        return this.getNftUniqueKey() + "@" + this.owner;
+        return this.getNftUniqueKeyVersion() + "@" + this.owner;
     }
 
     public static TokenIdV2 fromTokenIdOwner(String value) {
