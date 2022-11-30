@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author liqiang
@@ -70,7 +69,7 @@ public class Transaction implements Serializable {
     Signature signature;
 
     @JsonProperty("events")
-    List<Event<Map>> events;
+    List<Event> events;
 
     @JsonProperty("proposer")
     String proposer;

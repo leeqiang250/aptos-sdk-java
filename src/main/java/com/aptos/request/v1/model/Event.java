@@ -17,9 +17,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Event<T> implements Serializable {
 
-    @JsonProperty("key")
-    String key;
-
     @JsonProperty("guid")
     Guid guid;
 
