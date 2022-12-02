@@ -13,12 +13,10 @@ import com.aptos.request.v1.rpc.request.*;
 import com.aptos.utils.Hex;
 import com.aptos.utils.Jackson;
 import com.aptos.utils.Signature;
+import com.aptos.utils.StringUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -40,7 +38,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public Response<Account> requestAccount(String account) {
-        RequestAccount requestAccount = RequestAccount.builder()
+        var requestAccount = RequestAccount.builder()
                 .account(account)
                 .build();
 
@@ -48,19 +46,19 @@ public class AptosClient extends AbstractClient {
     }
 
     public Response<Node> requestNode() {
-        RequestNode requestNode = RequestNode.builder().build();
+        var requestNode = RequestNode.builder().build();
 
         return this.call(requestNode, Node.class);
     }
 
     public Response<GasEstimate> requestGasEstimate() {
-        RequestGasEstimate requestGasEstimate = RequestGasEstimate.builder().build();
+        var requestGasEstimate = RequestGasEstimate.builder().build();
 
         return this.call(requestGasEstimate, GasEstimate.class);
     }
 
     public Response<List<AccountResource>> requestAccountResources(String account) {
-        RequestAccountResources requestAccountResources = RequestAccountResources.builder()
+        var requestAccountResources = RequestAccountResources.builder()
                 .account(account)
                 .build();
 
@@ -74,7 +72,7 @@ public class AptosClient extends AbstractClient {
                                                   Resource resource,
                                                   Class<T> clazz
     ) {
-        RequestAccountResource requestAccountResource = RequestAccountResource.builder()
+        var requestAccountResource = RequestAccountResource.builder()
                 .account(account)
                 .resource(resource)
                 .build();
@@ -91,11 +89,11 @@ public class AptosClient extends AbstractClient {
     public Response<Block> requestBlockByHeight(String height,
                                                 boolean withTransactions
     ) {
-        RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
+        var requestBlockQuery = RequestBlockQuery.builder()
                 .withTransactions(withTransactions)
                 .build();
 
-        RequestBlockByHeight requestBlockByHeight = RequestBlockByHeight.builder()
+        var requestBlockByHeight = RequestBlockByHeight.builder()
                 .height(height)
                 .query(requestBlockQuery)
                 .build();
@@ -107,11 +105,11 @@ public class AptosClient extends AbstractClient {
             String ledgerVersion,
             boolean withTransactions
     ) {
-        RequestBlockQuery requestBlockQuery = RequestBlockQuery.builder()
+        var requestBlockQuery = RequestBlockQuery.builder()
                 .withTransactions(withTransactions)
                 .build();
 
-        RequestBlockByVersion requestBlockByVersion = RequestBlockByVersion.builder()
+        var requestBlockByVersion = RequestBlockByVersion.builder()
                 .ledgerVersion(ledgerVersion)
                 .query(requestBlockQuery)
                 .build();
@@ -120,7 +118,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public Response<Transaction> requestTransactionByHash(String hash) {
-        RequestTransactionByHash requestTransactionByHash = RequestTransactionByHash.builder()
+        var requestTransactionByHash = RequestTransactionByHash.builder()
                 .hash(hash)
                 .build();
 
@@ -130,9 +128,9 @@ public class AptosClient extends AbstractClient {
     public Response<CoinStore> requestCoinStore(String account,
                                                 Resource resource
     ) {
-        Resource coinStore = Resource.ofCoinStore(resource);
+        var coinStore = Resource.ofCoinStore(resource);
 
-        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
+        var requestAccountResources = RequestAccountResource.builder()
                 .account(account)
                 .resource(coinStore)
                 .build();
@@ -143,9 +141,9 @@ public class AptosClient extends AbstractClient {
     public Response<CoinInfo> requestCoinInfo(String account,
                                               Resource resource
     ) {
-        Resource coinInfo = Resource.ofCoinInfo(resource);
+        var coinInfo = Resource.ofCoinInfo(resource);
 
-        RequestAccountResource requestAccountResources = RequestAccountResource.builder()
+        var requestAccountResources = RequestAccountResource.builder()
                 .account(account)
                 .resource(coinInfo)
                 .build();
@@ -156,7 +154,7 @@ public class AptosClient extends AbstractClient {
     public Response<CollectionData> requestTableCollectionData(String handle,
                                                                String key
     ) {
-        RequestTable requestTable = RequestTable.builder()
+        var requestTable = RequestTable.builder()
                 .handle(handle)
                 .body(TableBody.builder()
                         .keyType("vector<u8>")
@@ -174,7 +172,7 @@ public class AptosClient extends AbstractClient {
                                              String name,
                                              String propertyVersion
     ) {
-        TableBody tableBody = TableBody.builder()
+        var tableBody = TableBody.builder()
                 .keyType("0x3::token::TokenId")
                 .valueType("0x3::token::Token")
                 .key(TokenId.builder()
@@ -188,7 +186,7 @@ public class AptosClient extends AbstractClient {
                         .build()
                 ).build();
 
-        RequestTable requestTable = RequestTable.builder()
+        var requestTable = RequestTable.builder()
                 .handle(handle)
                 .body(tableBody)
                 .build();
@@ -201,7 +199,7 @@ public class AptosClient extends AbstractClient {
                                                      String collection,
                                                      String name
     ) {
-        RequestTable requestTable = RequestTable.builder()
+        var requestTable = RequestTable.builder()
                 .handle(handle)
                 .body(TableBody.builder()
                         .keyType("0x3::token::TokenDataId")
@@ -228,7 +226,7 @@ public class AptosClient extends AbstractClient {
                                         TableBody body,
                                         Class<T> clazz
     ) {
-        RequestTable requestTable = RequestTable.builder()
+        var requestTable = RequestTable.builder()
                 .handle(handle)
                 .body(body)
                 .build();
@@ -237,7 +235,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public Response<String> requestEncodeSubmit(EncodeSubmitBody body) {
-        RequestEncodeSubmit requestEncodeSubmit = RequestEncodeSubmit.builder()
+        var requestEncodeSubmit = RequestEncodeSubmit.builder()
                 .body(body)
                 .build();
 
@@ -245,7 +243,7 @@ public class AptosClient extends AbstractClient {
     }
 
     public Response<Transaction> requestSubmitTransaction(SubmitTransactionBody body) {
-        RequestSubmitTransaction requestSubmitTransaction = RequestSubmitTransaction.builder()
+        var requestSubmitTransaction = RequestSubmitTransaction.builder()
                 .body(body)
                 .build();
 
@@ -256,19 +254,19 @@ public class AptosClient extends AbstractClient {
             String sender,
             TransactionPayload transactionPayload
     ) {
-        Response<EncodeSubmitBody> encodeSubmitBodyResponse = this.encodeSubmitBody(sender, transactionPayload);
+        var encodeSubmitBodyResponse = this.encodeSubmitBody(sender, transactionPayload);
         if (encodeSubmitBodyResponse.isValid()) {
             return Response.from(encodeSubmitBodyResponse, Transaction.class);
         }
 
-        Response<String> stringResponse = this.requestEncodeSubmit(encodeSubmitBodyResponse.getData());
+        var stringResponse = this.requestEncodeSubmit(encodeSubmitBodyResponse.getData());
         if (stringResponse.isValid()) {
             return Response.from(stringResponse, Transaction.class);
         }
 
-        String signed = this.sign(this.getAddressPrivateKey(sender), stringResponse.getData(), encodeSubmitBodyResponse.getData());
+        var signed = this.sign(this.getAddressPrivateKey(sender), stringResponse.getData(), encodeSubmitBodyResponse.getData());
 
-        SubmitTransactionBody submitTransactionBody = Jackson.readValue(signed, SubmitTransactionBody.class);
+        var submitTransactionBody = Jackson.readValue(signed, SubmitTransactionBody.class);
 
         return this.requestSubmitTransaction(submitTransactionBody);
     }
@@ -279,7 +277,7 @@ public class AptosClient extends AbstractClient {
             String amount,
             Resource resource
     ) {
-        TransactionPayload transactionPayload = TransactionPayload.builder()
+        var transactionPayload = TransactionPayload.builder()
                 .type(TransactionPayload.ENTRY_FUNCTION_PAYLOAD)
                 .function("0x1::coin::transfer")
                 .arguments(List.of(
@@ -289,19 +287,19 @@ public class AptosClient extends AbstractClient {
                 .typeArguments(List.of(resource.resourceTag()))
                 .build();
 
-        Response<EncodeSubmitBody> encodeSubmitBodyResponse = this.encodeSubmitBody(from, transactionPayload);
+        var encodeSubmitBodyResponse = this.encodeSubmitBody(from, transactionPayload);
         if (encodeSubmitBodyResponse.isValid()) {
             return Response.from(encodeSubmitBodyResponse, Transaction.class);
         }
 
-        Response<String> stringResponse = this.requestEncodeSubmit(encodeSubmitBodyResponse.getData());
+        var stringResponse = this.requestEncodeSubmit(encodeSubmitBodyResponse.getData());
         if (stringResponse.isValid()) {
             return Response.from(stringResponse, Transaction.class);
         }
 
-        String signed = this.sign(this.getAddressPrivateKey(from), stringResponse.getData(), encodeSubmitBodyResponse.getData());
+        var signed = this.sign(this.getAddressPrivateKey(from), stringResponse.getData(), encodeSubmitBodyResponse.getData());
 
-        SubmitTransactionBody submitTransactionBody = Jackson.readValue(signed, SubmitTransactionBody.class);
+        var submitTransactionBody = Jackson.readValue(signed, SubmitTransactionBody.class);
 
         return this.requestSubmitTransaction(submitTransactionBody);
     }
@@ -319,15 +317,15 @@ public class AptosClient extends AbstractClient {
             String encodeUnSign,
             EncodeSubmitBody encodeSubmitBody
     ) {
-        byte[] signed = Signature.ed25519Sign(Hex.decode(privateKey), Hex.decode(encodeUnSign));
+        var signed = Signature.ed25519Sign(Hex.decode(privateKey), Hex.decode(encodeUnSign));
 
-        com.aptos.request.v1.model.Signature signature = com.aptos.request.v1.model.Signature.builder()
+        var signature = com.aptos.request.v1.model.Signature.builder()
                 .type(com.aptos.request.v1.model.Signature.ED25519_SIGNATURE)
                 .publicKey(Signature.getPublicKey(Hex.decode(privateKey)))
                 .signature(Hex.encode(signed))
                 .build();
 
-        SubmitTransactionBody submitTransactionBody = Jackson.readValue(encodeSubmitBody, SubmitTransactionBody.class);
+        var submitTransactionBody = Jackson.readValue(encodeSubmitBody, SubmitTransactionBody.class);
         submitTransactionBody.setSignature(signature);
 
         return Jackson.toJson(submitTransactionBody);
@@ -337,17 +335,17 @@ public class AptosClient extends AbstractClient {
             String sender,
             TransactionPayload transactionPayload
     ) {
-        Response<Account> accountResponse = this.requestAccount(sender);
+        var accountResponse = this.requestAccount(sender);
         if (accountResponse.isValid()) {
             return Response.from(accountResponse, EncodeSubmitBody.class);
         }
 
-        Response<GasEstimate> gasEstimateResponse = this.requestGasEstimate();
+        var gasEstimateResponse = this.requestGasEstimate();
         if (gasEstimateResponse.isValid()) {
             return Response.from(gasEstimateResponse, EncodeSubmitBody.class);
         }
 
-        EncodeSubmitBody encodeSubmitBody = new EncodeSubmitBody();
+        var encodeSubmitBody = new EncodeSubmitBody();
         encodeSubmitBody.setSender(sender);
         encodeSubmitBody.setSequenceNumber(accountResponse.getData().getSequenceNumber());
         //TODO 待优化
@@ -373,11 +371,21 @@ public class AptosClient extends AbstractClient {
         return this.callList(requestTransaction, function);
     }
 
+    public String signMessage(String sender, String message) {
+        if (StringUtils.isEmpty(message)) {
+            return null;
+        }
+
+        var privateKey = this.getAddressPrivateKey(sender);
+        return Hex.encode(Signature.ed25519Sign(Hex.decode(privateKey), Hex.decode(message)));
+    }
+
     String getAddressPrivateKey(String address) {
         var privateKey = this.addressPrivateKey.get(address);
         if (Objects.isNull(privateKey)) {
             throw new RuntimeException("private key is null");
         }
+
         return privateKey;
     }
 }

@@ -1,10 +1,15 @@
 import com.aptos.request.v1.model.Resource;
 import com.aptos.request.v1.model.TransactionPayload;
 import com.aptos.AptosClient;
+import com.aptos.utils.Hex;
+import com.aptos.utils.Signature;
+import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.signers.Ed25519Signer;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class AptosClientTest {
@@ -115,7 +120,6 @@ public class AptosClientTest {
         println(resource3.resourceTag());
     }
 
-
     @Test
     public void requestTableCollectionData() {
         println(aptosClient.requestTableCollectionData("0xbe512fec6c98dade8d0ce8dd9abd1c9a3427df6627c788efa3ee81b9d10ebd44", "0x69616d6e616d65"));
@@ -134,6 +138,29 @@ public class AptosClientTest {
                 "0x2b490841c230a31fe012f3b2a3f3d146316be073e599eb7d7e5074838073ef14",
                 transactionPayload));
     }
+
+    @Test
+    public void requestNode33() {
+        var dd = Hex.decode("0x4646ae5047316b4230d0086c8acec687f00b1cd9d1dc634f6cb358ac0a9a8ffffe77b4dd0a4bfb95851f3b7355c781dd60f8418fc8a65d14907aff47c903a559");
+
+
+        System.out.println(Hex.decodeToString("0xf7ad936da03f948c14c542020e3c5f4e02aaacd1f20427c11aa6e2fbf8776477646bba0e1a37f9e7c7f7c423a1d2849baafd7ff6a9930814a43c3f80d59db56f"));
+        System.out.println(Hex.decodeToString("0xf7ad936da03f948c14c542020e3c5f4e02aaacd1f20427c11aa6e2fbf8776477646bba0e1a37f9e7c777c423a1d2849baafd7ff6a9930814a43c3f80d59db56f"));
+        System.out.println(Hex.decodeToString("0x4646ae5047316b4230d0086c8acec687f00b1cd9d1dc634f6cb358ac0a9a8ffffe77b4dd0a4bfb95851f3b7355c781dd60f8418fc8a65d14907aff47c903a559"));
+        System.out.println(Hex.decodeToString("0xffad936da03f948c14c542020e3c5f4e02aaacd1f20427c11aa6e2fbf8776477646bba0e1a37f9e7c7f7c423a1d2849baafd7ff6a9930814a43c3f80d59db56f"));
+        System.out.println("------");
+
+        byte[] privateKey = Hex.decode("0x945066fd2e7a193493f965ea107a33493b984049a71eca6b15ca2d2d22cb05bd");
+        byte[] data = "testsecp256k1".getBytes(StandardCharsets.UTF_8);
+        var publicKey = Signature.getPublicKey(privateKey);
+        System.out.println(publicKey);
+
+        var result = Signature.ed25519Sign(privateKey, data);
+        System.out.println(Hex.encode(result));
+
+        System.out.println(Signature.ed25519Verify(Hex.decode(publicKey), data, result));
+    }
+
 
     void println(Serializable serializable) {
         System.out.println("--------------------" + serializable.getClass().getSimpleName());
