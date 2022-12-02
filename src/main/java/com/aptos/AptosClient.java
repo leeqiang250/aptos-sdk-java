@@ -16,6 +16,7 @@ import com.aptos.utils.Signature;
 import com.aptos.utils.StringUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -371,6 +372,13 @@ public class AptosClient extends AbstractClient {
         return this.callList(requestTransaction, function);
     }
 
+    /**
+     * signMessage
+     *
+     * @param sender  sender
+     * @param message 16进制
+     * @return String
+     */
     public String signMessage(String sender, String message) {
         if (StringUtils.isEmpty(message)) {
             return null;
